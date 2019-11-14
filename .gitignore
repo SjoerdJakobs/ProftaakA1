@@ -35,6 +35,10 @@ hs_err_pid*
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/**/libraries
+.idea/**
+
+ProftaakA1.iml
 
 # Generated files
 .idea/**/contentModel.xml

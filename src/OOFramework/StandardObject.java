@@ -17,30 +17,30 @@ public class StandardObject extends BaseObject
         this.usesInput = usesInput;
         this.usesMain = usesMain;
         this.usesRenderer = usesRenderer;
-        this.AddToLists();
+        this.addToLists();
         System.out.println("runnable");
 
     }
 
-    protected void InputLoop(double deltaTime)
+    protected void inputLoop(double deltaTime)
     {
 
     }
 
-    protected void MainLoop(double deltaTime)
+    protected void mainLoop(double deltaTime)
     {
 
     }
 
-    protected void RenderLoop(double deltaTime)
+    protected void renderLoop(double deltaTime)
     {
 
     }
 
     @Override
-    protected void RemoveFromLists()
+    protected void removeFromLists()
     {
-        super.RemoveFromLists();
+        super.removeFromLists();
         if (usesInput) {
             getFrameworkProgram().getInputObjects().remove(this);
         }
@@ -53,9 +53,9 @@ public class StandardObject extends BaseObject
     }
 
     @Override
-    protected void AddToLists()
+    protected void addToLists()
     {
-        super.AddToLists();
+        super.addToLists();
         System.out.println("add2");
         if (usesInput) {
             getFrameworkProgram().getInputObjects().add(this);
@@ -69,15 +69,15 @@ public class StandardObject extends BaseObject
     }
 
     @Override
-    protected void Destroy()
+    protected void destroy()
     {
-        super.Destroy();
+        super.destroy();
     }
 
 
     //beyond this point just getters/setters
 
-    public boolean UsesInput()
+    public boolean usesInput()
     {
         return usesInput;
     }
@@ -87,7 +87,7 @@ public class StandardObject extends BaseObject
         this.usesInput = usesInput;
     }
 
-    public boolean UsesMain()
+    public boolean usesMain()
     {
         return usesMain;
     }
@@ -97,7 +97,7 @@ public class StandardObject extends BaseObject
         this.usesMain = usesMain;
     }
 
-    public boolean UsesRenderer()
+    public boolean usesRenderer()
     {
         return usesRenderer;
     }

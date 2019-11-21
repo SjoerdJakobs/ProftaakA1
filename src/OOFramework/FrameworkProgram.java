@@ -19,9 +19,9 @@ public class FrameworkProgram
 
     }
 
-    public void Run() {
+    public void run() {
 
-        Start();
+        start();
 
         long lastTime = System.nanoTime();
 
@@ -39,52 +39,52 @@ public class FrameworkProgram
             //String s = String.format("%.5f", deltaTime);
             //System.out.println(s);
 
-            AddToLoop();
+            addToLoop();
 
             for (StandardObject object : inputObjects) {
-                object.InputLoop(deltaTime);
+                object.inputLoop(deltaTime);
             }
             for (StandardObject object : mainObjects) {
-                object.MainLoop(deltaTime);
+                object.mainLoop(deltaTime);
             }
             for (StandardObject object : renderObjects) {
-                object.RenderLoop(deltaTime);
+                object.renderLoop(deltaTime);
             }
 
             Iterator<BaseObject> it = objects.iterator();
             while (it.hasNext()) {
                 BaseObject bo = it.next();
-                if (bo.ShouldDestruct()) {
-                    bo.Destroy();
+                if (bo.shouldDestruct()) {
+                    bo.destroy();
                     it.remove();
                 }
                 else if(bo.isActive() && !bo.isActivated())
                 {
-                    bo.AddToLists();
+                    bo.addToLists();
                     bo.setActivated(true);
-                    bo.Awake();
+                    bo.awake();
                 }
                 else if(!bo.isActive() && bo.isActivated())
                 {
-                    bo.RemoveFromLists();
+                    bo.removeFromLists();
                     bo.setActivated(false);
-                    bo.Sleep();
+                    bo.sleep();
                 }
             }
         }
     }
 
-    protected void Start()
+    protected void start()
     {
 
     }
 
-    protected void AddToLoop()
+    protected void addToLoop()
     {
 
     }
 
-    protected void ExitProgram()
+    protected void exitProgram()
     {
         run = false;
     }

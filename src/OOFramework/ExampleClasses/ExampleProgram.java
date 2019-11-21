@@ -1,20 +1,17 @@
 package OOFramework.ExampleClasses;
 import OOFramework.FrameworkProgram;
 
-public class ExampleProgram extends FrameworkProgram
-{
-
-    public class Program extends FrameworkProgram
+    public class ExampleProgram extends FrameworkProgram
     {
-        Program()
+        ExampleProgram()
         {
 
         }
 
         @Override
-        protected void Start()
+        protected void start()
         {
-            super.Start();
+            super.start();
 
             System.out.println("Hello World!");
 
@@ -22,16 +19,16 @@ public class ExampleProgram extends FrameworkProgram
         }
 
         @Override
-        protected void AddToLoop()
+        protected void addToLoop()
         {
-            super.AddToLoop();
+            super.addToLoop();
 
         }
 
         @Override
-        protected void ExitProgram()
+        protected void exitProgram()
         {
-            super.ExitProgram();
+            super.exitProgram();
         }
     }
-}
+

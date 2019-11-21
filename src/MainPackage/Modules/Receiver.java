@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class Receiver
 {
-    public void CheckForButtonPresses(ArrayList<Button> buttons)
+    public void checkForButtonPresses(ArrayList<Button> buttons)
     {
         for (Button button : buttons) {
             //if pressed
-            button.SetPressed(true);
-            if(!button.IsPressed())
+            button.setPressed(true);
+            if(!button.isPressed())
             {
                 button.onButtonPress.run();
             }
-            else if(button.IsPressed() && button.isContinuousCallback())
+            else if(button.isPressed() && button.isContinuousCallback())
             {
                 button.onButtonPress.run();
             }

@@ -30,40 +30,40 @@ public class Remote extends StandardObject
         System.out.println("lowest");
 
         System.out.println("button = " + upButton.getAddress());
-        System.out.println("button = " + upButton.IsPressed());
+        System.out.println("button = " + upButton.isPressed());
         System.out.println("button in list = " + buttons.get(0).getAddress());
-        System.out.println("button in list = " + buttons.get(0).IsPressed());
+        System.out.println("button in list = " + buttons.get(0).isPressed());
 
         //receiver.CheckInt(UpButton);
-        receiver.CheckForButtonPresses(buttons);
+        receiver.checkForButtonPresses(buttons);
 
         System.out.println("button after method = " + upButton.getAddress());
-        System.out.println("button after method = " + upButton.IsPressed());
+        System.out.println("button after method = " + upButton.isPressed());
         System.out.println("button in list after method = " + buttons.get(0).getAddress());
-        System.out.println("button in list after method = " + buttons.get(0).IsPressed());
+        System.out.println("button in list after method = " + buttons.get(0).isPressed());
     }
 
     @Override
-    protected void Start() {
-        super.Start();
+    protected void start() {
+        super.start();
     }
 
     @Override
-    protected void Awake() {
-        super.Awake();
+    protected void awake() {
+        super.awake();
     }
 
     @Override
-    protected void Sleep()
+    protected void sleep()
     {
-        super.Sleep();
+        super.sleep();
     }
 
     double counter = 0;
 
     @Override
-    protected void InputLoop(double deltaTime) {
-        super.InputLoop(deltaTime);
+    protected void inputLoop(double deltaTime) {
+        super.inputLoop(deltaTime);
 
         counter += deltaTime;
         if(counter >= 1)
@@ -71,12 +71,12 @@ public class Remote extends StandardObject
             counter = 0;
             upButton.onButtonPress.run();
         }
-        receiver.CheckForButtonPresses(buttons);
+        receiver.checkForButtonPresses(buttons);
     }
 
     @Override
-    protected void Destroy() {
-        super.Destroy();
+    protected void destroy() {
+        super.destroy();
     }
 
     public Button getUpButton()

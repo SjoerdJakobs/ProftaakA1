@@ -16,38 +16,38 @@ public class ExampleObject extends StandardObject
     }
 
     @Override
-    protected void Start() {
-        super.Start();
+    protected void start() {
+        super.start();
     }
 
     @Override
-    protected void Awake() {
-        super.Awake();
+    protected void awake() {
+        super.awake();
     }
 
     @Override
-    protected void Sleep()
+    protected void sleep()
     {
-        super.Sleep();
+        super.sleep();
     }
 
     @Override
-    protected void InputLoop(double deltaTime) {
-        super.InputLoop(deltaTime);
+    protected void inputLoop(double deltaTime) {
+        super.inputLoop(deltaTime);
     }
 
     @Override
-    protected void MainLoop(double deltaTime) {
-        super.MainLoop(deltaTime);
+    protected void mainLoop(double deltaTime) {
+        super.mainLoop(deltaTime);
     }
 
     @Override
-    protected void RenderLoop(double deltaTime) {
-        super.RenderLoop(deltaTime);
+    protected void renderLoop(double deltaTime) {
+        super.renderLoop(deltaTime);
     }
 
     @Override
-    protected void Destroy() {
-        super.Destroy();
+    protected void destroy() {
+        super.destroy();
     }
 }

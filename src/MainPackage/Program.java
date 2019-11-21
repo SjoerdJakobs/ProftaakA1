@@ -13,21 +13,21 @@ public class Program extends FrameworkProgram
     }
 
     @Override
-    protected void Start() {
-        super.Start();
+    protected void start() {
+        super.start();
         Engine engine = new Engine();
         Remote remote = new Remote(this,true,true,true,true);
         DriverAI driverAI = new DriverAI(this,true,false,false,true,engine,remote);
     }
 
     @Override
-    protected void AddToLoop() {
-        super.AddToLoop();
+    protected void addToLoop() {
+        super.addToLoop();
 
     }
 
     @Override
-    protected void ExitProgram() {
-        super.ExitProgram();
+    protected void exitProgram() {
+        super.exitProgram();
     }
 }

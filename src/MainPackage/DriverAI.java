@@ -31,36 +31,36 @@ public class DriverAI extends StandardObject
     }
 
     @Override
-    protected void Start() {
-        super.Start();
+    protected void start() {
+        super.start();
     }
 
     @Override
-    protected void Awake() {
-        super.Awake();
+    protected void awake() {
+        super.awake();
     }
 
     @Override
-    protected void Sleep()
+    protected void sleep()
     {
-        super.Sleep();
+        super.sleep();
     }
 
     @Override
-    protected void InputLoop(double deltaTime) {
-        super.InputLoop(deltaTime);
+    protected void inputLoop(double deltaTime) {
+        super.inputLoop(deltaTime);
     }
 
     @Override
-    protected void MainLoop(double deltaTime) {
-        super.MainLoop(deltaTime);
-        engine.Drive();
+    protected void mainLoop(double deltaTime) {
+        super.mainLoop(deltaTime);
+        engine.drive();
 
 
     }
 
     @Override
-    protected void Destroy() {
-        super.Destroy();
+    protected void destroy() {
+        super.destroy();
     }
 }

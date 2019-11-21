@@ -30,25 +30,25 @@ public class BaseObject
         System.out.println("base");
         this.frameworkProgram.set(frameworkProgram);
         this.setShouldDestruct(false);
-        this.Start();
+        this.start();
 
         if (startsActivated) {
             this.setActive(true);
             this.setActivated(true);
-            this.Awake();
+            this.awake();
         } else {
             this.setActive(false);
             this.setActivated(false);
         }
 
-        frameworkProgram.getObjects().get().add(this);
+        frameworkProgram.getObjects().add(this);
     }
 
     /**
      * this is called when the object gets created
      * after the constructor but before the awake and the loops
      */
-    protected void Start()
+    protected void start()
     {
 
     }
@@ -57,35 +57,35 @@ public class BaseObject
      * this is called when the object gets set to active
      * if the object is created active awake will run right after the start method but before the loops
      * if the object is created inactive awake will run when the object is set to active which happens right after the program loops
-     * Awake will run every time the object goes from inactive to active
+     * awake will run every time the object goes from inactive to active
      */
-    protected void Awake()
+    protected void awake()
     {
 
     }
 
     /**
      * this is called when the object gets set to inactive
-     * Sleep will run every time the object goes from active to inactive which happens right after the program loops
+     * sleep will run every time the object goes from active to inactive which happens right after the program loops
      */
-    protected void Sleep()
+    protected void sleep()
     {
 
     }
 
-    protected void RemoveFromLists()
+    protected void removeFromLists()
     {
 
     }
 
-    protected void AddToLists()
+    protected void addToLists()
     {
 
     }
 
-    protected void Destroy()
+    protected void destroy()
     {
-        this.RemoveFromLists();
+        this.removeFromLists();
     }
 
 
@@ -111,7 +111,7 @@ public class BaseObject
         this.activated.set(activated);
     }
 
-    public boolean ShouldDestruct()
+    public boolean shouldDestruct()
     {
         return shouldDestruct.get();
     }

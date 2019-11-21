@@ -32,11 +32,11 @@ public class Button
 
 
     private boolean isPressed;
-    public boolean IsPressed()
+    public boolean isPressed()
     {
         return isPressed;
     }
-    public void SetPressed(boolean pressed)
+    public void setPressed(boolean pressed)
     {
         isPressed = pressed;
     }

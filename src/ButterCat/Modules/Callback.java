@@ -1,4 +1,4 @@
-package MainPackage.Modules;
+package ButterCat.Modules;
 
 public interface Callback
 {

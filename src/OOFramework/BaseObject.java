@@ -8,27 +8,27 @@ public class BaseObject
     /**
      * should this object be active
      */
-    private final AtomicBoolean active = new AtomicBoolean(false);
+    private boolean active = false;
 
     /**
      * is this object actually active
      */
-    private final AtomicBoolean activated = new AtomicBoolean(false);
+    private boolean activated = false;
 
     /**
      * should this object be destroyed
      */
-    private final AtomicBoolean shouldDestruct = new AtomicBoolean(false);
+    private boolean shouldDestruct = false;
 
     /**
      * this is the program that contains this object
      */
-    private final AtomicReference<FrameworkProgram> frameworkProgram = new AtomicReference<FrameworkProgram>();
+    private FrameworkProgram frameworkProgram;
 
     protected BaseObject(FrameworkProgram frameworkProgram, boolean startsActivated)
     {
         System.out.println("base");
-        this.frameworkProgram.set(frameworkProgram);
+        this.frameworkProgram = frameworkProgram;
         this.setShouldDestruct(false);
         this.start();
 
@@ -93,41 +93,41 @@ public class BaseObject
 
     public boolean isActive()
     {
-        return active.get();
+        return active;
     }
 
     public void setActive(boolean m_active)
     {
-        this.active.set(m_active);
+        this.active = m_active;
     }
 
     public boolean isActivated()
     {
-        return activated.get();
+        return activated;
     }
 
     public void setActivated(boolean activated)
     {
-        this.activated.set(activated);
+        this.activated = activated;
     }
 
     public boolean shouldDestruct()
     {
-        return shouldDestruct.get();
+        return shouldDestruct;
     }
 
     public void setShouldDestruct(boolean shouldDestruct)
     {
-        this.shouldDestruct.set(shouldDestruct);
+        this.shouldDestruct = shouldDestruct;
     }
 
     public FrameworkProgram getFrameworkProgram()
     {
-        return frameworkProgram.get();
+        return frameworkProgram;
     }
 
     public void setFrameworkProgram(FrameworkProgram frameworkProgram)
     {
-        this.frameworkProgram.set(frameworkProgram);
+        this.frameworkProgram = frameworkProgram;
     }
 }

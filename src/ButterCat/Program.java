@@ -1,12 +1,10 @@
-package MainPackage;
+package ButterCat;
 
-import MainPackage.Modules.Engine;
+import ButterCat.Modules.Engine;
 import OOFramework.FrameworkProgram;
 
 public class Program extends FrameworkProgram
 {
-    boolean state = true;
-
     Program()
     {
 
@@ -16,7 +14,7 @@ public class Program extends FrameworkProgram
     protected void start() {
         super.start();
         Engine engine = new Engine();
-        Remote remote = new Remote(this,true,true,true,true);
+        Remote remote = new Remote(this,true,false,false,true);
         DriverAI driverAI = new DriverAI(this,true,false,false,true,engine,remote);
     }
 

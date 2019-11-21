@@ -1,4 +1,4 @@
-package MainPackage;
+package ButterCat;
 
 public class Main
 {

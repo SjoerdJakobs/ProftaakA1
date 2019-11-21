@@ -8,7 +8,7 @@ public class StandardObject extends BaseObject
 
     protected StandardObject(FrameworkProgram frameworkProgram)
     {
-        this(frameworkProgram, true, true, true, true);
+        this(frameworkProgram, false, true, false, true);
     }
 
     protected StandardObject(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated)
@@ -56,7 +56,6 @@ public class StandardObject extends BaseObject
     protected void addToLists()
     {
         super.addToLists();
-        System.out.println("add2");
         if (usesInput) {
             getFrameworkProgram().getInputObjects().add(this);
         }

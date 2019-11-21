@@ -1,4 +1,4 @@
-package MainPackage.Modules;
+package ButterCat.Modules;
 
 public class Button
 {
@@ -11,7 +11,13 @@ public class Button
          this.address = address;
          this.continuousCallback = continuousCallback;
          this.isPressed = false;
+         onButtonPress = () ->
+         {
+             emptyCallback();
+         };
     }
+    private void emptyCallback(){System.out.println("this callBack is empty, class: Button    line: 19");  }
+
 
     public Callback onButtonPress;
 

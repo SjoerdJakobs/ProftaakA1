@@ -1,7 +1,7 @@
-package MainPackage;
+package ButterCat;
 
-import MainPackage.Modules.Button;
-import MainPackage.Modules.Receiver;
+import ButterCat.Modules.Button;
+import ButterCat.Modules.Receiver;
 import OOFramework.FrameworkProgram;
 import OOFramework.StandardObject;
 
@@ -20,7 +20,6 @@ public class Remote extends StandardObject
 
     public Remote(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated) {
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
-
         receiver = new Receiver();
         buttons = new ArrayList<Button>();
         upButton = new Button(111111111111L);
@@ -28,19 +27,6 @@ public class Remote extends StandardObject
 
 
         System.out.println("lowest");
-
-        System.out.println("button = " + upButton.getAddress());
-        System.out.println("button = " + upButton.isPressed());
-        System.out.println("button in list = " + buttons.get(0).getAddress());
-        System.out.println("button in list = " + buttons.get(0).isPressed());
-
-        //receiver.CheckInt(UpButton);
-        receiver.checkForButtonPresses(buttons);
-
-        System.out.println("button after method = " + upButton.getAddress());
-        System.out.println("button after method = " + upButton.isPressed());
-        System.out.println("button in list after method = " + buttons.get(0).getAddress());
-        System.out.println("button in list after method = " + buttons.get(0).isPressed());
     }
 
     @Override
@@ -59,18 +45,10 @@ public class Remote extends StandardObject
         super.sleep();
     }
 
-    double counter = 0;
-
     @Override
     protected void inputLoop(double deltaTime) {
         super.inputLoop(deltaTime);
 
-        counter += deltaTime;
-        if(counter >= 1)
-        {
-            counter = 0;
-            upButton.onButtonPress.run();
-        }
         receiver.checkForButtonPresses(buttons);
     }
 

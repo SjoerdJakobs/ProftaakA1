@@ -1,5 +1,6 @@
 package Hardware.Sensors.ultrasonicsensor;
 
+import ButterCat.HelpFunctions;
 import ButterCat.Modules.Callback;
 import TI.BoeBot;
 import TI.Timer;
@@ -27,14 +28,12 @@ public class UltraSonicSensor implements UltraSonicSensorInterface{
      * @param triggerPin the pin to send the trigger signals to
      * @param echoPin    the pin to read from
      */
-    public UltraSonicSensor(int triggerPin, int echoPin) throws IllegalArgumentException {
-        if (triggerPin < 0 || echoPin < 0) {
-            throw new IllegalArgumentException("pins can't be negative!");
-        }
+    public UltraSonicSensor(int triggerPin, int echoPin) {
+        HelpFunctions.checkDigitalPin("Ultrasonic sensor trigger pin", triggerPin);
+        HelpFunctions.checkDigitalPin("Ultrasonic sensor echo pin", echoPin);
 
         this.triggerPin = triggerPin;
         this.echoPin = echoPin;
-//        System.out.println("making new sensor");
 
         initTimer = new Timer(3);
         sensorTimeout = new Timer(30);

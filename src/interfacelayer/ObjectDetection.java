@@ -50,9 +50,9 @@ public class ObjectDetection extends StandardObject {
     protected void mainLoop(double deltaTime) {
         super.mainLoop(deltaTime);
 
-        sensor.distanceCallback.run();
+        sensor.onDistanceCallback().run();
 
-        System.out.println(sensor.getCm());
+        System.out.println(sensor.getDistanceToObject());
         checkDistance();
     }
 

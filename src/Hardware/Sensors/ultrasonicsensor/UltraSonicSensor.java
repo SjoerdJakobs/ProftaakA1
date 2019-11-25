@@ -1,29 +1,25 @@
 package Hardware.Sensors.ultrasonicsensor;
 
 import ButterCat.Modules.Callback;
-import OOFramework.FrameworkProgram;
-import OOFramework.StandardObject;
 import TI.BoeBot;
 import TI.Timer;
-
-import java.util.Random;
 //trig pin 7
 //echo pin 8
 
 /**
  * ultrasonic sensor class.
- * reads the sensor and {@link this#getCm() saves the distance}
+ * reads the sensor and {@link this#getDistanceToObject() saves the distance}
  */
-public class UltraSonicSensor {
+public class UltraSonicSensor implements UltraSonicSensorInterface{
 
     private int echoPin;
     private int triggerPin;
 
-    public Callback distanceCallback;
+    private Callback distanceCallback;
 
     private Timer initTimer;
     private Timer sensorTimeout;
-    private int cm;
+    private int distanceToObject;
 
     /**
      * makes a new sensor
@@ -58,6 +54,7 @@ public class UltraSonicSensor {
     /**
      * listens for a new value from the sensor.
      */
+    @Override
     public void listen() {
         initSensor();
 
@@ -68,7 +65,7 @@ public class UltraSonicSensor {
 //            Random random = new Random();
 //            int pulse = random.nextInt();
             if (pulse > 0) {
-                this.cm = pulse / 58;
+                this.distanceToObject = pulse / 58;
             }
         }
     }
@@ -76,9 +73,13 @@ public class UltraSonicSensor {
     /**
      * gets the current distance the sensor is reading
      *
-     * @return the current distance in cm as an <code>int</code>
+     * @return the current distance in distanceToObject as an <code>int</code>
      */
-    public int getCm() {
-        return this.cm;
+    public int getDistanceToObject() {
+        return this.distanceToObject;
+    }
+
+    public Callback onDistanceCallback() {
+        return this.distanceCallback;
     }
 }

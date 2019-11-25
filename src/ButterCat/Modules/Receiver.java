@@ -7,7 +7,7 @@ public class Receiver
     public void checkForButtonPresses(ArrayList<Button> buttons)
     {
         for (Button button : buttons) {
-           /*if (pressed) {
+           if (pressed) {
                 button.setPressed(true);
                 if (!button.isPressed()) {
                     button.setPressed(true);
@@ -19,7 +19,7 @@ public class Receiver
             else if(button.isPressed())
             {
                 button.setPressed(false);
-            }*/
+            }
         }
     }
 }

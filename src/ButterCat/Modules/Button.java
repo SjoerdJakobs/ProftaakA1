@@ -8,9 +8,9 @@ public class Button
     }
     public Button(long address, boolean continuousCallback)
     {
-         this.address = address;
+         this.address            = address;
          this.continuousCallback = continuousCallback;
-         this.isPressed = false;
+         this.isPressed          = false;
          onButtonPress = () ->
          {
              emptyCallback();
@@ -26,33 +26,33 @@ public class Button
      * if this is set to false the button will only make one call to onButtonPress per press
      */
     private boolean continuousCallback;
-    public boolean isContinuousCallback()
+    public  boolean isContinuousCallback()
     {
         return continuousCallback;
     }
 
-    public void setContinuousCallback(boolean continuousCallback)
+    public  void    setContinuousCallback(boolean continuousCallback)
     {
         this.continuousCallback = continuousCallback;
     }
 
 
     private boolean isPressed;
-    public boolean isPressed()
+    public  boolean isPressed()
     {
         return isPressed;
     }
-    public void setPressed(boolean pressed)
+    public  void    setPressed(boolean pressed)
     {
         isPressed = pressed;
     }
 
-    private long address;
-    public long getAddress()
+    private long    address;
+    public  long    getAddress()
     {
         return address;
     }
-    public void setAddress(long address)
+    public  void    setAddress(long address)
     {
         this.address = address;
     }

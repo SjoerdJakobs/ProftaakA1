@@ -2,7 +2,7 @@ package ButterCat;
 
 import ButterCat.Modules.Engine;
 import OOFramework.FrameworkProgram;
-import interfacelayer.ObjectDetection;
+import Interface.ObjectDetection;
 
 public class Program extends FrameworkProgram
 {

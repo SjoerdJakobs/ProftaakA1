@@ -73,9 +73,12 @@ public class Motor {
     /**
      * Getters and setters for each variable (not objects).
      */
-    public int getMotionlessBaseValue() { return motionlessBaseValue; }
-    public boolean getTurningClockwise() { return turningClockwise; }
+    public Servo getServo() { return this.servo; }
+    public int getMotionlessBaseValue() { return this.motionlessBaseValue; }
+    public boolean getTurningClockwise() { return this.turningClockwise; }
 
     public void setMotionlessBaseValue(int motionlessBaseValue) { this.motionlessBaseValue = motionlessBaseValue; }
     public void setTurningClockwise(boolean turningClockwise) { this.turningClockwise = turningClockwise; }
+
+    public String toString() { return ("MotionlessBaseValue: " + this.motionlessBaseValue + " and isTurningClockwise: " + this.turningClockwise); }
 }

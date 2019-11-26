@@ -14,6 +14,22 @@ public class Remote extends StandardObject
 
     private Button upButton;
 
+    public static final long CHANNEL_PLUS = 000010010000L;
+    public static final long CHANNEL_MIN = 100010010000L;
+    public static final long VOLUME_UP = 010010010000L;
+    public static final long VOLUME_DOWN = 110010010000L;
+    public static final long ON = 101010010000L;
+    public static final long MUTE = 001010010000L;
+    public static final long ROUND = 101010000000L;
+    public static final long SQUARE = 101100111000L;
+    public static final long TRIANGLE = 011100111000L;
+    public static final long TURN_RIGHT = 101001010000L;
+    public static final long TURN_LEFT = 000100111000L;
+    public static final long RETURN = 001100010000L;
+    public static final long SPEED_ONE = 000000010000L;
+    public static final long SPEED_TWO = 100000010000L;
+    public static final long SPEED_TRHREE = 010000010000L;
+
     protected Remote(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
     }

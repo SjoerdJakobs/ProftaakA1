@@ -3,6 +3,7 @@ package ButterCat.Modules;
 public class Button
 {
 
+
     public Button(long address)
     {
         this(address, false);

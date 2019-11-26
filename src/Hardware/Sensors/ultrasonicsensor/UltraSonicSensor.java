@@ -44,9 +44,11 @@ public class UltraSonicSensor implements UltraSonicSensorInterface{
      * sends a small pulse to the sensor to initialize it
      */
     private void initSensor() {
-        BoeBot.digitalWrite(this.triggerPin, true);
+
         if (initTimer.timeout()) {
             BoeBot.digitalWrite(this.triggerPin, false);
+        } else {
+            BoeBot.digitalWrite(this.triggerPin, true);
         }
     }
 

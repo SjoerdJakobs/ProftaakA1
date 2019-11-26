@@ -40,8 +40,8 @@ public class Motor {
     public void stop() { servo.stop(); }
 
     /**
-     * Increase or decrease the rotation speed of the servo instantly without acceleration.
-     * @param differentialSpeed The new speed.
+     * Increase or decrease the rotation speed of the servo instantly without acceleration based on the current speed.
+     * @param differentialSpeed The differential to increase or decrease the current speed.
      */
     public void updateInstantDifferential(int differentialSpeed) {
         HelpFunctions.checkValue("Motor (servo) differential speed",

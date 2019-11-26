@@ -13,7 +13,7 @@ public class Main
 
         Engine engine = new Engine(12, 13);
 
-        engine.setTargetSpeed(200);
+        engine.setEngineTargetSpeed(-200);
         while(true) {
             engine.driveForward();
             System.out.println(engine.toString());

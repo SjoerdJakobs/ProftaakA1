@@ -130,9 +130,9 @@ public class RgbLed {
      * @param blueValue The blue light value of the blue diode.
      */
     public void setColour(int redValue, int greenValue, int blueValue) {
-        HelpFunctions.checkValue("Red pin value", redValue);
-        HelpFunctions.checkValue("Green pin value", greenValue);
-        HelpFunctions.checkValue("Blue pin value", blueValue);
+        HelpFunctions.checkValue("Red pin value", redValue, 0, 255);
+        HelpFunctions.checkValue("Green pin value", greenValue, 0, 255);
+        HelpFunctions.checkValue("Blue pin value", blueValue, 0, 255);
 
         this.redValue = redValue;
         this.greenValue = greenValue;

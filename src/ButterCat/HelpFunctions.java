@@ -30,8 +30,8 @@ public class HelpFunctions {
      * @param argumentValue The value of the argument to check
      * @throws IllegalArgumentException
      */
-    public static void checkValue(String argumentName, int argumentValue) throws IllegalArgumentException {
-        if (argumentValue < 0 || argumentValue > 255)
+    public static void checkValue(String argumentName, int argumentValue, int minValue, int maxValue) throws IllegalArgumentException {
+        if (argumentValue < minValue || argumentValue > maxValue)
             throw new IllegalArgumentException(argumentName + " value must be between 0 and 255.");
     }
 

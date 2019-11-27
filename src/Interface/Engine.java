@@ -2,6 +2,7 @@ package Interface;
 
 import ButterCat.HelpFunctions;
 import Hardware.Actuators.Motor;
+import TI.BoeBot;
 import TI.Timer;
 
 public class Engine {
@@ -29,6 +30,8 @@ public class Engine {
 
         turnTime = 0;
         turnDegreesTimer.mark();
+        timerSwitch = true;
+        amountTurned = 0;
     }
 
     private int originalTargetSpeed;
@@ -204,42 +207,72 @@ public class Engine {
 
 
     private Timer turnDegreesTimer = new Timer(this.turnTime);
+    private boolean timerSwitch;
+    private int amountTurned;
 
     public void driveDegrees(int degrees) {
-        if (degrees >= 10) {
-            degrees /= 10;
+
+
+        if (timerSwitch) {
+            double temp = degrees * 11;
+            this.turnTime = (int) temp;
+            turnDegreesTimer.setInterval(turnTime);
+            timerSwitch = false;
+            amountTurned = 0;
+
         }
-        this.turnTime = (int) (degrees * 10.3);
+        System.out.println("degrees: " + degrees);
+
+        System.out.println("turntime: " + turnTime);
+        System.out.println("turntimer: " + turnDegreesTimer);
 
         if (turnDegreesTimer.timeout()) {
+            System.out.println("state switch");
+            amountTurned++;
+
             needsToTurn = !needsToTurn;
+            BoeBot.uwait(1);
         }
 
         if (needsToTurn) {
+            System.out.println("turning");
             turnLeft(0.1);
         } else {
+            System.out.println("going forward");
             noTurn();
         }
+
+
+    }
+
+    private int checkAmount(int amountOfTimes) {
+        return amountOfTimes * 2;
     }
 
     /**
      * makes the BoeBot drive in a square
      */
-    public void driveSquare() {
-        driveDegrees(90);
+    public void driveSquare(int amountOfTimes) {
+        amountOfTimes = checkAmount(amountOfTimes);
+        if (amountTurned <= amountOfTimes * 4)
+            driveDegrees(90);
     }
 
     /**
      * makes the BoeBot drive in a triangle
      */
-    public void driveTriangle() {
+    public void driveTriangle(int amountOfTimes) {
+        amountOfTimes = checkAmount(amountOfTimes);
+        if (amountTurned <= amountOfTimes * 3)
         driveDegrees(120);
     }
 
     /**
      * makes the BoeBot drive in a circle
      */
-    public void driveCircle() {
+    public void driveCircle(int amountOfTimes) {
+        amountOfTimes = checkAmount(amountOfTimes);
+        if (amountTurned <= amountOfTimes * 360)
         driveDegrees(1);
     }
 

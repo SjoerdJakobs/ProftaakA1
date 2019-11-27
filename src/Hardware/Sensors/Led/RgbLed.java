@@ -4,7 +4,7 @@ import ButterCat.HelpFunctions;
 import TI.PWM;
 import TI.Timer;
 
-public class RgbLed {
+public class RgbLed implements LedInterface{
 
     private PWM redLed;
     private PWM greenLed;

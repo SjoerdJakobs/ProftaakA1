@@ -1,9 +1,11 @@
-package ButterCat.Modules;
+package Hardware.Sensors;
 
+import ButterCat.Modules.Button;
+import ButterCat.Modules.Callback;
 import TI.BoeBot;
 import java.util.ArrayList;
 
-public class Receiver
+public class InfraRedReceiver
 {
     public Callback somethingHasBeenPressed;
 

@@ -68,7 +68,7 @@ public enum  NotificationSystem {
         neoLed4.setColor(Color.yellow);
         neoLed5.setColor(Color.yellow);
         neoLed6.setColor(Color.yellow);
-        buzzer.buzz(1000);
+
     }
 
     //implement this in the remote class in the powerButton method
@@ -97,6 +97,20 @@ public enum  NotificationSystem {
         neoLed4.turnOff();
         neoLed5.turnOff();
         neoLed6.turnOff();
+    }
+
+    public void makeSound() {
+        buzzer.buzz(1000);
+    }
+
+    public void noRemoteControl() {
+        neoLed1.setColor(Color.RED);
+        neoLed2.setColor(Color.RED);
+        neoLed3.setColor(Color.RED);
+        neoLed4.setColor(Color.RED);
+        neoLed5.setColor(Color.RED);
+        neoLed6.setColor(Color.RED);
+        turnLedsOn();
     }
 
 }

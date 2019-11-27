@@ -222,6 +222,7 @@ public class Engine {
 
     public void driveDegrees(int degrees, int speed) {
 
+
         if (timerSwitch) {
             double temp = degrees * speed * (200 / 11);
             this.turnTime = (int) temp;
@@ -240,6 +241,7 @@ public class Engine {
 
         if (needsToTurn) {
             turnLeft(0.1);
+            setEngineTargetSpeed(speed);
         } else {
             noTurn();
         }

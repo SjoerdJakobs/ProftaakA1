@@ -10,8 +10,10 @@ public class StateMachine extends StandardObject
 {
     private Map<StateID, State> states = new HashMap<StateID, State>();
 
-    /** een verwijzing naar de huidige staat waarin we verkeren */
-    private State currentState;
+    public State currentState;
+
+    private double deltaTime;
+    public double getDeltaTime() {return deltaTime; }
 
 
     public StateMachine(FrameworkProgram frameworkProgram) {
@@ -22,51 +24,45 @@ public class StateMachine extends StandardObject
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
 
         System.out.println("lowest");
-
     }
 
     @Override
     protected void mainLoop(double deltaTime) {
         super.mainLoop(deltaTime);
+        this.deltaTime = deltaTime;
         if(currentState != null){
-            currentState.CheckForStateSwitch();
+            //System.out.println("executeState" + currentState.stateID);
+            currentState.checkForStateSwitch();
             currentState.logic();
         }
     }
 
-    public void SetState(StateID stateID) {
-
-        /**
-         *  if we dont know the state, we stop the function
-         */
+    /**
+     * set the currentState of the state machine and exit the former currentState
+     * @param stateID the id of the state that will become the current state
+     */
+    public void SetState(StateID stateID)
+    {
         if(!states.containsKey(stateID)) {
-            //throw exception
-            return;
+            throw new IllegalArgumentException("State unknown");
         }
-        /**
-         * if there is already a state running, run its leave method before a new state will start
-         */
         if(currentState != null) {
             currentState.leave();
         }
-        /**
-         * set the current state to the new state
-         */
         currentState = states.get(stateID);
-
-        /**
-         * start the new state
-         */
         currentState.enter();
     }
 
-
-    public void AddState(StateID stateID, State state) {
-        if(states.containsKey(stateID))
+    /**
+     * Adds a state to the list of possible states in state machine
+     * @param state the state to be added
+     */
+    public void AddState(State state) {
+        if(states.containsKey(state.stateID) || state.stateID == StateID.NullStateID)
         {
-            //throw exception
-            return;
+            throw new IllegalArgumentException("State unknown");
         }
-        states.put( stateID, state );
+        state.stateMachine = this;
+        states.put( state.stateID, state );
     }
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Receiver
 {
+    public Callback somethingHasBeenPressed;
+
     public void checkForButtonPresses(ArrayList<Button> buttons)
     {
         for (Button button : buttons) {
@@ -13,6 +15,7 @@ public class Receiver
                 if (!button.isPressed()) {
                     button.setPressed(true);
                     button.onButtonPress.run();
+                    somethingHasBeenPressed.run();
                 } else if (button.isPressed() && button.isContinuousCallback()) {
                     button.onButtonPress.run();
                 }

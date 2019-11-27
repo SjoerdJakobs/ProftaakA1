@@ -1,6 +1,7 @@
 package ButterCat;
 
 import ButterCat.Modules.Button;
+import ButterCat.Modules.Callback;
 import ButterCat.Modules.Receiver;
 import OOFramework.FrameworkProgram;
 import OOFramework.StandardObject;
@@ -14,6 +15,8 @@ public class Remote extends StandardObject
 
     private Button upButton;
 
+    public Callback aButtonHasBeenPressed;
+
     protected Remote(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
     }
@@ -21,12 +24,17 @@ public class Remote extends StandardObject
     public Remote(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated) {
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
         receiver = new Receiver();
+        receiver.somethingHasBeenPressed = () -> {onAnyButtonPress();};
         buttons = new ArrayList<Button>();
         upButton = new Button(111111111111L);
         buttons.add(upButton);
 
-
         System.out.println("lowest");
+    }
+
+    private void onAnyButtonPress()
+    {
+        aButtonHasBeenPressed.run();
     }
 
     @Override

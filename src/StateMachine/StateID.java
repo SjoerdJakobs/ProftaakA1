@@ -2,5 +2,9 @@ package StateMachine;
 
 public enum StateID
 {
-    NullStateID;
+    NullStateID,
+    FollowRoute,
+    GetRoute,
+    ListenToRemote,
+    SearchForStartPoint;
 }

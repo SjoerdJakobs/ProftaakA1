@@ -1,4 +1,4 @@
-package interfacelayer;
+package Interface;
 
 import Hardware.Sensors.ultrasonicsensor.UltraSonicSensor;
 import OOFramework.FrameworkProgram;
@@ -60,7 +60,7 @@ public class ObjectDetection extends StandardObject {
      * checks the distance that is measured
      */
     private void checkDistance() {
-        System.out.println("Stoppen");
+//        System.out.println("Stoppen");
     }
 
 

@@ -38,17 +38,6 @@ public class Engine {
         this.originalTargetSpeed = originalTargetSpeed;
     }
 
-    private int originalTargetSpeed;
-
-    public int getOriginalTargetSpeed() {
-        return this.originalTargetSpeed;
-    }
-
-    private void setOriginalTargetSpeed(int originalTargetSpeed) {
-        HelpFunctions.checkValue("Engine original target speed", originalTargetSpeed, -250, 250);
-        this.originalTargetSpeed = originalTargetSpeed;
-    }
-
     /**
      * (+)Getter and (-)setter for the target of the degrees in a turn
      */
@@ -292,8 +281,4 @@ public class Engine {
 
     }
 
-    public String toString() { return ("\nLeft motor: " + this.servoLeft.toString() +
-            "\nRight motor: " + this.servoRight.toString() +
-            "\nCurrent turn degrees: " + this.currentTurnDegrees +
-            "\nTarget turn degrees: " + this.targetTurnRate);}
 }

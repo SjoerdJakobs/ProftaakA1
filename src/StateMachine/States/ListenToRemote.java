@@ -63,6 +63,7 @@ public class ListenToRemote extends State
         remote.getTurn90DegreesRightButton().onButtonPress  = () ->{turn90DegreesRight();};
         remote.getTurn180DegreesLeftButton().onButtonPress  = () ->{turn180DegreesLeft();};
         remote.getTurn180DegreesRightButton().onButtonPress = () ->{turn180DegreesRight();};
+        remote.getSpeedOffButton().onButtonPress    = () ->{noSpeed();};
         remote.getSpeedSlowButton().onButtonPress   = () ->{slowSpeed();};
         remote.getSpeedMediumButton().onButtonPress = () ->{mediumSpeed();};
         remote.getSpeedFastButton().onButtonPress   = () ->{fastSpeed();};
@@ -86,8 +87,8 @@ public class ListenToRemote extends State
     {
         if(canGoForward) {
             engine.driveForward(this.engineTargetSpeed);
+            System.out.println("forward");
         }
-        System.out.println("forward");
 
     }
 
@@ -164,6 +165,12 @@ public class ListenToRemote extends State
         System.out.println("turn180DegreesRight");
     }
 
+    private void noSpeed()
+    {
+        engineTargetSpeed = 0;
+        System.out.println("noSpeed");
+    }
+
     private void slowSpeed()
     {
         engineTargetSpeed = 50;
@@ -192,15 +199,16 @@ public class ListenToRemote extends State
         }
         else
         {
-            engine.setEngineTargetSpeed(0);
+            
         }
 
         sumDeltaTime += stateMachine.getDeltaTime();
         if (sumDeltaTime >= 0.003) {
             sumDeltaTime = 0;
             engine.drive();
+            //System.out.println("yeeeeeeeeeee");
         }
-        canGoForward = objectDetection.objectIsTooClose();
+        canGoForward = true;
     }
 
     @Override

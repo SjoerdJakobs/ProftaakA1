@@ -16,7 +16,7 @@ public class ListenToRemote extends State
     private boolean hasAnyButtonHasBeenPressed;
     private double sumDeltaTime = 0;
     private int engineTargetSpeed = 125;
-    private int number = 754;
+
 
     public ListenToRemote(DriverAI driverAI)
     {
@@ -96,6 +96,7 @@ public class ListenToRemote extends State
         engine.turnLeft(0.6);
     }
 
+
     private void driveInCircle()
     {
         engine.driveCircle(1, this.engineTargetSpeed);
@@ -109,6 +110,7 @@ public class ListenToRemote extends State
     private void driveInTriangle()
     {
         engine.driveTriangle(1, this.engineTargetSpeed);
+
     }
 
     private void turn90DegreesLeft()

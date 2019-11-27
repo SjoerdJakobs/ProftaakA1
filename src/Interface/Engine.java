@@ -38,10 +38,20 @@ public class Engine {
         this.originalTargetSpeed = originalTargetSpeed;
     }
 
+    private int originalTargetSpeed;
+
+    public int getOriginalTargetSpeed() {
+        return this.originalTargetSpeed;
+    }
+
+    private void setOriginalTargetSpeed(int originalTargetSpeed) {
+        HelpFunctions.checkValue("Engine original target speed", originalTargetSpeed, -250, 250);
+        this.originalTargetSpeed = originalTargetSpeed;
+    }
+
     /**
      * (+)Getter and (-)setter for the target of the degrees in a turn
      */
-    private int targetTurnDegrees;
 
     private int targetTurnRate;
 
@@ -119,25 +129,32 @@ public class Engine {
         HelpFunctions.checkValue("Engine turn rate", turnRate, -1, 1);
     }
 
+
     public void turnLeft(double turnRate) {
+
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
     }
 
+
     public void turnRight(double turnRate) {
+
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), turnRate);
     }
 
     public void noTurn() {
+
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
+
         setEngineTargetSpeed(this.originalTargetSpeed);
     }
 
     public void stopDriving() {
         setEngineTargetSpeed(0);
     }
+
 
     public void driveBackward(int speed) {
         setEngineTargetSpeed(speed);
@@ -199,7 +216,6 @@ public class Engine {
         return this.servoRight;
     }
 
-
     private Timer turnDegreesTimer = new Timer(this.turnTime);
     private boolean timerSwitch;
     private int amountTurned;
@@ -231,6 +247,7 @@ public class Engine {
 
     }
 
+
     private int checkAmount(int amountOfTimes) {
         return amountOfTimes * 2;
     }
@@ -238,24 +255,29 @@ public class Engine {
     /**
      * makes the BoeBot drive in a square
      */
+
     public void driveSquare(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 4)
             driveDegrees(90, speed);
+
     }
 
     /**
      * makes the BoeBot drive in a triangle
      */
+
     public void driveTriangle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 3)
         driveDegrees(120, speed);
+
     }
 
     /**
      * makes the BoeBot drive in a circle
      */
+
     public void driveCircle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 360)
@@ -267,5 +289,11 @@ public class Engine {
                 "\nRight motor: " + this.servoRight.toString() +
                 "\nCurrent turn degrees: " + this.currentTurnDegrees +
                 "\nTarget turn degrees: " + this.targetTurnRate);
+
     }
+
+    public String toString() { return ("\nLeft motor: " + this.servoLeft.toString() +
+            "\nRight motor: " + this.servoRight.toString() +
+            "\nCurrent turn degrees: " + this.currentTurnDegrees +
+            "\nTarget turn degrees: " + this.targetTurnRate);}
 }

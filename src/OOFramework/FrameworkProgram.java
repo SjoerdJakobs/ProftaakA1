@@ -1,5 +1,7 @@
 package OOFramework;
 
+import TI.BoeBot;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -71,6 +73,8 @@ public class FrameworkProgram
                     bo.sleep();
                 }
             }
+
+            BoeBot.wait(1);
         }
     }
 

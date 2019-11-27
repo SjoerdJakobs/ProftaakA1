@@ -46,7 +46,7 @@ public class Motor {
      * Increase or decrease the rotation speed of the servo instantly without acceleration based on the current speed.
      */
     public void updateIncremental() {
-        int incremental = this.targetSpeed > this.motionlessBaseValue ? 1 : -1;
+        int incremental = this.targetSpeed > servo.getPulseWidth() ? 1 : -1;
         servo.update(servo.getPulseWidth() + incremental);
     }
 

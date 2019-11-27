@@ -67,80 +67,81 @@ public class ListenToRemote extends State
     private void returnToAiControl()
     {
         shouldReturnControlToAi = true;
+        System.out.println("on/off");
     }
     private void anyButtonHasBeenPressed()
     {
         hasAnyButtonHasBeenPressed = true;
     }
 
-    private void driveForward()
+    public void driveForward()
     {
-
+        System.out.println("forward");
     }
 
     private void driveBackwards()
     {
-
+        System.out.println("backwards");
     }
 
     private void driveRight()
     {
-
+        System.out.println("right");
     }
 
     private void driveLeft()
     {
-
+        System.out.println("left");
     }
 
     private void driveInCircle()
     {
-
+        System.out.println("circle");
     }
 
     private void driveInSquare()
     {
-
+        System.out.println("square");
     }
 
     private void driveInTriangle()
     {
-
+        System.out.println("triangle");
     }
 
     private void turn90DegreesLeft()
     {
-
+        System.out.println("turn90DegreesLeft");
     }
 
     private void turn90DegreesRight()
     {
-
+        System.out.println("turn90DegreesRight");
     }
 
     private void turn180DegreesLeft()
     {
-
+        System.out.println("turn180DegreesLeft");
     }
 
     private void turn180DegreesRight()
     {
-
+        System.out.println("turn180DegreesRight");
     }
 
     private void slowSpeed()
     {
-
+        System.out.println("slowSpeed");
     }
 
     private void mediumSpeed()
     {
-
+        System.out.println("mediumSpeed");
     }
 
     private void fastSpeed()
     {
-
+        System.out.println("fastSpeed");
     }
 
     @Override

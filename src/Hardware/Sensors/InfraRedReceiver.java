@@ -9,42 +9,56 @@ public class InfraRedReceiver
 {
     public Callback somethingHasBeenPressed;
 
-    public void checkForButtonPresses(ArrayList<Button> buttons)
+    public void checkForButtonPresses(ArrayList<Button> buttons, double deltaTime)
     {
-        for (Button button : buttons) {
-            if (isThisButtonPressed(button.getAddress())) {
-                button.setPressed(true);
-                if (!button.isPressed()) {
-                    button.setPressed(true);
-                    button.onButtonPress.run();
-                    somethingHasBeenPressed.run();
-                } else if (button.isPressed() && button.isContinuousCallback()) {
-                    button.onButtonPress.run();
-                }
-            } else if (button.isPressed()) {
-                button.setPressed(false);
-            }
-        }
-    }
-
-    private boolean isThisButtonPressed(long address)
-    {
-        int pulseLen = BoeBot.pulseIn(15, false, 6000);
+        int pulseLen = BoeBot.pulseIn(1, false, 6000);
         long number = 0;
-        if (pulseLen <= 2000) {
+        if (pulseLen > 2000) {
             int lengtes[] = new int[12];
             for (int i = 0; i < 12; i++) {
-                lengtes[i] = BoeBot.pulseIn(15, false, 20000);
-            }
-            for (int i = 0; i < 12; i++) {
-                System.out.print(lengtes[i]);
+                lengtes[i] = BoeBot.pulseIn(1, false, 20000);
             }
             number = readButtonReturnInt(lengtes);
 
-            System.out.println("");
-            System.out.println(number);
-        }
-        return (number == address);
+            //System.out.println(number);
+
+            for (Button button : buttons) {
+                if (button.getAddress() == number) {
+                    if (!button.isPressed()) {
+                        //System.out.println("hey");
+                        button.setPressed(true);
+                        button.onButtonPress.run();
+                        somethingHasBeenPressed.run();
+                    } else if (button.isPressed() && button.isContinuousCallback()) {
+                        //System.out.println("hey2");
+                        button.onButtonPress.run();
+                    }
+                    button.setSincePressedCounter(0);
+                } else if (button.isPressed()) {
+                    if(button.getSincePressedCounter() > 0.1)
+                    {
+                        button.setPressed(false);
+                    }
+                    else
+                    {
+                        button.setSincePressedCounter(button.getSincePressedCounter()+deltaTime);
+                    }
+                }
+            }
+        } else
+            for (Button button : buttons) {
+                if (button.isPressed()) {
+                    if(button.getSincePressedCounter() > 0.1)
+                    {
+                        button.setPressed(false);
+                    }
+                    else
+                    {
+                        button.setSincePressedCounter(button.getSincePressedCounter()+deltaTime);
+                    }
+                }
+            }
+        //BoeBot.wait(10);
     }
 
     public long readButtonReturnInt(int lengtes[])

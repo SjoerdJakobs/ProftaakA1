@@ -38,6 +38,16 @@ public class Button
         this.continuousCallback = continuousCallback;
     }
 
+    private double sincePressedCounter = 0;
+    public double getSincePressedCounter()
+    {
+        return sincePressedCounter;
+    }
+
+    public void setSincePressedCounter(double sincePressedCounter)
+    {
+        this.sincePressedCounter = sincePressedCounter;
+    }
 
     private boolean isPressed;
     public  boolean isPressed()
@@ -58,4 +68,6 @@ public class Button
     {
         this.address = address;
     }
+
+
 }

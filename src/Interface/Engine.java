@@ -270,7 +270,7 @@ public class Engine {
     public void driveTriangle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 3)
-        driveDegrees(120, speed);
+            driveDegrees(120, speed);
 
     }
 
@@ -281,7 +281,7 @@ public class Engine {
     public void driveCircle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 360)
-        driveDegrees(1, speed);
+            driveDegrees(1, speed);
     }
 
     public String toString() {
@@ -291,3 +291,4 @@ public class Engine {
                 "\nTarget turn degrees: " + this.targetTurnRate);
 
     }
+}

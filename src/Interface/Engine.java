@@ -7,7 +7,7 @@ package Interface;
 public class Engine {
     private Motor servoLeft;
     private Motor servoRight;
-    private Timer timer;
+    private Timer turnTimer;
 
     public Engine(int pinServoLeft, int pinServoRight) {
         HelpFunctions.checkDigitalPin("Engine left servo pin", pinServoLeft);
@@ -73,15 +73,16 @@ public class Engine {
     public void setTurnSpecifics(int turnDegrees, int turnRadius) {
         setTargetTurnDegrees(turnDegrees);
         setTurnRadius(turnRadius);
-        this.timer = new Timer(turnRadius);
+        this.turnTimer = new Timer(turnRadius);
     }
 
     /**
      * Make a turn using the specifics set with (+)setTurnSpecifics
      */
+    // TODO: create double turnRate (-1..1) to apply to each Motor (targetSpeed + (targetSpeed * turnRate)
     public void turnDegrees() {
-        if (timer.timeout()) {
-            timer.mark();
+        if (turnTimer.timeout()) {
+            turnTimer.mark();
             if (this.targetTurnDegrees > 0 || this.targetTurnDegrees < 90) {
                 changeSpeed(servoLeft);
                 // TODO not finished yet!!!

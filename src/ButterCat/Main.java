@@ -2,7 +2,6 @@ package ButterCat;
 
 import Interface.Engine;
 import TI.BoeBot;
-import TI.Servo;
 
 public class Main
 {
@@ -11,14 +10,39 @@ public class Main
         //Program program = new Program();
         //program.run();
 
-        Engine engine = new Engine(12, 13);
+        Engine engine = new Engine(14, 15);
 
-        engine.setEngineTargetSpeed(200);
+        engine.driveForward();
+        int status = 0;
+
         while(true) {
-            engine.driveForward();
+            engine.drive();
             System.out.println(engine.toString());
-            BoeBot.wait(20);
-            if (engine.getMotorRight().getServo().getPulseWidth() == 1700) engine.setEngineTargetSpeed(0);
+            BoeBot.wait(15);
+
+            if (engine.getMotorRight().getServo().getPulseWidth() == 1700 && status == 0) {
+                engine.turnRight(1);
+                status++;
+                BoeBot.wait(3000);
+            }
+            if (engine.getMotorRight().getServo().getPulseWidth() == 1500 && status == 1) {
+                engine.noTurn();
+                status++;
+                BoeBot.wait(3000);
+            }
+            if (engine.getMotorRight().getServo().getPulseWidth() == 1700 && status == 2) {
+                engine.setEngineTargetSpeed(100);
+                status++;
+                BoeBot.wait(3000);
+            }
+            if (engine.getMotorRight().getServo().getPulseWidth() == 1600 && status == 3) {
+                engine.turnLeft(0.5);
+                status++;
+                BoeBot.wait(3000);
+            }
+
+
         }
+
     }
 }

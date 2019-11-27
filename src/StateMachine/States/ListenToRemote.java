@@ -4,8 +4,10 @@ import ButterCat.DriverAI;
 import Interface.Engine;
 import ButterCat.Remote;
 import Interface.ObjectDetection;
+
 import Interface.NotificationSystem;
 import Interface.ObjectDetection;
+
 import StateMachine.State;
 import StateMachine.StateID;
 
@@ -38,8 +40,10 @@ public class ListenToRemote extends State
         this.engine = driverAI.getEngine();
         this.remote = driverAI.getRemote();
         this.objectDetection = driverAI.getObjectDetection();
+
         this.notificationSystem = NotificationSystem.INSTANCE;
         on = false;
+
     }
 
     @Override
@@ -86,8 +90,10 @@ public class ListenToRemote extends State
     private void returnToAiControl()
     {
         shouldReturnControlToAi = true;
+
         on = !on;
         System.out.println("on/off");
+
 
     }
     private void anyButtonHasBeenPressed()
@@ -98,7 +104,9 @@ public class ListenToRemote extends State
     public void driveForward()
     {
         if(canGoForward) {
+
             engine.noTurn();
+
             engine.driveForward(this.engineTargetSpeed);
             System.out.println("forward");
         }
@@ -107,7 +115,9 @@ public class ListenToRemote extends State
 
     private void driveBackwards()
     {
+
         engine.noTurn();
+
         engine.driveBackward(this.engineTargetSpeed * -1);
 
         System.out.println("backwards");
@@ -115,7 +125,9 @@ public class ListenToRemote extends State
 
     private void driveRight()
     {
-        if(canGoForward && on) {
+
+        if(canGoForward) {
+
             engine.turnRight(0.6);
             System.out.println("right");
         }
@@ -140,7 +152,9 @@ public class ListenToRemote extends State
 
     private void driveInSquare()
     {
+
         squareActive = true;
+
         if(canGoForward) {
             engine.driveSquare(1, this.engineTargetSpeed);
             System.out.println("square");
@@ -217,15 +231,19 @@ public class ListenToRemote extends State
             notificationSystem.remoteControll();
             hasAnyButtonHasBeenPressed = false;
         }
+
         if (squareActive) {
             driveInSquare();
         }
 
         sumDeltaTime += stateMachine.getDeltaTime();
         if (sumDeltaTime >= 0.001) {
+
             sumDeltaTime = 0;
             engine.drive();
+            //System.out.println("yeeeeeeeeeee");
         }
+
         if (!canGoForward && engine.getOriginalTargetSpeed() > 0) {
             notificationSystem.objectDetected();
             engine.emergencyBrake();
@@ -237,6 +255,7 @@ public class ListenToRemote extends State
 //            engine.getMotorLeft().updateInstantPulse(1500);
 //            engine.getMotorRight().updateInstantPulse(1500);
         }
+
     }
 
     @Override

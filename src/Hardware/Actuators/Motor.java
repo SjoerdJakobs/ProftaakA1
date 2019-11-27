@@ -6,8 +6,9 @@ import TI.Servo;
 public class Motor {
 
     private Servo servo;
-    private int motionlessBaseValue;
+    private int motionlessBaseValue; // 1500 is standard
     private boolean turningClockwise;
+    private int targetSpeed; // 1500 is standard
 
     /**
      * Initialise the Motor variables with standard motionlessBaseValue of 1500.
@@ -20,6 +21,7 @@ public class Motor {
         this.servo = new Servo(pin);
         this.turningClockwise = turningClockwise;
         this.motionlessBaseValue = 1500;
+        this.targetSpeed = 1500;
     }
 
     /**
@@ -34,6 +36,7 @@ public class Motor {
         this.servo = new Servo(pin);
         this.turningClockwise = turningClockwise;
         this.motionlessBaseValue = motionlessBaseValue;
+        this.targetSpeed = motionlessBaseValue;
     }
 
     public void start() { servo.start(); }
@@ -41,13 +44,10 @@ public class Motor {
 
     /**
      * Increase or decrease the rotation speed of the servo instantly without acceleration based on the current speed.
-     * @param differentialSpeed The differential to increase or decrease the current speed.
      */
-    public void updateInstantDifferential(int differentialSpeed) {
-        HelpFunctions.checkValue("Motor (servo) differential speed",
-                Math.abs(differentialSpeed + this.servo.getPulseWidth() - motionlessBaseValue),0, 250);
-        differentialSpeed = this.turningClockwise ? differentialSpeed : differentialSpeed * -1;
-        servo.update(servo.getPulseWidth() + differentialSpeed);
+    public void updateIncremental() {
+        int incremental = this.targetSpeed > servo.getPulseWidth() ? 1 : -1;
+        servo.update(servo.getPulseWidth() + incremental);
     }
 
     /**
@@ -71,11 +71,20 @@ public class Motor {
     }
 
     /**
-     * Getters and setters for each variable (not objects).
+     * Getters and setters for each variable.
      */
-    public int getMotionlessBaseValue() { return motionlessBaseValue; }
-    public boolean getTurningClockwise() { return turningClockwise; }
+    public Servo getServo() { return this.servo; }
+    public int getMotionlessBaseValue() { return this.motionlessBaseValue; }
+    public boolean getTurningClockwise() { return this.turningClockwise; }
+    public int getTargetSpeed() { return this.targetSpeed; }
 
     public void setMotionlessBaseValue(int motionlessBaseValue) { this.motionlessBaseValue = motionlessBaseValue; }
     public void setTurningClockwise(boolean turningClockwise) { this.turningClockwise = turningClockwise; }
+    public void setTargetSpeed(int targetSpeed) {
+        HelpFunctions.checkValue("Motor target speed", targetSpeed,1250,1750);
+        this.targetSpeed = targetSpeed;
+    }
+
+    public String toString() { return ("Current speed: " + this.getServo().getPulseWidth() + ", target speed: " + this.targetSpeed +
+            ", motionlessBaseValue: " + this.motionlessBaseValue + " and isTurningClockwise: " + this.turningClockwise); }
 }

@@ -10,7 +10,7 @@ public class HelpFunctions {
      */
     public static void checkDigitalPin(String argumentName, int argumentValue ) throws IllegalArgumentException {
         if (argumentValue < 0 || argumentValue > 15)
-            throw new IllegalArgumentException(argumentName + " value must be between 0 and 15.");
+            throw new IllegalArgumentException(argumentName + " value must be between 0 and 15. Given value: " + argumentValue + ".");
     }
 
     /**
@@ -21,7 +21,7 @@ public class HelpFunctions {
      */
     public static void checkAnalogPin(String argumentName, int argumentValue ) throws IllegalArgumentException {
         if (argumentValue < 0 || argumentValue > 3)
-            throw new IllegalArgumentException(argumentName + " value must be between 0 and 15.");
+            throw new IllegalArgumentException(argumentName + " value must be between 0 and 3. Given value: " + argumentValue + ".");
     }
 
     /**
@@ -32,7 +32,8 @@ public class HelpFunctions {
      */
     public static void checkValue(String argumentName, int argumentValue, int minValue, int maxValue) throws IllegalArgumentException {
         if (argumentValue < minValue || argumentValue > maxValue)
-            throw new IllegalArgumentException(argumentName + " value must be between 0 and 255.");
+            throw new IllegalArgumentException(argumentName + " value must be between " + minValue + " and " + maxValue +
+                    ". Given value: " + argumentValue + ".");
     }
 
 }

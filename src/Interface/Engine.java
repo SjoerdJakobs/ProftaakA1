@@ -94,7 +94,7 @@ public class Engine {
     /**
      * Stop immediately
      */
-    public void emergencyBreak() {
+    public void emergencyBrake() {
         servoLeft.stop();
         servoRight.stop();
     }

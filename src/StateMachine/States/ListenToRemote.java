@@ -3,6 +3,7 @@ package StateMachine.States;
 import ButterCat.DriverAI;
 import Interface.Engine;
 import ButterCat.Remote;
+import Interface.ObjectDetection;
 import StateMachine.State;
 import StateMachine.StateID;
 
@@ -11,9 +12,11 @@ public class ListenToRemote extends State
     DriverAI driverAI;
     Engine   engine;
     Remote   remote;
+    ObjectDetection objectDetection;
 
     private boolean shouldReturnControlToAi;
     private boolean hasAnyButtonHasBeenPressed;
+    private boolean canGoForward;
     private double sumDeltaTime = 0;
     private int engineTargetSpeed = 125;
 
@@ -23,9 +26,11 @@ public class ListenToRemote extends State
         super(StateID.ListenToRemote);
         shouldReturnControlToAi = false;
         hasAnyButtonHasBeenPressed = false;
+        canGoForward = true;
         this.driverAI = driverAI;
         this.engine = driverAI.getEngine();
         this.remote = driverAI.getRemote();
+        this.objectDetection = driverAI.getObjectDetection();
     }
 
     @Override
@@ -79,8 +84,9 @@ public class ListenToRemote extends State
 
     public void driveForward()
     {
-        engine.driveForward(this.engineTargetSpeed);
-
+        if(canGoForward) {
+            engine.driveForward(this.engineTargetSpeed);
+        }
         System.out.println("forward");
 
     }
@@ -95,43 +101,57 @@ public class ListenToRemote extends State
 
     private void driveRight()
     {
-        engine.turnRight(0.6);
-        System.out.println("right");
+        if(canGoForward) {
+            engine.turnRight(0.6);
+            System.out.println("right");
+        }
     }
 
     private void driveLeft()
     {
-        engine.turnLeft(0.6);
-        System.out.println("left");
+        if(canGoForward) {
+            engine.turnLeft(0.6);
+            System.out.println("left");
+        }
     }
 
 
     private void driveInCircle()
     {
-        engine.driveCircle(1, this.engineTargetSpeed);
-        System.out.println("circle");
+        if(canGoForward) {
+            engine.driveCircle(1, this.engineTargetSpeed);
+            System.out.println("circle");
+        }
     }
 
     private void driveInSquare()
     {
-        engine.driveSquare(1, this.engineTargetSpeed);
-        System.out.println("square");
+        if(canGoForward) {
+            engine.driveSquare(1, this.engineTargetSpeed);
+            System.out.println("square");
+        }
     }
 
     private void driveInTriangle()
     {
-        engine.driveTriangle(1, this.engineTargetSpeed);
-        System.out.println("triangle");
+        if(canGoForward) {
+            engine.driveTriangle(1, this.engineTargetSpeed);
+            System.out.println("triangle");
+        }
     }
 
     private void turn90DegreesLeft()
     {
-        System.out.println("turn90DegreesLeft");
+        if(canGoForward) {
+            System.out.println("turn90DegreesLeft");
+        }
     }
 
     private void turn90DegreesRight()
     {
-        System.out.println("turn90DegreesRight");
+        if(canGoForward) {
+            System.out.println("turn90DegreesRight");
+        }
     }
 
     private void turn180DegreesLeft()
@@ -176,10 +196,11 @@ public class ListenToRemote extends State
         }
 
         sumDeltaTime += stateMachine.getDeltaTime();
-        if (sumDeltaTime >= 1) {
+        if (sumDeltaTime >= 0.003) {
             sumDeltaTime = 0;
             engine.drive();
         }
+        canGoForward = objectDetection.objectIsTooClose();
     }
 
     @Override

@@ -167,7 +167,7 @@ public class ListenToRemote extends State
 
     private void noSpeed()
     {
-        engineTargetSpeed = 0;
+        engine.stopDriving();
         System.out.println("noSpeed");
     }
 
@@ -199,7 +199,7 @@ public class ListenToRemote extends State
         }
         else
         {
-            
+
         }
 
         sumDeltaTime += stateMachine.getDeltaTime();

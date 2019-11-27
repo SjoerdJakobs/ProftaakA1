@@ -17,18 +17,30 @@ public class Engine {
         servoRight = new Motor(pinServoRight, true);
     }
 
+    private int originalTargetSpeed;
+
+    public int getOriginalTargetSpeed() {
+        return this.originalTargetSpeed;
+    }
+
+    private void setOriginalTargetSpeed(int originalTargetSpeed) {
+        HelpFunctions.checkValue("Engine original target speed", originalTargetSpeed, -250, 250);
+        this.originalTargetSpeed = originalTargetSpeed;
+    }
+
     /**
      * (+)Getter and (-)setter for the target of the degrees in a turn
      */
-    private int targetTurnDegrees;
 
-    public int getTargetTurnDegrees() {
-        return this.targetTurnDegrees;
+    private int targetTurnRate;
+
+    public int getTargetTurnRate() {
+        return this.targetTurnRate;
     }
 
-    private void setTargetTurnDegrees(int targetTurnDegrees) {
-        HelpFunctions.checkValue("Engine servo turn rate", targetTurnDegrees, -180, 180);
-        this.targetTurnDegrees = targetTurnDegrees;
+    private void setTargetTurnRate(int targetTurnRate) {
+        HelpFunctions.checkValue("Engine servo turn rate", targetTurnRate, -180, 180);
+        this.targetTurnRate = targetTurnRate;
     }
 
     /**
@@ -73,7 +85,7 @@ public class Engine {
     /**
      * To drive forward with the speed set using setTargetSpeed()
      */
-    public void driveForward() {
+    public void drive() {
         changeSpeed(servoLeft);
         changeSpeed(servoRight);
     }
@@ -84,25 +96,44 @@ public class Engine {
      * @param turnDegrees
      * @param turnRadius
      */
+    // TODO: currently not used
     public void setTurnSpecifics(int turnDegrees, int turnRadius) {
-        setTargetTurnDegrees(turnDegrees);
+        setTargetTurnRate(turnDegrees);
         setTurnRadius(turnRadius);
         this.turnTimer = new Timer(turnRadius);
     }
 
-    /**
-     * Make a turn using the specifics set with (+)setTurnSpecifics
-     */
-    // TODO: create double turnRate (-1..1) to apply to each Motor (targetSpeed + (targetSpeed * turnRate)
-    public void turnDegrees() {
-        if (turnTimer.timeout()) {
-            turnTimer.mark();
-            if (this.targetTurnDegrees > 0 || this.targetTurnDegrees < 90) {
-                changeSpeed(servoLeft);
-                // TODO not finished yet!!!
-            }
+    // TODO: CHANGE TO DOUBLE
+    public void setTurnRate(double turnRate) {
+        HelpFunctions.checkValue("Engine turn rate", turnRate, -1, 1);
+    }
 
-        }
+    public void turnRight(double turnRate) {
+        servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
+        servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
+    }
+
+    public void turnLeft(double turnRate) {
+        servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
+        servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), turnRate);
+    }
+
+    public void noTurn() {
+        servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(),0);
+        servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(),0);
+        setEngineTargetSpeed(this.originalTargetSpeed);
+    }
+
+    public void stopDriving() {
+        setEngineTargetSpeed(0);
+    }
+
+    public void driveBackward() {
+        setEngineTargetSpeed(-200);
+    }
+
+    public void driveForward() {
+        setEngineTargetSpeed(200);
     }
 
     /**
@@ -128,6 +159,7 @@ public class Engine {
      */
     public void setEngineTargetSpeed(int targetSpeed) {
         HelpFunctions.checkValue("Engine servo target speed", targetSpeed, -250, 250);
+        this.originalTargetSpeed = targetSpeed;
         setServoTargetSpeed(servoLeft, targetSpeed);
         setServoTargetSpeed(servoRight, targetSpeed);
     }
@@ -155,13 +187,10 @@ public class Engine {
     public Motor getMotorRight() {
         return this.servoRight;
     }
-
-    public String toString() {
-        return ("\nLeft motor: " + this.servoLeft.toString() +
-                "\nRight motor: " + this.servoRight.toString() +
-                "\nCurrent turn degrees: " + this.currentTurnDegrees +
-                "\nTarget turn degrees: " + this.targetTurnDegrees);
-    }
+	
+	/**
+	* Made by Sem
+	**/
 
     private Timer shapeTimer = new Timer(1000);
     private Timer circleTimer = new Timer(5);
@@ -216,4 +245,9 @@ public class Engine {
         }
         if (circleCounter == 360) circleCounter = 0;
     }
+
+    public String toString() { return ("\nLeft motor: " + this.servoLeft.toString() +
+            "\nRight motor: " + this.servoRight.toString() +
+            "\nCurrent turn degrees: " + this.currentTurnDegrees +
+            "\nTarget turn degrees: " + this.targetTurnRate);}
 }

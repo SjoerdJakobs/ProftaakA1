@@ -4,7 +4,7 @@ import ButterCat.HelpFunctions;
 import TI.BoeBot;
 import TI.Timer;
 
-public class Led implements LedInterface {
+public class Led /* implements LedInterface */ {
 
     private int pin;
     private boolean usePinPower; // if true the led is powered by the pin output

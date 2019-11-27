@@ -11,7 +11,7 @@ import TI.Timer;
  * ultrasonic sensor class.
  * reads the sensor and {@link this#getDistanceToObject() saves the distance}
  */
-public class UltraSonicSensor implements UltraSonicSensorInterface {
+public class UltraSonicSensor {
 
     private int echoPin;
     private int triggerPin;
@@ -50,7 +50,6 @@ public class UltraSonicSensor implements UltraSonicSensorInterface {
     /**
      * listens for a new value from the sensor.
      */
-    @Override
     public void listen() {
         if (sensorTimeout.timeout()) {
             initSensor();

@@ -17,6 +17,7 @@ public class ListenToRemote extends State
     private double sumDeltaTime = 0;
     private int engineTargetSpeed = 125;
 
+
     public ListenToRemote(DriverAI driverAI)
     {
         super(StateID.ListenToRemote);
@@ -95,24 +96,26 @@ public class ListenToRemote extends State
         engine.turnLeft(0.6);
     }
 
-    private void driveInCircle(this.engineTargetSpeed)
+
+    private void driveInCircle()
     {
-        engine.driveCircle();
+        engine.driveCircle(1, this.engineTargetSpeed);
     }
 
-    private void driveInSquare(this.engineTargetSpeed)
+    private void driveInSquare()
     {
-        engine.driveSquare();
+        engine.driveSquare(1, this.engineTargetSpeed);
     }
 
-    private void driveInTriangle(this.engineTargetSpeed)
+    private void driveInTriangle()
     {
-        engine.driveTriangle();
+        engine.driveTriangle(1, this.engineTargetSpeed);
+
     }
 
     private void turn90DegreesLeft()
     {
-        
+
     }
 
     private void turn90DegreesRight()

@@ -235,7 +235,7 @@ public class Engine {
         setCurrentTurnDegrees(1);
         if (circleCounter != 360) {
             if (circleTimer.timeout()) {
-                turnDegrees();
+
                 circleCounter++;
             } else {
                 driveForward();

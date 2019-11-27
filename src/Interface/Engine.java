@@ -176,12 +176,13 @@ public class Engine {
         setCurrentTurnDegrees(360 / 4);
         if (squareCounter != 4) {
             if (shapeTimer.timeout()) {
-                turnDegrees();
+                turnDegrees(); //TODO needs to be implemented
                 squareCounter++;
             } else {
                 driveForward();
             }
         }
+        if (squareCounter == 4) squareCounter = 0;
     }
 
     /**
@@ -191,12 +192,13 @@ public class Engine {
         setCurrentTurnDegrees(360 / 3);
         if (triangleCounter != 3) {
             if (shapeTimer.timeout()) {
-                turnDegrees();
+                turnDegrees(); //TODO needs to be implemented
                 triangleCounter++;
             } else {
                 driveForward();
             }
         }
+        if (triangleCounter == 3) triangleCounter = 0;
     }
 
     /**
@@ -206,11 +208,12 @@ public class Engine {
         setCurrentTurnDegrees(1);
         if (circleCounter != 360) {
             if (circleTimer.timeout()) {
-                turnDegrees();
+                turnDegrees(); //TODO needs to be implemented
                 circleCounter++;
             } else {
                 driveForward();
             }
         }
+        if (circleCounter == 360) circleCounter = 0;
     }
 }

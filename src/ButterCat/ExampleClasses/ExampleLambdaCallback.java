@@ -36,6 +36,7 @@ class AddMethodToCallBack
         lambdaCallbackClass.callback = () ->{
             thisMethodGetsPutInTheCallback();
         };
+
     }
 
     void thisMethodGetsPutInTheCallback()

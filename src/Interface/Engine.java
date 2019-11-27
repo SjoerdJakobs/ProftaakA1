@@ -291,5 +291,3 @@ public class Engine {
                 "\nTarget turn degrees: " + this.targetTurnRate);
 
     }
-
-}

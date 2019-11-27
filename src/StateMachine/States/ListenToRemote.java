@@ -3,6 +3,7 @@ package StateMachine.States;
 import ButterCat.DriverAI;
 import Interface.Engine;
 import ButterCat.Remote;
+import Interface.ObjectDetection;
 import Interface.NotificationSystem;
 import Interface.ObjectDetection;
 import StateMachine.State;
@@ -66,6 +67,7 @@ public class ListenToRemote extends State
         remote.getTurn90DegreesRightButton().onButtonPress  = () ->{turn90DegreesRight();};
         remote.getTurn180DegreesLeftButton().onButtonPress  = () ->{turn180DegreesLeft();};
         remote.getTurn180DegreesRightButton().onButtonPress = () ->{turn180DegreesRight();};
+        remote.getSpeedOffButton().onButtonPress    = () ->{noSpeed();};
         remote.getSpeedSlowButton().onButtonPress   = () ->{slowSpeed();};
         remote.getSpeedMediumButton().onButtonPress = () ->{mediumSpeed();};
         remote.getSpeedFastButton().onButtonPress   = () ->{fastSpeed();};
@@ -89,8 +91,8 @@ public class ListenToRemote extends State
     {
         if(canGoForward) {
             engine.driveForward(this.engineTargetSpeed);
+            System.out.println("forward");
         }
-        System.out.println("forward");
 
     }
 
@@ -167,6 +169,12 @@ public class ListenToRemote extends State
         System.out.println("turn180DegreesRight");
     }
 
+    private void noSpeed()
+    {
+        engine.stopDriving();
+        System.out.println("noSpeed");
+    }
+
     private void slowSpeed()
     {
         engineTargetSpeed = 50;
@@ -188,7 +196,6 @@ public class ListenToRemote extends State
     @Override
     protected void logic()
     {
-
         super.logic();
         if(hasAnyButtonHasBeenPressed)
         {
@@ -197,7 +204,7 @@ public class ListenToRemote extends State
         }
         else
         {
-            engine.setEngineTargetSpeed(0);
+
         }
 
         sumDeltaTime += stateMachine.getDeltaTime();

@@ -24,6 +24,7 @@ public class Remote extends StandardObject
     public static final long TURN_LEFT = 100111000L;//000100111000L
     public static final long REVERSE_LEFT = 1100010000L;//001100010000L
     public static final long REVERSE_RIGHT = 101001010000L;//101001010000L
+    public static final long SPEED_ZERO = 100100010000L;//100100010000L
     public static final long SPEED_ONE = 10000L;//000000010000L
     public static final long SPEED_TWO = 100000010000L;//100000010000L
     public static final long SPEED_TRHREE = 10000010000L;//010000010000L
@@ -44,6 +45,7 @@ public class Remote extends StandardObject
     private Button turn90DegreesRightButton;
     private Button turn180DegreesLeftButton;
     private Button turn180DegreesRightButton;
+    private Button speedOffButton;
     private Button speedSlowButton;
     private Button speedMediumButton;
     private Button speedFastButton;
@@ -64,18 +66,19 @@ public class Remote extends StandardObject
         };
         buttons = new ArrayList<Button>();
         upButton = new Button(CHANNEL_PLUS, true);
-        downButton = new Button(CHANNEL_MIN);
-        leftButton = new Button(VOLUME_DOWN);
-        rightButton = new Button(VOLUME_UP);
+        downButton = new Button(CHANNEL_MIN, true);
+        leftButton = new Button(VOLUME_DOWN, true);
+        rightButton = new Button(VOLUME_UP, true);
         onButton = new Button(ON);
         muteButton = new Button(MUTE);
         circleButton = new Button(ROUND);
         squareButton = new Button(SQUARE);
         triangleButton = new Button(TRIANGLE);
-        turn90DegreesLeftButton = new Button(TURN_LEFT);
-        turn90DegreesRightButton = new Button(TURN_RIGHT);
-        turn180DegreesLeftButton = new Button(REVERSE_LEFT);
-        turn180DegreesRightButton = new Button(REVERSE_RIGHT);
+        turn90DegreesLeftButton = new Button(TURN_LEFT, true);
+        turn90DegreesRightButton = new Button(TURN_RIGHT, true);
+        turn180DegreesLeftButton = new Button(REVERSE_LEFT, true);
+        turn180DegreesRightButton = new Button(REVERSE_RIGHT, true);
+        speedOffButton = new Button(SPEED_ZERO);
         speedSlowButton = new Button(SPEED_ONE);
         speedMediumButton = new Button(SPEED_TWO);
         speedFastButton = new Button(SPEED_TRHREE);
@@ -92,9 +95,12 @@ public class Remote extends StandardObject
         buttons.add(turn90DegreesRightButton);
         buttons.add(turn180DegreesLeftButton);
         buttons.add(turn180DegreesRightButton);
+        buttons.add(speedOffButton);
         buttons.add(speedSlowButton);
         buttons.add(speedMediumButton);
         buttons.add(speedFastButton);
+
+        System.out.println("lowest");
     }
 
     private void onAnyButtonPress()
@@ -212,6 +218,11 @@ public class Remote extends StandardObject
     public Button getTurn180DegreesRightButton()
     {
         return turn180DegreesRightButton;
+    }
+
+    public Button getSpeedOffButton()
+    {
+        return speedOffButton;
     }
 
     public Button getSpeedSlowButton()

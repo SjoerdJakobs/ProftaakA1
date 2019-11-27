@@ -7,7 +7,8 @@ import Hardware.Sensors.Led.NeoLed;
 
 import java.awt.*;
 
-public class NotificationSystem {
+public enum  NotificationSystem {
+    INSTANCE;
     // TODO: add select Led, RgbLed and Buzzer functions here.
     Led greenLed = new Led(5, true);
     //    RgbLed rgbLed = new RgbLed(2, 1, 0, 0, 0, 0, true);

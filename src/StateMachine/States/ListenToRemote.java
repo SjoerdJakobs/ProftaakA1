@@ -3,6 +3,7 @@ package StateMachine.States;
 import ButterCat.DriverAI;
 import Interface.Engine;
 import ButterCat.Remote;
+import Interface.NotificationSystem;
 import Interface.ObjectDetection;
 import StateMachine.State;
 import StateMachine.StateID;
@@ -19,6 +20,7 @@ public class ListenToRemote extends State
     private boolean canGoForward;
     private double sumDeltaTime = 0;
     private int engineTargetSpeed = 125;
+    private NotificationSystem notificationSystem;
 
 
     public ListenToRemote(DriverAI driverAI)
@@ -31,6 +33,7 @@ public class ListenToRemote extends State
         this.engine = driverAI.getEngine();
         this.remote = driverAI.getRemote();
         this.objectDetection = driverAI.getObjectDetection();
+        this.notificationSystem = NotificationSystem.INSTANCE;
     }
 
     @Override
@@ -185,9 +188,11 @@ public class ListenToRemote extends State
     @Override
     protected void logic()
     {
+
         super.logic();
         if(hasAnyButtonHasBeenPressed)
         {
+            notificationSystem.remoteControll();
             hasAnyButtonHasBeenPressed = false;
         }
         else
@@ -200,7 +205,12 @@ public class ListenToRemote extends State
             sumDeltaTime = 0;
             engine.drive();
         }
-        canGoForward = objectDetection.objectIsTooClose();
+        canGoForward = !objectDetection.objectIsTooClose();
+        if (!canGoForward && engine.getOriginalTargetSpeed() > 0) {
+            System.out.println("noticed object");
+            engine.stopDriving();
+            notificationSystem.objectDetected();
+        }
     }
 
     @Override

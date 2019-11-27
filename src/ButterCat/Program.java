@@ -22,7 +22,7 @@ public class Program extends FrameworkProgram
     protected void start() {
         super.start();
 
-        engine = new Engine(12, 13);
+        engine = new Engine(3, 4);
         remote = new Remote(this,true,false,false,true);
         stateMachine = new StateMachine(this);
         objectDetection = new ObjectDetection(this);

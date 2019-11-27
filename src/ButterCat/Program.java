@@ -17,7 +17,7 @@ public class Program extends FrameworkProgram
         Engine engine = new Engine();
         Remote remote = new Remote(this,true,false,false,true);
         ObjectDetection objectDetection = new ObjectDetection(this);
-        DriverAI driverAI = new DriverAI(this,true,false,false,true,engine,remote);
+        //DriverAI driverAI = new DriverAI(this,true,false,false,true,engine,remote);
     }
 
     @Override

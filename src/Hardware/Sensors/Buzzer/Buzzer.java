@@ -1,5 +1,7 @@
 package Hardware.Sensors.Buzzer;
 
+import TI.BoeBot;
+
 public class Buzzer {
 
     private int pin;
@@ -10,6 +12,20 @@ public class Buzzer {
         this.frequency = frequency;
     }
 
+    /**
+     * makes this buzzer generate a sound at its frequency
+     * @param time the amount of time in ms to make the sound for
+     */
+    public void buzz(int time) {
+        BoeBot.freqOut(pin, frequency, time);
+    }
 
-    // TODO: add functionalities.
+    /**
+     * mutes this buzzer
+     */
+    public void mute() {
+        buzz(0);
+    }
+
+
 }

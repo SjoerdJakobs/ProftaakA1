@@ -11,7 +11,7 @@ import TI.Timer;
  * ultrasonic sensor class.
  * reads the sensor and {@link this#getDistanceToObject() saves the distance}
  */
-public class UltraSonicSensor implements UltraSonicSensorInterface{
+public class UltraSonicSensor implements UltraSonicSensorInterface {
 
     private int echoPin;
     private int triggerPin;
@@ -44,8 +44,10 @@ public class UltraSonicSensor implements UltraSonicSensorInterface{
      * sends a small pulse to the sensor to initialize it
      */
     private void initSensor() {
-        BoeBot.digitalWrite(this.triggerPin, true);
+
         if (initTimer.timeout()) {
+            BoeBot.digitalWrite(this.triggerPin, true);
+        } else {
             BoeBot.digitalWrite(this.triggerPin, false);
         }
     }
@@ -60,7 +62,7 @@ public class UltraSonicSensor implements UltraSonicSensorInterface{
         if (sensorTimeout.timeout()) {
 
             int pulse = BoeBot.pulseIn(echoPin, true, 10000);
-//            System.out.println("ultrasonic pulse: " + pulse);
+            System.out.println("ultrasonic pulse: " + pulse);
 //            Random random = new Random();
 //            int pulse = random.nextInt();
             if (pulse > 0) {

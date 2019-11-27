@@ -8,6 +8,7 @@ public class Motor {
     private Servo servo;
     private int motionlessBaseValue;
     private boolean turningClockwise;
+    private int currentSpeed;
 
     /**
      * Initialise the Motor variables with standard motionlessBaseValue of 1500.
@@ -20,6 +21,7 @@ public class Motor {
         this.servo = new Servo(pin);
         this.turningClockwise = turningClockwise;
         this.motionlessBaseValue = 1500;
+        this.currentSpeed = this.servo.getPulseWidth();
     }
 
     /**
@@ -40,8 +42,8 @@ public class Motor {
     public void stop() { servo.stop(); }
 
     /**
-     * Increase or decrease the rotation speed of the servo instantly without acceleration.
-     * @param differentialSpeed The new speed.
+     * Increase or decrease the rotation speed of the servo instantly without acceleration based on the current speed.
+     * @param differentialSpeed The differential to increase or decrease the current speed.
      */
     public void updateInstantDifferential(int differentialSpeed) {
         HelpFunctions.checkValue("Motor (servo) differential speed",
@@ -73,6 +75,7 @@ public class Motor {
     /**
      * Getters and setters for each variable (not objects).
      */
+    public Servo getMotor() {return this.servo;}
     public int getMotionlessBaseValue() { return motionlessBaseValue; }
     public boolean getTurningClockwise() { return turningClockwise; }
 

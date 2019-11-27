@@ -30,7 +30,7 @@ public class HelpFunctions {
      * @param argumentValue The value of the argument to check
      * @throws IllegalArgumentException
      */
-    public static void checkValue(String argumentName, int argumentValue, int minValue, int maxValue) throws IllegalArgumentException {
+    public static void checkValue(String argumentName, double argumentValue, double minValue, double maxValue) throws IllegalArgumentException {
         if (argumentValue < minValue || argumentValue > maxValue)
             throw new IllegalArgumentException(argumentName + " value must be between " + minValue + " and " + maxValue +
                     ". Given value: " + argumentValue + ".");

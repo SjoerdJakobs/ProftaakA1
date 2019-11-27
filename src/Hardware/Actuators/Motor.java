@@ -9,6 +9,7 @@ public class Motor {
     private int motionlessBaseValue; // 1500 is standard
     private boolean turningClockwise;
     private int targetSpeed; // 1500 is standard
+    private double turnRate; // 0..1
 
     /**
      * Initialise the Motor variables with standard motionlessBaseValue of 1500.
@@ -22,6 +23,7 @@ public class Motor {
         this.turningClockwise = turningClockwise;
         this.motionlessBaseValue = 1500;
         this.targetSpeed = 1500;
+        this.turnRate = 0;
     }
 
     /**
@@ -37,6 +39,7 @@ public class Motor {
         this.turningClockwise = turningClockwise;
         this.motionlessBaseValue = motionlessBaseValue;
         this.targetSpeed = motionlessBaseValue;
+        this.turnRate = 0;
     }
 
     public void start() { servo.start(); }
@@ -48,6 +51,11 @@ public class Motor {
     public void updateIncremental() {
         int incremental = this.targetSpeed > servo.getPulseWidth() ? 1 : -1;
         servo.update(servo.getPulseWidth() + incremental);
+    }
+
+    public void updateTurnTargetSpeed(int targetSpeed, double turnRate) {
+        setTurnRate(turnRate);
+        setTargetSpeed(targetSpeed);
     }
 
     /**
@@ -77,12 +85,17 @@ public class Motor {
     public int getMotionlessBaseValue() { return this.motionlessBaseValue; }
     public boolean getTurningClockwise() { return this.turningClockwise; }
     public int getTargetSpeed() { return this.targetSpeed; }
+    public double getTurnRate() { return this.turnRate; }
 
     public void setMotionlessBaseValue(int motionlessBaseValue) { this.motionlessBaseValue = motionlessBaseValue; }
     public void setTurningClockwise(boolean turningClockwise) { this.turningClockwise = turningClockwise; }
     public void setTargetSpeed(int targetSpeed) {
         HelpFunctions.checkValue("Motor target speed", targetSpeed,1250,1750);
-        this.targetSpeed = targetSpeed;
+        this.targetSpeed = targetSpeed - (int) ((targetSpeed - this.motionlessBaseValue) * turnRate);
+    }
+    public void setTurnRate(double turnRate) {
+        HelpFunctions.checkValue("Motor turn rate", turnRate,0,1);
+        this.turnRate = turnRate;
     }
 
     public String toString() { return ("Current speed: " + this.getServo().getPulseWidth() + ", target speed: " + this.targetSpeed +

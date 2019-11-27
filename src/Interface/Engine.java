@@ -1,8 +1,8 @@
 package Interface;
 
-    import ButterCat.HelpFunctions;
-    import Hardware.Actuators.Motor;
-    import TI.Timer;
+import ButterCat.HelpFunctions;
+import Hardware.Actuators.Motor;
+import TI.Timer;
 
 public class Engine {
     private Motor servoLeft;
@@ -31,6 +31,7 @@ public class Engine {
     /**
      * (+)Getter and (-)setter for the target of the degrees in a turn
      */
+
     private int targetTurnRate;
 
     public int getTargetTurnRate() {
@@ -107,11 +108,6 @@ public class Engine {
         HelpFunctions.checkValue("Engine turn rate", turnRate, -1, 1);
     }
 
-    /**
-     * Make a turn using the specifics set with (+)setTurnSpecifics
-     *
-     * @param turnRate
-     */
     public void turnRight(double turnRate) {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
@@ -143,7 +139,7 @@ public class Engine {
     /**
      * Stop immediately
      */
-    public void emergencyBreak() {
+    public void emergencyBrake() {
         servoLeft.stop();
         servoRight.stop();
     }
@@ -158,6 +154,7 @@ public class Engine {
 
     /**
      * Set the target speed of both the servo's (thus the engine)
+     *
      * @param targetSpeed The provided target speed which will be reached incrementally
      */
     public void setEngineTargetSpeed(int targetSpeed) {
@@ -169,21 +166,82 @@ public class Engine {
 
     /**
      * Set the target speed per servo (used in the (+)setEngineTargetSpeed)
-     * @param servo The servo in question
+     *
+     * @param servo       The servo in question
      * @param targetSpeed The provided target speed which will be reached incrementally
      */
     private void setServoTargetSpeed(Motor servo, int targetSpeed) {
         servo.setTargetSpeed(servo.getTurningClockwise() ?
                 servo.getMotionlessBaseValue() + targetSpeed : servo.getMotionlessBaseValue() - targetSpeed);
-                // Previous if-statement:
-                //servo.getServo().getPulseWidth() < servo.getTargetSpeed() ?
+        // Previous if-statement:
+        //servo.getServo().getPulseWidth() < servo.getTargetSpeed() ?
     }
 
     /**
      * (+)Getter for both the left and right motor
      */
-    public Motor getMotorLeft() { return this.servoLeft; }
-    public Motor getMotorRight() { return this.servoRight; }
+    public Motor getMotorLeft() {
+        return this.servoLeft;
+    }
+
+    public Motor getMotorRight() {
+        return this.servoRight;
+    }
+	
+	/**
+	* Made by Sem
+	**/
+
+    private Timer shapeTimer = new Timer(1000);
+    private Timer circleTimer = new Timer(5);
+    private int squareCounter = 0;
+    private int triangleCounter = 0;
+    private int circleCounter = 0;
+
+    /**
+     * makes the BoeBot drive in a square
+     */
+    public void driveSquare() {
+        setCurrentTurnDegrees(360 / 4);
+        if (squareCounter != 4) {
+            if (shapeTimer.timeout()) {
+                turnDegrees();
+                squareCounter++;
+            } else {
+                driveForward();
+            }
+        }
+    }
+
+    /**
+     * makes the BoeBot drive in a triangle
+     */
+    public void driveTriangle() {
+        setCurrentTurnDegrees(360 / 3);
+        if (triangleCounter != 3) {
+            if (shapeTimer.timeout()) {
+                turnDegrees();
+                triangleCounter++;
+            } else {
+                driveForward();
+            }
+        }
+    }
+
+    /**
+     * makes the BoeBot drive in a circle
+     */
+    public void driveCircle() {
+        setCurrentTurnDegrees(1);
+        if (circleCounter != 360) {
+            if (circleTimer.timeout()) {
+                turnDegrees();
+                circleCounter++;
+            } else {
+                driveForward();
+            }
+        }
+    }
 
     public String toString() { return ("\nLeft motor: " + this.servoLeft.toString() +
             "\nRight motor: " + this.servoRight.toString() +

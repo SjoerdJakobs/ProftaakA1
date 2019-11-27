@@ -9,15 +9,17 @@ import StateMachine.StateID;
 public class ListenToRemote extends State
 {
     DriverAI driverAI;
-    Engine engine;
-    Remote remote;
+    Engine   engine;
+    Remote   remote;
 
     private boolean shouldReturnControlToAi;
+    private boolean hasAnyButtonHasBeenPressed;
 
     public ListenToRemote(DriverAI driverAI)
     {
         super(StateID.ListenToRemote);
         shouldReturnControlToAi = false;
+        hasAnyButtonHasBeenPressed = false;
         this.driverAI = driverAI;
         this.engine = driverAI.getEngine();
         this.remote = driverAI.getRemote();
@@ -28,6 +30,7 @@ public class ListenToRemote extends State
     {
         super.enter();
         shouldReturnControlToAi = false;
+        hasAnyButtonHasBeenPressed = true;
         setButtons();
     }
 
@@ -43,12 +46,31 @@ public class ListenToRemote extends State
 
     private void setButtons()
     {
-
+        remote.getUpButton().onButtonPress      = () ->{driveForward();};
+        remote.getDownButton().onButtonPress    = () ->{driveBackwards();};
+        remote.getLeftButton().onButtonPress    = () ->{driveLeft();};
+        remote.getRightButton().onButtonPress   = () ->{driveRight();};
+        remote.getOnButton().onButtonPress      = () ->{returnToAiControl();};
+        remote.getTurn90DegreesLeftButton().onButtonPress   = () ->{turn90DegreesLeft();};
+        remote.getTurn90DegreesRightButton().onButtonPress  = () ->{turn90DegreesRight();};
+        remote.getTurn180DegreesLeftButton().onButtonPress  = () ->{turn180DegreesLeft();};
+        remote.getTurn180DegreesRightButton().onButtonPress = () ->{turn180DegreesRight();};
+        remote.getSpeedSlowButton().onButtonPress   = () ->{slowSpeed();};
+        remote.getSpeedMediumButton().onButtonPress = () ->{mediumSpeed();};
+        remote.getSpeedFastButton().onButtonPress   = () ->{fastSpeed();};
+        remote.getCircleButton().onButtonPress      = () ->{driveInCircle();};
+        remote.getSquareButton().onButtonPress      = () ->{driveInSquare();};
+        remote.getTriangleButton().onButtonPress    = () ->{driveInTriangle();};
+        remote.aButtonHasBeenPressed = () ->{anyButtonHasBeenPressed();};
     }
 
     private void returnToAiControl()
     {
         shouldReturnControlToAi = true;
+    }
+    private void anyButtonHasBeenPressed()
+    {
+        hasAnyButtonHasBeenPressed = true;
     }
 
     private void driveForward()
@@ -116,7 +138,7 @@ public class ListenToRemote extends State
 
     }
 
-    private void FastSpeed()
+    private void fastSpeed()
     {
 
     }
@@ -125,6 +147,14 @@ public class ListenToRemote extends State
     protected void logic()
     {
         super.logic();
+        if(hasAnyButtonHasBeenPressed)
+        {
+            hasAnyButtonHasBeenPressed = false;
+        }
+        else
+        {
+            //set speed to 0
+        }
     }
 
     @Override

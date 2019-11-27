@@ -205,7 +205,6 @@ public class Engine {
         setCurrentTurnDegrees(360 / 4);
         if (squareCounter != 4) {
             if (shapeTimer.timeout()) {
-                turnDegrees();
                 squareCounter++;
             } else {
                 driveForward();
@@ -220,7 +219,6 @@ public class Engine {
         setCurrentTurnDegrees(360 / 3);
         if (triangleCounter != 3) {
             if (shapeTimer.timeout()) {
-                turnDegrees();
                 triangleCounter++;
             } else {
                 driveForward();
@@ -235,7 +233,6 @@ public class Engine {
         setCurrentTurnDegrees(1);
         if (circleCounter != 360) {
             if (circleTimer.timeout()) {
-                turnDegrees();
                 circleCounter++;
             } else {
                 driveForward();

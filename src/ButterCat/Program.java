@@ -1,6 +1,6 @@
 package ButterCat;
 
-import ButterCat.Modules.Engine;
+import Interface.Engine;
 import OOFramework.FrameworkProgram;
 import Interface.ObjectDetection;
 import StateMachine.StateMachine;
@@ -15,7 +15,7 @@ public class Program extends FrameworkProgram
     @Override
     protected void start() {
         super.start();
-        Engine engine = new Engine();
+        Engine engine = new Engine(12, 13);
         Remote remote = new Remote(this,true,false,false,true);
         StateMachine stateMachine = new StateMachine(this);
         ObjectDetection objectDetection = new ObjectDetection(this);

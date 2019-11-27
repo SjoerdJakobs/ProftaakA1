@@ -28,22 +28,6 @@ public class ObjectDetection extends StandardObject {
         this.engine = new Engine(12, 13);
     }
 
-    @Override
-    protected void start() {
-        super.start();
-    }
-
-    @Override
-    protected void awake() {
-        super.awake();
-    }
-
-    @Override
-    protected void sleep() {
-        super.sleep();
-    }
-
-
     /**
      * the main loop where everything is calculated
      *
@@ -64,8 +48,8 @@ public class ObjectDetection extends StandardObject {
      *
      * @return true if an object is less than 10 cm away from the BoeBot
      */
-    private boolean objectIsTooClose() {
-        return sensor.getDistanceToObject() < 10;
+    public boolean objectIsTooClose() {
+        return objectIsTooClose(10);
     }
 
     /**
@@ -74,7 +58,7 @@ public class ObjectDetection extends StandardObject {
      * @param distance the distance to check for in cm
      * @return true if an object is less than the distance amount away
      */
-    private boolean objectIsTooClose(int distance) {
+    public boolean objectIsTooClose(int distance) {
         return sensor.getDistanceToObject() < distance;
     }
 

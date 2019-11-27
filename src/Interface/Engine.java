@@ -8,9 +8,6 @@ import TI.Timer;
 public class Engine {
     private Motor servoLeft;
     private Motor servoRight;
-    private Timer squareTimer;
-    private Timer circleTimer;
-    private Timer triangleTimer;
     private Timer turnTimer;
     private boolean needsToTurn;
 
@@ -23,10 +20,6 @@ public class Engine {
         servoLeft = new Motor(pinServoLeft, false);
         servoRight = new Motor(pinServoRight, true);
         needsToTurn = false;
-
-        squareTimer = new Timer(930);
-        triangleTimer = new Timer(1240);
-        circleTimer = new Timer(5);
 
         turnTime = 0;
         turnDegreesTimer.mark();
@@ -48,6 +41,7 @@ public class Engine {
     /**
      * (+)Getter and (-)setter for the target of the degrees in a turn
      */
+    private int targetTurnDegrees;
 
     private int targetTurnRate;
 
@@ -145,12 +139,12 @@ public class Engine {
         setEngineTargetSpeed(0);
     }
 
-    public void driveBackward() {
-        setEngineTargetSpeed(-200);
+    public void driveBackward(int speed) {
+        setEngineTargetSpeed(speed);
     }
 
-    public void driveForward() {
-        setEngineTargetSpeed(200);
+    public void driveForward(int speed) {
+        setEngineTargetSpeed(speed);
     }
 
     /**
@@ -210,24 +204,18 @@ public class Engine {
     private boolean timerSwitch;
     private int amountTurned;
 
-    public void driveDegrees(int degrees) {
-
+    public void driveDegrees(int degrees, int speed) {
 
         if (timerSwitch) {
-            double temp = degrees * 11;
+            double temp = degrees * speed * (200 / 11);
             this.turnTime = (int) temp;
             turnDegreesTimer.setInterval(turnTime);
             timerSwitch = false;
             amountTurned = 0;
 
         }
-        System.out.println("degrees: " + degrees);
-
-        System.out.println("turntime: " + turnTime);
-        System.out.println("turntimer: " + turnDegreesTimer);
 
         if (turnDegreesTimer.timeout()) {
-            System.out.println("state switch");
             amountTurned++;
 
             needsToTurn = !needsToTurn;
@@ -235,10 +223,8 @@ public class Engine {
         }
 
         if (needsToTurn) {
-            System.out.println("turning");
             turnLeft(0.1);
         } else {
-            System.out.println("going forward");
             noTurn();
         }
 
@@ -252,28 +238,28 @@ public class Engine {
     /**
      * makes the BoeBot drive in a square
      */
-    public void driveSquare(int amountOfTimes) {
+    public void driveSquare(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 4)
-            driveDegrees(90);
+            driveDegrees(90, speed);
     }
 
     /**
      * makes the BoeBot drive in a triangle
      */
-    public void driveTriangle(int amountOfTimes) {
+    public void driveTriangle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 3)
-        driveDegrees(120);
+        driveDegrees(120, speed);
     }
 
     /**
      * makes the BoeBot drive in a circle
      */
-    public void driveCircle(int amountOfTimes) {
+    public void driveCircle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 360)
-        driveDegrees(1);
+        driveDegrees(1, speed);
     }
 
     public String toString() {

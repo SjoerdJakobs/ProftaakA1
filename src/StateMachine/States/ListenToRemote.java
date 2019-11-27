@@ -1,7 +1,7 @@
 package StateMachine.States;
 
 import ButterCat.DriverAI;
-import ButterCat.Modules.Engine;
+import Interface.Engine;
 import ButterCat.Remote;
 import StateMachine.State;
 import StateMachine.StateID;
@@ -14,6 +14,9 @@ public class ListenToRemote extends State
 
     private boolean shouldReturnControlToAi;
     private boolean hasAnyButtonHasBeenPressed;
+    private double sumDeltaTime = 0;
+    private int engineTargetSpeed = 125;
+    private int number = 754;
 
     public ListenToRemote(DriverAI driverAI)
     {
@@ -75,37 +78,37 @@ public class ListenToRemote extends State
 
     private void driveForward()
     {
-
+        engine.driveForward(this.engineTargetSpeed);
     }
 
     private void driveBackwards()
     {
-
+        engine.driveBackward(this.engineTargetSpeed * -1);
     }
 
     private void driveRight()
     {
-
+        engine.turnRight(0.6);
     }
 
     private void driveLeft()
     {
-
+        engine.turnLeft(0.6);
     }
 
     private void driveInCircle()
     {
-
+        engine.driveCircle(1, this.engineTargetSpeed);
     }
 
     private void driveInSquare()
     {
-
+        engine.driveSquare(1, this.engineTargetSpeed);
     }
 
     private void driveInTriangle()
     {
-
+        engine.driveTriangle(1, this.engineTargetSpeed);
     }
 
     private void turn90DegreesLeft()
@@ -130,17 +133,17 @@ public class ListenToRemote extends State
 
     private void slowSpeed()
     {
-
+        engineTargetSpeed = 50;
     }
 
     private void mediumSpeed()
     {
-
+        engineTargetSpeed = 125;
     }
 
     private void fastSpeed()
     {
-
+        engineTargetSpeed = 200;
     }
 
     @Override
@@ -153,7 +156,13 @@ public class ListenToRemote extends State
         }
         else
         {
-            //set speed to 0
+            engine.setEngineTargetSpeed(0);
+        }
+
+        sumDeltaTime += stateMachine.getDeltaTime();
+        if (sumDeltaTime >= 1) {
+            sumDeltaTime = 0;
+            engine.drive();
         }
     }
 

@@ -1,6 +1,6 @@
 package ButterCat;
 
-import ButterCat.Modules.Engine;
+import Interface.Engine;
 
 import OOFramework.FrameworkProgram;
 import OOFramework.StandardObject;

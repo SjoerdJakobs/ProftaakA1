@@ -15,7 +15,7 @@ public class Main {
         Engine engine = new Engine(12, 13);
     // driehoek 1240
         // vierkant 930
-        engine.driveForward();
+        engine.driveForward(200);
         Timer shapeTimer = new Timer(1000);
         Timer turnTimer = new Timer(5);
         int squareCounter = 0;

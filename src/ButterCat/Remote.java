@@ -11,42 +11,42 @@ import java.util.ArrayList;
 public class Remote extends StandardObject
 {
     // all buttons with their addresses that are used on the remote
-    public static final long CHANNEL_PLUS = 000010010000L;
-    public static final long CHANNEL_MIN = 100010010000L;
-    public static final long VOLUME_UP = 010010010000L;
-    public static final long VOLUME_DOWN = 110010010000L;
-    public static final long ON = 101010010000L;
-    public static final long MUTE = 001010010000L;
-    public static final long ROUND = 101010000000L;
-    public static final long SQUARE = 101100111000L;
-    public static final long TRIANGLE = 011100111000L;
-    public static final long TURN_RIGHT = 101001010000L;
-    public static final long TURN_LEFT = 000100111000L;
-    public static final long REVERSE_LEFT = 001100010000L;
-    public static final long REVERSE_RIGHT = 101001010000L;
-    public static final long SPEED_ONE = 000000010000L;
-    public static final long SPEED_TWO = 100000010000L;
-    public static final long SPEED_TRHREE = 010000010000L;
+    public static final long CHANNEL_PLUS = 10010000L;//000010010000L
+    public static final long CHANNEL_MIN = 100010010000L;//100010010000L
+    public static final long VOLUME_UP = 10010010000L;//010010010000L
+    public static final long VOLUME_DOWN = 110010010000L;//110010010000L
+    public static final long ON = 101010010000L;//101010010000L
+    public static final long MUTE = 1010010000L;//001010010000L
+    public static final long ROUND = 101010000000L;//101010000000L
+    public static final long SQUARE = 101100111000L;//101100111000L
+    public static final long TRIANGLE = 11100111000L;//011100111000L
+    public static final long TURN_RIGHT = 101001010000L;//101001010000L
+    public static final long TURN_LEFT = 100111000L;//000100111000L
+    public static final long REVERSE_LEFT = 1100010000L;//001100010000L
+    public static final long REVERSE_RIGHT = 101001010000L;//101001010000L
+    public static final long SPEED_ONE = 10000L;//000000010000L
+    public static final long SPEED_TWO = 100000010000L;//100000010000L
+    public static final long SPEED_TRHREE = 10000010000L;//010000010000L
 
     private InfraRedReceiver infraRedReceiver;
     private ArrayList<Button> buttons;
 
-    private Button upButton = new Button(CHANNEL_PLUS);
-    private Button downButton = new Button(CHANNEL_MIN);
-    private Button leftButton = new Button(VOLUME_DOWN);
-    private Button rightButton = new Button(VOLUME_UP);
-    private Button onButton = new Button(ON);
-    private Button muteButton = new Button(MUTE);
-    private Button circleButton = new Button(ROUND);
-    private Button squareButton = new Button(SQUARE);
-    private Button triangleButton = new Button(TRIANGLE);
-    private Button turn90DegreesLeftButton = new Button(TURN_LEFT);
-    private Button turn90DegreesRightButton = new Button(TURN_RIGHT);
-    private Button turn180DegreesLeftButton = new Button(REVERSE_LEFT);
-    private Button turn180DegreesRightButton = new Button(REVERSE_RIGHT);
-    private Button speedSlowButton = new Button(SPEED_ONE);
-    private Button speedMediumButton = new Button(SPEED_TWO);
-    private Button speedFastButton = new Button(SPEED_TRHREE);
+    private Button upButton;
+    private Button downButton;
+    private Button leftButton;
+    private Button rightButton;
+    private Button onButton;
+    private Button muteButton;
+    private Button circleButton;
+    private Button squareButton;
+    private Button triangleButton;
+    private Button turn90DegreesLeftButton;
+    private Button turn90DegreesRightButton;
+    private Button turn180DegreesLeftButton;
+    private Button turn180DegreesRightButton;
+    private Button speedSlowButton;
+    private Button speedMediumButton;
+    private Button speedFastButton;
 
     public Callback aButtonHasBeenPressed;
 
@@ -63,6 +63,22 @@ public class Remote extends StandardObject
             onAnyButtonPress();
         };
         buttons = new ArrayList<Button>();
+        upButton = new Button(CHANNEL_PLUS, true);
+        downButton = new Button(CHANNEL_MIN);
+        leftButton = new Button(VOLUME_DOWN);
+        rightButton = new Button(VOLUME_UP);
+        onButton = new Button(ON);
+        muteButton = new Button(MUTE);
+        circleButton = new Button(ROUND);
+        squareButton = new Button(SQUARE);
+        triangleButton = new Button(TRIANGLE);
+        turn90DegreesLeftButton = new Button(TURN_LEFT);
+        turn90DegreesRightButton = new Button(TURN_RIGHT);
+        turn180DegreesLeftButton = new Button(REVERSE_LEFT);
+        turn180DegreesRightButton = new Button(REVERSE_RIGHT);
+        speedSlowButton = new Button(SPEED_ONE);
+        speedMediumButton = new Button(SPEED_TWO);
+        speedFastButton = new Button(SPEED_TRHREE);
         buttons.add(upButton);
         buttons.add(downButton);
         buttons.add(leftButton);
@@ -79,8 +95,6 @@ public class Remote extends StandardObject
         buttons.add(speedSlowButton);
         buttons.add(speedMediumButton);
         buttons.add(speedFastButton);
-
-        System.out.println("lowest");
     }
 
     private void onAnyButtonPress()
@@ -111,7 +125,7 @@ public class Remote extends StandardObject
     {
         super.inputLoop(deltaTime);
 
-        infraRedReceiver.checkForButtonPresses(buttons);
+        infraRedReceiver.checkForButtonPresses(buttons,deltaTime);
     }
 
     @Override

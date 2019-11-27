@@ -10,11 +10,13 @@ import TI.Timer;
 
 public class Main {
     public static void main(String[] args) {
-        //Program program = new Program();
-        //program.run();
 
+        System.out.println("hey");
+        Program program = new Program();
+        program.run();
+        /*
         Engine engine = new Engine(12, 13);
-    // driehoek 1240
+        // driehoek 1240
         // vierkant 930
         engine.driveForward(200);
         Timer shapeTimer = new Timer(1000);
@@ -31,5 +33,23 @@ public class Main {
         }
 
 
+        while (true) {
+            int pulseLen = BoeBot.pulseIn(1, false, 6000);
+            long number = 0;
+            if (pulseLen > 2000) {
+                int lengtes[] = new int[12];
+                for (int i = 0; i < 12; i++) {
+                    lengtes[i] = BoeBot.pulseIn(1, false, 20000);
+                }
+                for (int i = 0; i < 12; i++) {
+                    System.out.print(lengtes[i]+", ");
+                }
+                System.out.println("");
+                //System.out.println(number);
+            }
+        }
+        Program program = new Program();
+        program.run();
+        */
     }
 }

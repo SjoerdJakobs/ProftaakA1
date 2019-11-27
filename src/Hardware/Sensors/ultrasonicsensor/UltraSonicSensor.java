@@ -18,7 +18,6 @@ public class UltraSonicSensor implements UltraSonicSensorInterface {
 
     private Callback distanceCallback;
 
-    private Timer initTimer;
     private Timer sensorTimeout;
     private int distanceToObject;
 
@@ -35,8 +34,7 @@ public class UltraSonicSensor implements UltraSonicSensorInterface {
         this.triggerPin = triggerPin;
         this.echoPin = echoPin;
 
-        initTimer = new Timer(3);
-        sensorTimeout = new Timer(30);
+        sensorTimeout = new Timer(50);
         distanceCallback = this::listen;
     }
 
@@ -44,12 +42,9 @@ public class UltraSonicSensor implements UltraSonicSensorInterface {
      * sends a small pulse to the sensor to initialize it
      */
     private void initSensor() {
-
-        if (initTimer.timeout()) {
-            BoeBot.digitalWrite(this.triggerPin, true);
-        } else {
-            BoeBot.digitalWrite(this.triggerPin, false);
-        }
+        BoeBot.digitalWrite(this.triggerPin, true);
+        BoeBot.uwait(1);
+        BoeBot.digitalWrite(this.triggerPin, false);
     }
 
     /**
@@ -57,17 +52,15 @@ public class UltraSonicSensor implements UltraSonicSensorInterface {
      */
     @Override
     public void listen() {
-        initSensor();
-
         if (sensorTimeout.timeout()) {
-
+            initSensor();
             int pulse = BoeBot.pulseIn(echoPin, true, 10000);
-            System.out.println("ultrasonic pulse: " + pulse);
-//            Random random = new Random();
-//            int pulse = random.nextInt();
-            if (pulse > 0) {
+//            System.out.println("ultrasonic pulse: " + pulse);
+
+            if (pulse > 100) {
                 this.distanceToObject = pulse / 58;
             }
+//            System.out.println(getDistanceToObject());
         }
     }
 

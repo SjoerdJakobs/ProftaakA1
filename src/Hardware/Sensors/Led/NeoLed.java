@@ -89,4 +89,8 @@ public class NeoLed implements LedInterface {
     public boolean getStatus() {
         return this.turnedOn;
     }
+
+    public String toString() {
+        return "NEOLED:\npin: " + this.pin + "\ncolor: " + this.color.toString() + "\non: " + this.turnedOn;
+    }
 }

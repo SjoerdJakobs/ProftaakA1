@@ -1,8 +1,8 @@
 package Interface;
 
-    import ButterCat.HelpFunctions;
-    import Hardware.Actuators.Motor;
-    import TI.Timer;
+import ButterCat.HelpFunctions;
+import Hardware.Actuators.Motor;
+import TI.Timer;
 
 public class Engine {
     private Motor servoLeft;
@@ -21,7 +21,11 @@ public class Engine {
      * (+)Getter and (-)setter for the target of the degrees in a turn
      */
     private int targetTurnDegrees;
-    public int getTargetTurnDegrees() { return this.targetTurnDegrees; }
+
+    public int getTargetTurnDegrees() {
+        return this.targetTurnDegrees;
+    }
+
     private void setTargetTurnDegrees(int targetTurnDegrees) {
         HelpFunctions.checkValue("Engine servo turn rate", targetTurnDegrees, -180, 180);
         this.targetTurnDegrees = targetTurnDegrees;
@@ -31,9 +35,13 @@ public class Engine {
      * (+)Getter and (-)setter for the current degrees turned in a turn
      */
     private int currentTurnDegrees;
-    public int getCurrentTurnDegrees() { return this.getCurrentTurnDegrees(); }
+
+    public int getCurrentTurnDegrees() {
+        return this.getCurrentTurnDegrees();
+    }
+
     private void setCurrentTurnDegrees(int currentTurnDegrees) {
-        HelpFunctions.checkValue("Engine current turn degrees", currentTurnDegrees,-180,180);
+        HelpFunctions.checkValue("Engine current turn degrees", currentTurnDegrees, -180, 180);
         this.currentTurnDegrees = currentTurnDegrees;
     }
 
@@ -41,13 +49,18 @@ public class Engine {
      * (+)Getter and (-)setter for the radius of a turn
      */
     private int turnRadius;
-    public int getTurnRadius() { return this.turnRadius; }
+
+    public int getTurnRadius() {
+        return this.turnRadius;
+    }
+
     private void setTurnRadius(int turnRadius) {
         this.turnRadius = turnRadius;
     }
 
     /**
      * Change the speed of a servo incrementally
+     *
      * @param servo The servo object
      */
     private void changeSpeed(Motor servo) {
@@ -67,6 +80,7 @@ public class Engine {
 
     /**
      * Set the specifics of the kind of turn is made using (+)turnDegrees()
+     *
      * @param turnDegrees
      * @param turnRadius
      */
@@ -109,6 +123,7 @@ public class Engine {
 
     /**
      * Set the target speed of both the servo's (thus the engine)
+     *
      * @param targetSpeed The provided target speed which will be reached incrementally
      */
     public void setEngineTargetSpeed(int targetSpeed) {
@@ -119,24 +134,83 @@ public class Engine {
 
     /**
      * Set the target speed per servo (used in the (+)setEngineTargetSpeed)
-     * @param servo The servo in question
+     *
+     * @param servo       The servo in question
      * @param targetSpeed The provided target speed which will be reached incrementally
      */
     private void setServoTargetSpeed(Motor servo, int targetSpeed) {
         servo.setTargetSpeed(servo.getTurningClockwise() ?
                 servo.getMotionlessBaseValue() + targetSpeed : servo.getMotionlessBaseValue() - targetSpeed);
-                // Previous if-statement:
-                //servo.getServo().getPulseWidth() < servo.getTargetSpeed() ?
+        // Previous if-statement:
+        //servo.getServo().getPulseWidth() < servo.getTargetSpeed() ?
     }
 
     /**
      * (+)Getter for both the left and right motor
      */
-    public Motor getMotorLeft() { return this.servoLeft; }
-    public Motor getMotorRight() { return this.servoRight; }
+    public Motor getMotorLeft() {
+        return this.servoLeft;
+    }
 
-    public String toString() { return ("\nLeft motor: " + this.servoLeft.toString() +
-            "\nRight motor: " + this.servoRight.toString() +
-            "\nCurrent turn degrees: " + this.currentTurnDegrees +
-            "\nTarget turn degrees: " + this.targetTurnDegrees);}
+    public Motor getMotorRight() {
+        return this.servoRight;
+    }
+
+    public String toString() {
+        return ("\nLeft motor: " + this.servoLeft.toString() +
+                "\nRight motor: " + this.servoRight.toString() +
+                "\nCurrent turn degrees: " + this.currentTurnDegrees +
+                "\nTarget turn degrees: " + this.targetTurnDegrees);
+    }
+
+    private Timer shapeTimer = new Timer(1000);
+    private Timer circleTimer = new Timer(5);
+    private int squareCounter = 0;
+    private int triangleCounter = 0;
+    private int circleCounter = 0;
+
+    /**
+     * makes the BoeBot drive in a square
+     */
+    public void driveSquare() {
+        setCurrentTurnDegrees(360 / 4);
+        if (squareCounter != 4) {
+            if (shapeTimer.timeout()) {
+                turnDegrees();
+                squareCounter++;
+            } else {
+                driveForward();
+            }
+        }
+    }
+
+    /**
+     * makes the BoeBot drive in a triangle
+     */
+    public void driveTriangle() {
+        setCurrentTurnDegrees(360 / 3);
+        if (triangleCounter != 3) {
+            if (shapeTimer.timeout()) {
+                turnDegrees();
+                triangleCounter++;
+            } else {
+                driveForward();
+            }
+        }
+    }
+
+    /**
+     * makes the BoeBot drive in a circle
+     */
+    public void driveCircle() {
+        setCurrentTurnDegrees(1);
+        if (circleCounter != 360) {
+            if (circleTimer.timeout()) {
+                turnDegrees();
+                circleCounter++;
+            } else {
+                driveForward();
+            }
+        }
+    }
 }

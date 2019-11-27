@@ -56,6 +56,7 @@ public class ObjectDetection extends StandardObject {
         sensor.onDistanceCallback().run();
 
 //        System.out.println(sensor.getDistanceToObject());
+        System.out.println(objectIsTooClose());
     }
 
     /**

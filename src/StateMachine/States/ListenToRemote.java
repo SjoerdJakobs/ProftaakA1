@@ -4,6 +4,10 @@ import ButterCat.DriverAI;
 import Interface.Engine;
 import ButterCat.Remote;
 import Interface.ObjectDetection;
+
+import Interface.NotificationSystem;
+import Interface.ObjectDetection;
+
 import StateMachine.State;
 import StateMachine.StateID;
 
@@ -19,6 +23,11 @@ public class ListenToRemote extends State
     private boolean canGoForward;
     private double sumDeltaTime = 0;
     private int engineTargetSpeed = 125;
+    private NotificationSystem notificationSystem;
+
+    private boolean on;
+
+    private boolean squareActive;
 
 
     public ListenToRemote(DriverAI driverAI)
@@ -31,6 +40,10 @@ public class ListenToRemote extends State
         this.engine = driverAI.getEngine();
         this.remote = driverAI.getRemote();
         this.objectDetection = driverAI.getObjectDetection();
+
+        this.notificationSystem = NotificationSystem.INSTANCE;
+        on = false;
+
     }
 
     @Override
@@ -46,6 +59,7 @@ public class ListenToRemote extends State
     protected void checkForStateSwitch()
     {
         super.checkForStateSwitch();
+
         if (shouldReturnControlToAi)
         {
             stateMachine.SetState(StateID.GetRoute);
@@ -76,7 +90,11 @@ public class ListenToRemote extends State
     private void returnToAiControl()
     {
         shouldReturnControlToAi = true;
+
+        on = !on;
         System.out.println("on/off");
+
+
     }
     private void anyButtonHasBeenPressed()
     {
@@ -86,6 +104,9 @@ public class ListenToRemote extends State
     public void driveForward()
     {
         if(canGoForward) {
+
+            engine.noTurn();
+
             engine.driveForward(this.engineTargetSpeed);
             System.out.println("forward");
         }
@@ -95,6 +116,8 @@ public class ListenToRemote extends State
     private void driveBackwards()
     {
 
+        engine.noTurn();
+
         engine.driveBackward(this.engineTargetSpeed * -1);
 
         System.out.println("backwards");
@@ -102,7 +125,9 @@ public class ListenToRemote extends State
 
     private void driveRight()
     {
+
         if(canGoForward) {
+
             engine.turnRight(0.6);
             System.out.println("right");
         }
@@ -127,6 +152,9 @@ public class ListenToRemote extends State
 
     private void driveInSquare()
     {
+
+        squareActive = true;
+
         if(canGoForward) {
             engine.driveSquare(1, this.engineTargetSpeed);
             System.out.println("square");
@@ -193,22 +221,41 @@ public class ListenToRemote extends State
     protected void logic()
     {
         super.logic();
+        canGoForward = !objectDetection.objectIsTooClose(8);
+        if (on) {
+            notificationSystem.noRemoteControl();
+        } else
+            notificationSystem.remoteControll();
         if(hasAnyButtonHasBeenPressed)
         {
+            notificationSystem.remoteControll();
             hasAnyButtonHasBeenPressed = false;
         }
-        else
-        {
 
+        if (squareActive) {
+            driveInSquare();
         }
 
         sumDeltaTime += stateMachine.getDeltaTime();
-        if (sumDeltaTime >= 0.003) {
+        if (sumDeltaTime >= 0.001) {
+
             sumDeltaTime = 0;
             engine.drive();
             //System.out.println("yeeeeeeeeeee");
         }
-        canGoForward = true;
+
+        if (!canGoForward && engine.getOriginalTargetSpeed() > 0) {
+            notificationSystem.objectDetected();
+            engine.emergencyBrake();
+            System.out.println("noticed object on " + objectDetection.getDistance());
+            engine.getMotorLeft().updateInstantPulse(0);
+            engine.getMotorRight().updateInstantPulse(0);
+            engine.setEngineTargetSpeed(0);
+            notificationSystem.makeSound();
+//            engine.getMotorLeft().updateInstantPulse(1500);
+//            engine.getMotorRight().updateInstantPulse(1500);
+        }
+
     }
 
     @Override

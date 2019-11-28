@@ -64,7 +64,7 @@ public class Motor {
      */
     public void updateInstantPulse(int pulseWidth) {
         HelpFunctions.checkValue("Servo pulse width", pulseWidth,
-                this.motionlessBaseValue - 250, this.motionlessBaseValue + 250);
+                -250, 250);
         pulseWidth = this.turningClockwise ? pulseWidth : pulseWidth * -1;
         servo.update(this.motionlessBaseValue + pulseWidth);
     }

@@ -11,6 +11,8 @@ public class Engine {
     private Timer turnTimer;
     private boolean needsToTurn;
 
+    private NotificationSystem notificationSystem;
+
     private int turnTime;
 
     public Engine(int pinServoLeft, int pinServoRight) {
@@ -20,6 +22,8 @@ public class Engine {
         servoLeft = new Motor(pinServoLeft, false);
         servoRight = new Motor(pinServoRight, true);
         needsToTurn = false;
+
+        notificationSystem = NotificationSystem.INSTANCE;
 
         turnTime = 0;
         turnDegreesTimer.mark();
@@ -123,6 +127,7 @@ public class Engine {
 
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
+        notificationSystem.left();
     }
 
 
@@ -130,6 +135,7 @@ public class Engine {
 
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), turnRate);
+        notificationSystem.right();
     }
 
     public void noTurn() {
@@ -142,15 +148,18 @@ public class Engine {
 
     public void stopDriving() {
         setEngineTargetSpeed(0);
+        notificationSystem.turnLedsOn();
     }
 
 
     public void driveBackward(int speed) {
         setEngineTargetSpeed(speed);
+        notificationSystem.backwards();
     }
 
     public void driveForward(int speed) {
         setEngineTargetSpeed(speed);
+        notificationSystem.forward();
     }
 
     /**
@@ -159,6 +168,7 @@ public class Engine {
     public void emergencyBrake() {
         servoLeft.stop();
         servoRight.stop();
+        notificationSystem.turnLedsOn();
     }
 
     /**
@@ -167,6 +177,7 @@ public class Engine {
     public void continueDriving() {
         servoLeft.start();
         servoRight.start();
+        notificationSystem.forward();
     }
 
     /**
@@ -211,6 +222,7 @@ public class Engine {
 
     public void driveDegrees(int degrees, int speed) {
 
+
         if (timerSwitch) {
             double temp = degrees * speed * (200 / 11);
             this.turnTime = (int) temp;
@@ -229,6 +241,7 @@ public class Engine {
 
         if (needsToTurn) {
             turnLeft(0.1);
+            setEngineTargetSpeed(speed);
         } else {
             noTurn();
         }
@@ -259,7 +272,7 @@ public class Engine {
     public void driveTriangle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 3)
-        driveDegrees(120, speed);
+            driveDegrees(120, speed);
 
     }
 
@@ -270,7 +283,7 @@ public class Engine {
     public void driveCircle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 360)
-        driveDegrees(1, speed);
+            driveDegrees(1, speed);
     }
 
     public String toString() {

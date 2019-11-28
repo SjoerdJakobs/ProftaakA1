@@ -60,5 +60,7 @@ public class ObjectDetection extends StandardObject {
         return sensor.getDistanceToObject() < distance;
     }
 
-
+    public int getDistance() {
+        return this.sensor.getDistanceToObject();
+    }
 }

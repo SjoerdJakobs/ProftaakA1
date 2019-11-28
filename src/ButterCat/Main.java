@@ -11,7 +11,7 @@ public class Main {
         //Program program = new Program();
         //program.run();
 
-        Engine engine = new Engine(14, 15);
+        Engine engine = new Engine(12, 13);
 
         engine.driveForward();
         int status = 0;

@@ -9,8 +9,7 @@ import ooframework.FrameworkProgram;
 import statemachine.State;
 import statemachine.StateID;
 
-public class FollowRoute extends State
-{
+public class FollowRoute extends State {
     DriverAI driverAI;
     Engine engine;
     Remote remote;
@@ -19,8 +18,7 @@ public class FollowRoute extends State
 
     private boolean shouldGoToRemoteControl;
 
-    public FollowRoute(DriverAI driverAI)
-    {
+    public FollowRoute(DriverAI driverAI) {
         super(StateID.FollowRoute);
         shouldGoToRemoteControl = false;
         this.driverAI = driverAI;
@@ -31,36 +29,48 @@ public class FollowRoute extends State
     }
 
     @Override
-    protected void enter()
-    {
+    protected void enter() {
         super.enter();
         remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
     }
 
-    private void setShouldGoToRemoteControlToTrue()
-    {
+    private void setShouldGoToRemoteControlToTrue() {
         shouldGoToRemoteControl = true;
     }
 
     @Override
-    protected void checkForStateSwitch()
-    {
+    protected void checkForStateSwitch() {
         super.checkForStateSwitch();
-        if (shouldGoToRemoteControl)
-        {
+        if (shouldGoToRemoteControl) {
             stateMachine.SetState(StateID.ListenToRemote);
         }
     }
 
     @Override
-    protected void logic()
-    {
+    protected void logic() {
         super.logic();
+        engine.drive();
+
+        //TODO test this with boebot
+        if (lineFollowChecker.leftNoticedLine())
+            engine.turnLeft(0.8);
+
+        if (lineFollowChecker.midLeftNoticedLine())
+            engine.turnLeft(0.2);
+
+        if (lineFollowChecker.midRightNoticedLine())
+            engine.turnRight(0.2);
+
+        if (lineFollowChecker.rightNoticedLine())
+            engine.turnRight(0.8);
+        if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine()) {
+            engine.driveForward(250);
+            engine.noTurn();
+        }
     }
 
     @Override
-    protected void leave()
-    {
+    protected void leave() {
         super.leave();
     }
 }

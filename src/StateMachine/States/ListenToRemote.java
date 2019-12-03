@@ -23,7 +23,7 @@ public class ListenToRemote extends State
     private int engineTargetSpeed = 125;
     private NotificationSystem notificationSystem;
 
-    private boolean on;
+//    private boolean on;
 
     private boolean squareActive;
 
@@ -39,7 +39,7 @@ public class ListenToRemote extends State
         this.remote = driverAI.getRemote();
         this.objectDetection = driverAI.getObjectDetection();
         this.notificationSystem = NotificationSystem.INSTANCE;
-        on = false;
+//        on = false;
     }
 
     @Override
@@ -86,7 +86,12 @@ public class ListenToRemote extends State
     private void returnToAiControl()
     {
         shouldReturnControlToAi = true;
-        on = !on;
+//        on = !on;
+//        if (on) {
+//            notificationSystem.remoteControll();
+//        } else {
+//            notificationSystem.noRemoteControl();
+//        }
         System.out.println("on/off");
 
     }
@@ -115,7 +120,7 @@ public class ListenToRemote extends State
 
     private void driveRight()
     {
-        if(canGoForward && on) {
+        if(canGoForward) {
             engine.turnRight(0.6);
             System.out.println("right");
         }
@@ -208,10 +213,10 @@ public class ListenToRemote extends State
     {
         super.logic();
         canGoForward = !objectDetection.objectIsTooClose(8);
-        if (on) {
-            notificationSystem.noRemoteControl();
-        } else
-            notificationSystem.remoteControll();
+//        if (!on) {
+//            notificationSystem.noRemoteControl();
+//        } else
+//            notificationSystem.remoteControll();
         if(hasAnyButtonHasBeenPressed)
         {
             notificationSystem.remoteControll();

@@ -36,6 +36,7 @@ public class UltraSonicSensor {
 
         sensorTimeout = new Timer(50);
         distanceCallback = this::listen;
+
     }
 
     /**

@@ -11,8 +11,6 @@ import TI.Timer;
 public class ObjectDetection extends StandardObject {
     private UltraSonicSensor sensor;
 
-    private Timer timer;
-
     /**
      * makes a new objectDetection instance
      *
@@ -21,7 +19,6 @@ public class ObjectDetection extends StandardObject {
     public ObjectDetection(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
 
-        timer = new Timer(5);
         // trigger pin: 7, echo pin: 8
         this.sensor = new UltraSonicSensor(7, 8);
     }

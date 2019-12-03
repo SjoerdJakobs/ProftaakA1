@@ -6,44 +6,50 @@ import Interface.ObjectDetection;
 import OOFramework.FrameworkProgram;
 import TI.BoeBot;
 
+import TI.Timer;
+
 public class Main {
     public static void main(String[] args) {
-        //Program program = new Program();
-        //program.run();
 
+        System.out.println("hey");
+        Program program = new Program();
+        program.run();
+        /*
         Engine engine = new Engine(12, 13);
-
-        engine.driveForward();
-        int status = 0;
-
-        while(true) {
+        // driehoek 1240
+        // vierkant 930
+        engine.driveForward(200);
+        Timer shapeTimer = new Timer(1000);
+        Timer turnTimer = new Timer(5);
+        int squareCounter = 0;
+        boolean needsToTurn = false;
+        while (true) {
             engine.drive();
-            System.out.println(engine.toString());
-            BoeBot.wait(15);
+//            engine.driveSquare();
+//            System.out.println(engine.toString());
+//            BoeBot.wait(15);
 
-            if (engine.getMotorRight().getServo().getPulseWidth() == 1700 && status == 0) {
-                engine.turnRight(1);
-                status++;
-                BoeBot.wait(3000);
-            }
-            if (engine.getMotorRight().getServo().getPulseWidth() == 1500 && status == 1) {
-                engine.noTurn();
-                status++;
-                BoeBot.wait(3000);
-            }
-            if (engine.getMotorRight().getServo().getPulseWidth() == 1700 && status == 2) {
-                engine.setEngineTargetSpeed(100);
-                status++;
-                BoeBot.wait(3000);
-            }
-            if (engine.getMotorRight().getServo().getPulseWidth() == 1600 && status == 3) {
-                engine.turnLeft(0.5);
-                status++;
-                BoeBot.wait(3000);
-            }
-
-
+            BoeBot.wait(1);
         }
 
+
+        while (true) {
+            int pulseLen = BoeBot.pulseIn(1, false, 6000);
+            long number = 0;
+            if (pulseLen > 2000) {
+                int lengtes[] = new int[12];
+                for (int i = 0; i < 12; i++) {
+                    lengtes[i] = BoeBot.pulseIn(1, false, 20000);
+                }
+                for (int i = 0; i < 12; i++) {
+                    System.out.print(lengtes[i]+", ");
+                }
+                System.out.println("");
+                //System.out.println(number);
+            }
+        }
+        Program program = new Program();
+        program.run();
+        */
     }
 }

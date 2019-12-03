@@ -10,7 +10,6 @@ import TI.Timer;
  */
 public class ObjectDetection extends StandardObject {
     private UltraSonicSensor sensor;
-    private Engine engine;
 
     private Timer timer;
 
@@ -25,7 +24,6 @@ public class ObjectDetection extends StandardObject {
         timer = new Timer(5);
         // trigger pin: 7, echo pin: 8
         this.sensor = new UltraSonicSensor(7, 8);
-        this.engine = new Engine(12, 13);
     }
 
     /**
@@ -39,8 +37,8 @@ public class ObjectDetection extends StandardObject {
 
         sensor.onDistanceCallback().run();
 
-//        System.out.println(sensor.getDistanceToObject());
-        System.out.println(objectIsTooClose());
+            //System.out.println(sensor.getDistanceToObject());
+            //System.out.println(objectIsTooClose());
     }
 
     /**
@@ -62,5 +60,7 @@ public class ObjectDetection extends StandardObject {
         return sensor.getDistanceToObject() < distance;
     }
 
-
+    public int getDistance() {
+        return this.sensor.getDistanceToObject();
+    }
 }

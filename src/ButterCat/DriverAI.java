@@ -1,7 +1,8 @@
 package ButterCat;
 
-import ButterCat.Modules.Engine;
+import Interface.Engine;
 
+import Interface.ObjectDetection;
 import OOFramework.FrameworkProgram;
 import OOFramework.StandardObject;
 
@@ -13,6 +14,7 @@ public class DriverAI extends StandardObject
     private StateMachine stateMachine;
     private Engine engine;
     private Remote remote;
+    private ObjectDetection objectDetection;
 
     public DriverAI(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
@@ -21,12 +23,13 @@ public class DriverAI extends StandardObject
     public DriverAI(FrameworkProgram frameworkProgram,
                     boolean usesInput, boolean usesMain,
                     boolean usesRenderer, boolean startsActivated,
-                    Engine engine, Remote remote, StateMachine stateMachine) {
+                    Engine engine, Remote remote, StateMachine stateMachine, ObjectDetection objectDetection) {
 
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
         this.stateMachine = stateMachine;
         this.engine = engine;
         this.remote = remote;
+        this.objectDetection = objectDetection;
 
         MakeStates();
         stateMachine.SetState(StateID.SearchForStartPoint);
@@ -79,5 +82,10 @@ public class DriverAI extends StandardObject
     public void setRemote(Remote remote)
     {
         this.remote = remote;
+    }
+
+    public ObjectDetection getObjectDetection()
+    {
+        return objectDetection;
     }
 }

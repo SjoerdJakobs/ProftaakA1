@@ -1,6 +1,6 @@
 package ButterCat;
 
-import ButterCat.Modules.Engine;
+import Interface.Engine;
 import OOFramework.FrameworkProgram;
 import Interface.ObjectDetection;
 import StateMachine.StateMachine;
@@ -12,17 +12,21 @@ public class Program extends FrameworkProgram
 
     }
 
+    private Engine          engine;
+    private Remote          remote;
+    private StateMachine    stateMachine;
+    private ObjectDetection objectDetection;
+    private DriverAI        driverAI;
+
     @Override
     protected void start() {
         super.start();
-        Engine engine = new Engine();
-        Remote remote = new Remote(this,true,false,false,true);
-        StateMachine stateMachine = new StateMachine(this);
-        ObjectDetection objectDetection = new ObjectDetection(this);
 
-        //DriverAI driverAI = new DriverAI(this,true,false,false,true,engine,remote,stateMachine);
-        //DriverAI driverAI = new DriverAI(this,true,false,false,true,engine,remote);
-
+        engine = new Engine(15, 14);
+        remote = new Remote(this,true,false,false,true);
+        stateMachine = new StateMachine(this);
+        objectDetection = new ObjectDetection(this);
+        driverAI = new DriverAI(this,true,false,false,true,engine,remote,stateMachine,objectDetection);
     }
 
     @Override
@@ -34,5 +38,30 @@ public class Program extends FrameworkProgram
     @Override
     protected void exitProgram() {
         super.exitProgram();
+    }
+
+    public Engine getEngine()
+    {
+        return engine;
+    }
+
+    public Remote getRemote()
+    {
+        return remote;
+    }
+
+    public StateMachine getStateMachine()
+    {
+        return stateMachine;
+    }
+
+    public ObjectDetection getObjectDetection()
+    {
+        return objectDetection;
+    }
+
+    public DriverAI getDriverAI()
+    {
+        return driverAI;
     }
 }

@@ -99,8 +99,6 @@ public class Remote extends StandardObject
         buttons.add(speedSlowButton);
         buttons.add(speedMediumButton);
         buttons.add(speedFastButton);
-
-        System.out.println("lowest");
     }
 
     private void onAnyButtonPress()

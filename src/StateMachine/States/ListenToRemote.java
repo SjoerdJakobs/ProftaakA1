@@ -4,8 +4,10 @@ import ButterCat.DriverAI;
 import Interface.Engine;
 import ButterCat.Remote;
 import Interface.ObjectDetection;
+
 import Interface.NotificationSystem;
 import Interface.ObjectDetection;
+
 import StateMachine.State;
 import StateMachine.StateID;
 
@@ -222,15 +224,19 @@ public class ListenToRemote extends State
             notificationSystem.remoteControll();
             hasAnyButtonHasBeenPressed = false;
         }
+
         if (squareActive) {
             driveInSquare();
         }
 
         sumDeltaTime += stateMachine.getDeltaTime();
         if (sumDeltaTime >= 0.001) {
+
             sumDeltaTime = 0;
             engine.drive();
+            //System.out.println("yeeeeeeeeeee");
         }
+
         if (!canGoForward && engine.getOriginalTargetSpeed() > 0) {
             notificationSystem.objectDetected();
             engine.emergencyBrake();

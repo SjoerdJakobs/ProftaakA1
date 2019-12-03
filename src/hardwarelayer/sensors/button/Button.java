@@ -1,4 +1,6 @@
-package buttercat.modules;
+package hardwarelayer.sensors.button;
+
+import interfacelayer.Callback;
 
 public class Button
 {

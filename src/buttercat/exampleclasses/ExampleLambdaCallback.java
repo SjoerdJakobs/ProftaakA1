@@ -1,6 +1,6 @@
 package buttercat.exampleclasses;
 
-import buttercat.modules.Callback;
+import interfacelayer.Callback;
 
 /**
  * the class which holds the callback and where the callback actualy can be called from

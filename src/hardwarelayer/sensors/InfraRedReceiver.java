@@ -1,7 +1,7 @@
 package hardwarelayer.sensors;
 
-import buttercat.modules.Button;
-import buttercat.modules.Callback;
+import hardwarelayer.sensors.button.Button;
+import interfacelayer.Callback;
 import TI.BoeBot;
 import java.util.ArrayList;
 

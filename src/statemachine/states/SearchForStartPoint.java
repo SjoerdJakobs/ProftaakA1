@@ -1,10 +1,10 @@
-package StateMachine.States;
+package statemachine.states;
 
-import ButterCat.DriverAI;
-import Interface.Engine;
-import ButterCat.Remote;
-import StateMachine.State;
-import StateMachine.StateID;
+import buttercat.DriverAI;
+import interfacelayer.Engine;
+import buttercat.Remote;
+import statemachine.State;
+import statemachine.StateID;
 
 public class SearchForStartPoint extends State
 {

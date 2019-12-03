@@ -1,7 +1,7 @@
 package hardwarelayer.sensors.linefollower;
 
 import buttercat.HelpFunctions;
-import buttercat.modules.Callback;
+import interfacelayer.Callback;
 import TI.BoeBot;
 
 public class LineFollower {

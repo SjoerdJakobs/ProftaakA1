@@ -1,4 +1,4 @@
-package Interface;
+package interfacelayer;
 
 public class ManualControl {
 }

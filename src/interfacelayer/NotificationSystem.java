@@ -1,15 +1,15 @@
-package Interface;
+package interfacelayer;
 
 
-import Hardware.Sensors.Buzzer.Buzzer;
-import Hardware.Sensors.Led.Led;
-import Hardware.Sensors.Led.NeoLed;
+import hardwarelayer.sensors.buzzer.Buzzer;
+import hardwarelayer.sensors.led.Led;
+import hardwarelayer.sensors.led.NeoLed;
 
 import java.awt.*;
 
 public enum  NotificationSystem {
     INSTANCE;
-    // TODO: add select Led, RgbLed and Buzzer functions here.
+    // TODO: add select led, RgbLed and buzzer functions here.
     Led greenLed = new Led(5, true);
     //    RgbLed rgbLed = new RgbLed(2, 1, 0, 0, 0, 0, true);
     Buzzer buzzer = new Buzzer(9, 2000);

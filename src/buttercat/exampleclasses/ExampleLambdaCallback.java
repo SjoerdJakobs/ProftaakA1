@@ -1,6 +1,6 @@
-package ButterCat.ExampleClasses;
+package buttercat.exampleclasses;
 
-import ButterCat.Modules.Callback;
+import buttercat.modules.Callback;
 
 /**
  * the class which holds the callback and where the callback actualy can be called from

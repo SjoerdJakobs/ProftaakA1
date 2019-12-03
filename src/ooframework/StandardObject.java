@@ -1,4 +1,4 @@
-package OOFramework;
+package ooframework;
 
 public class StandardObject extends BaseObject
 {

@@ -1,7 +1,7 @@
-package Interface;
+package interfacelayer;
 
-import ButterCat.HelpFunctions;
-import Hardware.Actuators.Motor;
+import buttercat.HelpFunctions;
+import hardwarelayer.actuators.Motor;
 import TI.BoeBot;
 import TI.Timer;
 

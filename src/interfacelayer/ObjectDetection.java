@@ -1,9 +1,8 @@
-package Interface;
+package interfacelayer;
 
-import Hardware.Sensors.ultrasonicsensor.UltraSonicSensor;
-import OOFramework.FrameworkProgram;
-import OOFramework.StandardObject;
-import TI.Timer;
+import hardwarelayer.sensors.ultrasonicsensor.UltraSonicSensor;
+import ooframework.FrameworkProgram;
+import ooframework.StandardObject;
 
 /**
  * object detection class to handle the logic for detecting objects

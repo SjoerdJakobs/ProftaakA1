@@ -6,7 +6,7 @@ import ButterCat.Remote;
 import StateMachine.State;
 import StateMachine.StateID;
 
-public class GetRoute extends State
+public class SearchForStartPoint extends State
 {
     DriverAI driverAI;
     Engine engine;
@@ -14,9 +14,9 @@ public class GetRoute extends State
 
     private boolean shouldGoToRemoteControl;
 
-    public GetRoute(DriverAI driverAI)
+    public SearchForStartPoint(DriverAI driverAI)
     {
-        super(StateID.GetRoute);
+        super(StateID.SearchForStartPoint);
         shouldGoToRemoteControl = false;
         this.driverAI = driverAI;
         this.engine = driverAI.getEngine();

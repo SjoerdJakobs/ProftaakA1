@@ -1,4 +1,4 @@
-package OOFramework;
+package ooframework;
 
 import TI.BoeBot;
 

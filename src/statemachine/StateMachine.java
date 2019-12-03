@@ -1,7 +1,7 @@
-package StateMachine;
+package statemachine;
 
-import OOFramework.FrameworkProgram;
-import OOFramework.StandardObject;
+import ooframework.FrameworkProgram;
+import ooframework.StandardObject;
 
 import java.util.HashMap;
 import java.util.Map;

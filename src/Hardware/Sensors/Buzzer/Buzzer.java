@@ -17,7 +17,11 @@ public class Buzzer {
      * @param time the amount of time in ms to make the sound for
      */
     public void buzz(int time) {
-        BoeBot.freqOut(pin, frequency, time);
+        BoeBot.freqOut(this.pin, this.frequency, time);
+    }
+
+    public void buzz(int time, int freq) {
+        BoeBot.freqOut(this.pin, freq, time);
     }
 
     /**
@@ -26,6 +30,4 @@ public class Buzzer {
     public void mute() {
         buzz(0);
     }
-
-
 }

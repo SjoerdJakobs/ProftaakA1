@@ -1,8 +1,11 @@
 package statemachine.states;
 
 import buttercat.DriverAI;
+import hardwarelayer.sensors.linefollower.LineFollower;
 import interfacelayer.Engine;
 import buttercat.Remote;
+import interfacelayer.LineFollowChecker;
+import ooframework.FrameworkProgram;
 import statemachine.State;
 import statemachine.StateID;
 
@@ -11,6 +14,8 @@ public class FollowRoute extends State
     DriverAI driverAI;
     Engine engine;
     Remote remote;
+
+    LineFollowChecker lineFollowChecker;
 
     private boolean shouldGoToRemoteControl;
 
@@ -21,14 +26,15 @@ public class FollowRoute extends State
         this.driverAI = driverAI;
         this.engine = driverAI.getEngine();
         this.remote = driverAI.getRemote();
+
+        this.lineFollowChecker = new LineFollowChecker(new FrameworkProgram());
     }
 
     @Override
     protected void enter()
     {
         super.enter();
-        remote.aButtonHasBeenPressed = () ->{
-            setShouldGoToRemoteControlToTrue();};
+        remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
     }
 
     private void setShouldGoToRemoteControlToTrue()

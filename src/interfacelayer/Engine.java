@@ -8,11 +8,11 @@ import TI.Timer;
 public class Engine {
     private Motor servoLeft;
     private Motor servoRight;
+
+    private int turnTime;
     private boolean needsToTurn;
 
     private NotificationSystem notificationSystem;
-
-    private int turnTime;
 
     public Engine(int pinServoLeft, int pinServoRight) {
         HelpFunctions.checkDigitalPin("Engine left servo pin", pinServoLeft);
@@ -30,12 +30,12 @@ public class Engine {
         amountTurned = 0;
     }
 
+    /**
+     * ORIGINAL TARGET SPEED: getter and setter
+     * Used to save the original target speed and call for use when it's turning (because in a turn the targetSpeed is adjusted)
+     */
     private int originalTargetSpeed;
-
-    public int getOriginalTargetSpeed() {
-        return this.originalTargetSpeed;
-    }
-
+    public int getOriginalTargetSpeed() { return this.originalTargetSpeed; }
     private void setOriginalTargetSpeed(int originalTargetSpeed) {
         HelpFunctions.checkValue("Engine original target speed", originalTargetSpeed, -250, 250);
         this.originalTargetSpeed = originalTargetSpeed;
@@ -43,13 +43,11 @@ public class Engine {
 
     /**
      * Change the speed of a servo incrementally
-     *
      * @param servo The servo object
      */
     private void changeSpeed(Motor servo) {
-        if (Math.abs(servo.getServo().getPulseWidth()) != servo.getTargetSpeed()) {
+        if (Math.abs(servo.getServo().getPulseWidth()) != servo.getTargetSpeed())
             servo.updateIncremental();
-        }
     }
 
     /**
@@ -60,25 +58,25 @@ public class Engine {
         changeSpeed(servoRight);
     }
 
+    /**
+     * Turn left while driving
+     * @param turnRate
+     */
     public void turnLeft(double turnRate) {
-
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
         notificationSystem.left();
     }
 
     public void turnRight(double turnRate) {
-
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), turnRate);
         notificationSystem.right();
     }
 
     public void turnStop() {
-
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
-
         setEngineTargetSpeed(this.originalTargetSpeed);
     }
 

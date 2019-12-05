@@ -23,6 +23,7 @@ public class ListenToRemote extends State
     private double sumDeltaTime = 0;
     private int engineTargetSpeed = 125;
     private NotificationSystem notificationSystem;
+    private int objectDetectionDistance = 80; // in millimeters
 
 //    private boolean on;
 
@@ -87,14 +88,7 @@ public class ListenToRemote extends State
     private void returnToAiControl()
     {
         shouldReturnControlToAi = true;
-//        on = !on;
-//        if (on) {
-//            notificationSystem.remoteControll();
-//        } else {
-//            notificationSystem.noRemoteControl();
-//        }
         System.out.println("on/off");
-
     }
     private void anyButtonHasBeenPressed()
     {
@@ -104,7 +98,7 @@ public class ListenToRemote extends State
     public void driveForward()
     {
         if(canGoForward) {
-            engine.noTurn();
+            engine.turnStop();
             engine.driveForward(this.engineTargetSpeed);
             System.out.println("forward");
         }
@@ -113,8 +107,8 @@ public class ListenToRemote extends State
 
     private void driveBackwards()
     {
-        engine.noTurn();
-        engine.driveBackward(this.engineTargetSpeed * -1);
+        engine.turnStop();
+        engine.driveBackward(this.engineTargetSpeed);
 
         System.out.println("backwards");
     }
@@ -187,25 +181,28 @@ public class ListenToRemote extends State
 
     private void noSpeed()
     {
-        engine.stopDriving();
+        engine.driveStop();
         System.out.println("noSpeed");
     }
 
     private void slowSpeed()
     {
-        engineTargetSpeed = 50;
+        this.engineTargetSpeed = 50;
+        engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("slowSpeed");
     }
 
     private void mediumSpeed()
     {
-        engineTargetSpeed = 125;
+        this.engineTargetSpeed = 125;
+        engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("mediumSpeed");
     }
 
     private void fastSpeed()
     {
-        engineTargetSpeed = 200;
+        this.engineTargetSpeed = 200;
+        engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("fastSpeed");
     }
 
@@ -213,11 +210,7 @@ public class ListenToRemote extends State
     protected void logic()
     {
         super.logic();
-        canGoForward = !objectDetection.objectIsTooClose(8);
-//        if (!on) {
-//            notificationSystem.noRemoteControl();
-//        } else
-//            notificationSystem.remoteControll();
+        canGoForward = !objectDetection.objectIsTooClose(this.objectDetectionDistance);
         if(hasAnyButtonHasBeenPressed)
         {
             notificationSystem.remoteControll();
@@ -228,21 +221,28 @@ public class ListenToRemote extends State
             driveInSquare();
         }
 
+        // Each 0.001s the engine will update the servo motors' speed.
         sumDeltaTime += stateMachine.getDeltaTime();
         if (sumDeltaTime >= 0.001) {
 
             sumDeltaTime = 0;
             engine.drive();
-            //System.out.println("yeeeeeeeeeee");
         }
 
+        // Slow down if an object is detected and stops at the distance objectDetectionDistance
+        canGoForward = !objectDetection.objectIsTooClose(this.objectDetectionDistance);
+        if (canGoForward) {
+            if (objectDetection.objectIsTooClose(this.objectDetectionDistance + 200)) {
+                engine.setEngineTargetSpeed(this.engineTargetSpeed - this.engineTargetSpeed /
+                        (this.engineTargetSpeed * (objectDetection.getDistance() / 200)));
+            }
+        }
+
+        //
         if (!canGoForward && engine.getOriginalTargetSpeed() > 0) {
             notificationSystem.objectDetected();
             engine.emergencyBrake();
             System.out.println("noticed object on " + objectDetection.getDistance());
-            engine.getMotorLeft().updateInstantPulse(0);
-            engine.getMotorRight().updateInstantPulse(0);
-            engine.setEngineTargetSpeed(0);
             notificationSystem.makeSound();
 //            engine.getMotorLeft().updateInstantPulse(1500);
 //            engine.getMotorRight().updateInstantPulse(1500);
@@ -253,5 +253,6 @@ public class ListenToRemote extends State
     protected void leave()
     {
         super.leave();
+        engine.emergencyBrake();
     }
 }

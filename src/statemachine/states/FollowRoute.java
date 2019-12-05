@@ -65,7 +65,7 @@ public class FollowRoute extends State {
             engine.noTurn();
             engine.driveForward(250);
         }
-
+        //TODO test if works
         if (lineFollowChecker.hasNoticedIntersection()) {
             engine.emergencyBrake();
         }

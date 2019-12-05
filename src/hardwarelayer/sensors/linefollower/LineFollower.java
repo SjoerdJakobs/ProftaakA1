@@ -29,7 +29,7 @@ public class LineFollower {
     /**
      * reads the value of the line follower
      */
-    private void read() {
+    public void read() {
         if (lineTimer.timeout())
             this.value = BoeBot.analogRead(pin);
     }

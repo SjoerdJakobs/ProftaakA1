@@ -25,7 +25,7 @@ public class FollowRoute extends State {
         this.engine = driverAI.getEngine();
         this.remote = driverAI.getRemote();
 
-        this.lineFollowChecker = new LineFollowChecker(new FrameworkProgram());
+        this.lineFollowChecker = driverAI.getLineFollowChecker();
     }
 
     @Override
@@ -51,6 +51,11 @@ public class FollowRoute extends State {
         super.logic();
         engine.drive();
 
+        System.out.println("L: " + lineFollowChecker.getValue(LineFollowChecker.LEFT_LINEFOLLOWER));
+        System.out.println("M: " + lineFollowChecker.getValue(LineFollowChecker.MID_LINEFOLLOWER));
+        System.out.println("R: " + lineFollowChecker.getValue(LineFollowChecker.RIGHT_LINEFOLLOWER));
+        System.out.println();
+
         //TODO test this with boebot
         if (lineFollowChecker.leftNoticedLine())
             engine.turnLeft(0.8);
@@ -59,6 +64,10 @@ public class FollowRoute extends State {
         if (lineFollowChecker.midNoticedLine()) {
             engine.noTurn();
             engine.driveForward(250);
+        }
+
+        if (lineFollowChecker.hasNoticedIntersection()) {
+            engine.emergencyBrake();
         }
 
     }

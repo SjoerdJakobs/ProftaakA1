@@ -1,5 +1,7 @@
 package buttercat;
 
+import TI.BoeBot;
+import hardwarelayer.sensors.linefollower.LineFollower;
 import interfacelayer.LineFollowChecker;
 
 public class Main {
@@ -9,7 +11,22 @@ public class Main {
         Program program = new Program();
         program.run();
 
-        LineFollowChecker follower = new LineFollowChecker(program);
+//        LineFollowChecker follower = new LineFollowChecker(program);
+//        LineFollower left = new LineFollower(0);
+//        LineFollower mid = new LineFollower(1);
+//        LineFollower right = new LineFollower(2);
+//        while (true) {
+//            left.read();
+//            mid.read();
+//            right.read();
+//
+//            System.out.println("left (pin 0) : " + left.getValue());
+//            System.out.println("mid (pin 1)  : " + mid.getValue());
+//            System.out.println("right (pin 2): " + right.getValue());
+//            System.out.println();
+//
+////            BoeBot.wait(10);
+//        }
         /*
         Engine engine = new Engine(12, 13);
         // driehoek 1240

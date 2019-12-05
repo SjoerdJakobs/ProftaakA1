@@ -1,5 +1,6 @@
 package interfacelayer;
 
+import buttercat.HelpFunctions;
 import hardwarelayer.sensors.linefollower.LineFollower;
 import ooframework.FrameworkProgram;
 import ooframework.StandardObject;
@@ -16,6 +17,11 @@ public class LineFollowChecker extends StandardObject {
     public static final int MID_LINEFOLLOWER = 1;
     public static final int RIGHT_LINEFOLLOWER = 2;
 
+    /**
+     * creates a new LineFollowChecker object
+     *
+     * @param frameworkProgram the program to run with
+     */
     public LineFollowChecker(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
 
@@ -57,6 +63,11 @@ public class LineFollowChecker extends StandardObject {
         return right.getValue() > THRESHOLD;
     }
 
+    /**
+     * checks if the BoeBot has noticed an intersection
+     *
+     * @return true if the BoeBot's line followers are on an intersection
+     */
     public boolean hasNoticedIntersection() {
         return leftNoticedLine() && midNoticedLine() && rightNoticedLine();
     }
@@ -73,9 +84,7 @@ public class LineFollowChecker extends StandardObject {
      * @return the value of the line follower as an <code>int</code>.
      */
     public int getValue(int lineFollower) {
-        if (lineFollower < 0 || lineFollower > 2) {
-            throw new IllegalArgumentException("No matching line follower for value " + lineFollower + ", choose one from the LineFollowChecker class");
-        }
+        HelpFunctions.checkLineFollowers("Line Follower selection", lineFollower);
         int res = 0;
         switch (lineFollower) {
             case 0:

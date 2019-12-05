@@ -24,6 +24,7 @@ public class ListenToRemote extends State
     private int engineTargetSpeed = 125;
     private NotificationSystem notificationSystem;
     private int objectDetectionDistance = 80; // in millimeters
+    private boolean muted = false;
 
 //    private boolean on;
 
@@ -71,6 +72,7 @@ public class ListenToRemote extends State
         remote.getLeftButton().onButtonPress    = () ->{driveLeft();};
         remote.getRightButton().onButtonPress   = () ->{driveRight();};
         remote.getOnButton().onButtonPress      = () ->{returnToAiControl();};
+        remote.getMuteButton().onButtonPress    = () ->{muteBuzzer();};
         remote.getTurn90DegreesLeftButton().onButtonPress   = () ->{turn90DegreesLeft();};
         remote.getTurn90DegreesRightButton().onButtonPress  = () ->{turn90DegreesRight();};
         remote.getTurn180DegreesLeftButton().onButtonPress  = () ->{turn180DegreesLeft();};
@@ -87,19 +89,23 @@ public class ListenToRemote extends State
 
     private void returnToAiControl()
     {
-        shouldReturnControlToAi = true;
+        this.shouldReturnControlToAi = true;
         System.out.println("on/off");
     }
     private void anyButtonHasBeenPressed()
     {
-        hasAnyButtonHasBeenPressed = true;
+        this.hasAnyButtonHasBeenPressed = true;
+    }
+
+    public void muteBuzzer() {
+        this.muted = !this.muted;
     }
 
     public void driveForward()
     {
         if(canGoForward) {
-            engine.turnStop();
-            engine.driveForward(this.engineTargetSpeed);
+            this.engine.turnStop();
+            this.engine.driveForward(this.engineTargetSpeed);
             System.out.println("forward");
         }
 
@@ -107,24 +113,24 @@ public class ListenToRemote extends State
 
     private void driveBackwards()
     {
-        engine.turnStop();
-        engine.driveBackward(this.engineTargetSpeed);
+        this.engine.turnStop();
+        this.engine.driveBackward(this.engineTargetSpeed);
 
         System.out.println("backwards");
     }
 
     private void driveRight()
     {
-        if(canGoForward) {
-            engine.turnRight(0.6);
+        if(this.canGoForward) {
+            this.engine.turnRight(0.6);
             System.out.println("right");
         }
     }
 
     private void driveLeft()
     {
-        if(canGoForward) {
-            engine.turnLeft(0.6);
+        if(this.canGoForward) {
+            this.engine.turnLeft(0.6);
             System.out.println("left");
         }
     }
@@ -132,39 +138,39 @@ public class ListenToRemote extends State
 
     private void driveInCircle()
     {
-        if(canGoForward) {
-            engine.driveCircle(1, this.engineTargetSpeed);
+        if(this.canGoForward) {
+            this.engine.driveCircle(1, this.engineTargetSpeed);
             System.out.println("circle");
         }
     }
 
     private void driveInSquare()
     {
-        squareActive = true;
-        if(canGoForward) {
-            engine.driveSquare(1, this.engineTargetSpeed);
+        this.squareActive = true;
+        if(this.canGoForward) {
+            this.engine.driveSquare(1, this.engineTargetSpeed);
             System.out.println("square");
         }
     }
 
     private void driveInTriangle()
     {
-        if(canGoForward) {
-            engine.driveTriangle(1, this.engineTargetSpeed);
+        if(this.canGoForward) {
+            this.engine.driveTriangle(1, this.engineTargetSpeed);
             System.out.println("triangle");
         }
     }
 
     private void turn90DegreesLeft()
     {
-        if(canGoForward) {
+        if(this.canGoForward) {
             System.out.println("turn90DegreesLeft");
         }
     }
 
     private void turn90DegreesRight()
     {
-        if(canGoForward) {
+        if(this.canGoForward) {
             System.out.println("turn90DegreesRight");
         }
     }
@@ -181,28 +187,28 @@ public class ListenToRemote extends State
 
     private void noSpeed()
     {
-        engine.driveStop();
+        this.engine.driveStop();
         System.out.println("noSpeed");
     }
 
     private void slowSpeed()
     {
         this.engineTargetSpeed = 50;
-        engine.setEngineTargetSpeed(this.engineTargetSpeed);
+        this.engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("slowSpeed");
     }
 
     private void mediumSpeed()
     {
         this.engineTargetSpeed = 125;
-        engine.setEngineTargetSpeed(this.engineTargetSpeed);
+        this.engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("mediumSpeed");
     }
 
     private void fastSpeed()
     {
         this.engineTargetSpeed = 200;
-        engine.setEngineTargetSpeed(this.engineTargetSpeed);
+        this.engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("fastSpeed");
     }
 
@@ -210,42 +216,43 @@ public class ListenToRemote extends State
     protected void logic()
     {
         super.logic();
-        canGoForward = !objectDetection.objectIsTooClose(this.objectDetectionDistance);
-        if(hasAnyButtonHasBeenPressed)
+
+        // 
+        this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
+        if(this.hasAnyButtonHasBeenPressed)
         {
-            notificationSystem.remoteControll();
-            hasAnyButtonHasBeenPressed = false;
+            this.notificationSystem.remoteControll();
+            this.hasAnyButtonHasBeenPressed = false;
         }
 
-        if (squareActive) {
+        // TODO: Drive a square (does not work)
+        if (this.squareActive) {
             driveInSquare();
         }
 
         // Each 0.001s the engine will update the servo motors' speed.
-        sumDeltaTime += stateMachine.getDeltaTime();
-        if (sumDeltaTime >= 0.001) {
+        this.sumDeltaTime += this.stateMachine.getDeltaTime();
+        if (this.sumDeltaTime >= 0.001) {
 
-            sumDeltaTime = 0;
-            engine.drive();
+            this.sumDeltaTime = 0;
+            this.engine.drive();
         }
 
         // Slow down if an object is detected and stops at the distance objectDetectionDistance
-        canGoForward = !objectDetection.objectIsTooClose(this.objectDetectionDistance);
-        if (canGoForward) {
-            if (objectDetection.objectIsTooClose(this.objectDetectionDistance + 200)) {
-                engine.setEngineTargetSpeed(this.engineTargetSpeed - this.engineTargetSpeed /
-                        (this.engineTargetSpeed * (objectDetection.getDistance() / 200)));
+        this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
+        if (this.canGoForward) {
+            if (this.objectDetection.objectIsTooClose(this.objectDetectionDistance + 200)) {
+                this.engine.setEngineTargetSpeed(this.engineTargetSpeed - this.engineTargetSpeed /
+                        (this.engineTargetSpeed * (this.objectDetection.getDistance() / 200)));
             }
         }
 
-        //
-        if (!canGoForward && engine.getOriginalTargetSpeed() > 0) {
-            notificationSystem.objectDetected();
-            engine.emergencyBrake();
-            System.out.println("noticed object on " + objectDetection.getDistance());
-            notificationSystem.makeSound();
-//            engine.getMotorLeft().updateInstantPulse(1500);
-//            engine.getMotorRight().updateInstantPulse(1500);
+        // If can go forward and wants to go forward (targetSpeed > 0) than stop immediately and make sound if not muted
+        if (!this.canGoForward && this.engine.getOriginalTargetSpeed() > 0) {
+            this.notificationSystem.objectDetected();
+            this.engine.emergencyBrake();
+            System.out.println("noticed object on " + this.objectDetection.getDistance());
+            if (!this.muted) this.notificationSystem.makeSound(1000, this.stateMachine.getDeltaTime());
         }
     }
 

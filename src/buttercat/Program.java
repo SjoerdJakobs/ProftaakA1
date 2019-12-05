@@ -1,6 +1,7 @@
 package buttercat;
 
 import interfacelayer.Engine;
+import interfacelayer.LineFollowChecker;
 import ooframework.FrameworkProgram;
 import interfacelayer.ObjectDetection;
 import statemachine.StateMachine;
@@ -12,11 +13,12 @@ public class Program extends FrameworkProgram
 
     }
 
-    private Engine          engine;
-    private Remote          remote;
-    private StateMachine    stateMachine;
-    private ObjectDetection objectDetection;
-    private DriverAI        driverAI;
+    private Engine              engine;
+    private Remote              remote;
+    private StateMachine        stateMachine;
+    private ObjectDetection     objectDetection;
+    private DriverAI            driverAI;
+    private LineFollowChecker   lineFollowChecker;
 
     @Override
     protected void start() {
@@ -26,7 +28,8 @@ public class Program extends FrameworkProgram
         remote = new Remote(this,true,false,false,true);
         stateMachine = new StateMachine(this);
         objectDetection = new ObjectDetection(this);
-        driverAI = new DriverAI(this,true,false,false,true,engine,remote,stateMachine,objectDetection);
+        lineFollowChecker = new LineFollowChecker(this);
+        driverAI = new DriverAI(this,true,false,false,true,engine,remote,stateMachine,objectDetection, lineFollowChecker);
     }
 
     @Override

@@ -1,11 +1,15 @@
 package buttercat;
 
+import interfacelayer.LineFollowChecker;
+
 public class Main {
     public static void main(String[] args) {
 
         System.out.println("hey");
         Program program = new Program();
         program.run();
+
+        LineFollowChecker follower = new LineFollowChecker(program);
         /*
         Engine engine = new Engine(12, 13);
         // driehoek 1240

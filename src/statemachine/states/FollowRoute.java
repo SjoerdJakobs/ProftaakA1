@@ -54,19 +54,13 @@ public class FollowRoute extends State {
         //TODO test this with boebot
         if (lineFollowChecker.leftNoticedLine())
             engine.turnLeft(0.8);
-
-        if (lineFollowChecker.midLeftNoticedLine())
-            engine.turnLeft(0.2);
-
-        if (lineFollowChecker.midRightNoticedLine())
-            engine.turnRight(0.2);
-
         if (lineFollowChecker.rightNoticedLine())
             engine.turnRight(0.8);
-        if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine()) {
-            engine.driveForward(250);
+        if (lineFollowChecker.midNoticedLine()) {
             engine.noTurn();
+            engine.driveForward(250);
         }
+
     }
 
     @Override

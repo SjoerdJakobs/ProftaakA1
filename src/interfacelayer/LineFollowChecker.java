@@ -6,20 +6,24 @@ import ooframework.StandardObject;
 
 public class LineFollowChecker extends StandardObject {
     private LineFollower left;
-    private LineFollower midLeft;
-    private LineFollower midRigth;
+    private LineFollower mid;
+    //    private LineFollower midRigth;
     private LineFollower right;
 
     private final static int THRESHOLD = 1300;
+
+    public static final int LEFT_LINEFOLLOWER = 0;
+    public static final int MID_LINEFOLLOWER = 1;
+    public static final int RIGHT_LINEFOLLOWER = 2;
 
     public LineFollowChecker(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
 
         //TODO change if pins are different after putting the linefollowers on project boebot
         this.left = new LineFollower(0);
-        this.midLeft = new LineFollower(1);
-        this.midRigth = new LineFollower(2);
-        this.right = new LineFollower(3);
+        this.mid = new LineFollower(1);
+//        this.midRigth = new LineFollower(2);
+        this.right = new LineFollower(2);
     }
 
     /**
@@ -32,8 +36,8 @@ public class LineFollowChecker extends StandardObject {
         super.mainLoop(deltaTime);
 
         left.startReading().run();
-        midLeft.startReading().run();
-        midRigth.startReading().run();
+        mid.startReading().run();
+//        midRigth.startReading().run();
         right.startReading().run();
     }
 
@@ -41,16 +45,51 @@ public class LineFollowChecker extends StandardObject {
         return left.getValue() > THRESHOLD;
     }
 
-    public boolean midLeftNoticedLine() {
-        return midLeft.getValue() > THRESHOLD;
+    public boolean midNoticedLine() {
+        return mid.getValue() > THRESHOLD;
     }
 
-    public boolean midRightNoticedLine() {
-        return midRigth.getValue() > THRESHOLD;
-    }
+//    public boolean midRightNoticedLine() {
+//        return midRigth.getValue() > THRESHOLD;
+//    }
 
     public boolean rightNoticedLine() {
         return right.getValue() > THRESHOLD;
+    }
+
+    public boolean hasNoticedIntersection() {
+        return leftNoticedLine() && midNoticedLine() && rightNoticedLine();
+    }
+
+    /**
+     * gets the value of the given line follower. The line followers you van use:
+     * <ul>
+     * <li>{@link LineFollowChecker#LEFT_LINEFOLLOWER left (0)}</li>
+     * <li>{@link LineFollowChecker#MID_LINEFOLLOWER mid (1)}</li>
+     * <li>{@link LineFollowChecker#RIGHT_LINEFOLLOWER right (2)}</li>
+     * </ul>
+     *
+     * @param lineFollower the line follower to get the value from.
+     * @return the value of the line follower as an <code>int</code>.
+     */
+    public int getValue(int lineFollower) {
+        if (lineFollower < 0 || lineFollower > 2) {
+            throw new IllegalArgumentException("No matching line follower for value " + lineFollower + ", choose one from the LineFollowChecker class");
+        }
+        int res = 0;
+        switch (lineFollower) {
+            case 0:
+                res = left.getValue();
+                break;
+            case 1:
+                res = mid.getValue();
+                break;
+            case 2:
+                res = right.getValue();
+                break;
+        }
+        return res;
+
     }
 
 

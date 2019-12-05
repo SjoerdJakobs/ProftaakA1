@@ -107,9 +107,13 @@ public enum  NotificationSystem {
 
     public void makeSound(int frequency, double deltaTime) {
         sumDeltaTimeForBuzzer += deltaTime;
-        if (sumDeltaTimeForBuzzer >= (1 / frequency / 2)) {
-            if (buzzerIsOn) BoeBot.digitalWrite(buzzer.getPin(), true);
-            if (!buzzerIsOn) BoeBot.digitalWrite(buzzer.getPin(), false);
+        if (buzzerIsOn) {
+            buzzerIsOn = !buzzerIsOn;
+            BoeBot.digitalWrite(buzzer.getPin(), true);
+        }
+        else {
+            buzzerIsOn = !buzzerIsOn;
+            BoeBot.digitalWrite(buzzer.getPin(), false);
         }
     }
 

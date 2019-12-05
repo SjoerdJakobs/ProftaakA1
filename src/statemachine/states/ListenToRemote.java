@@ -25,6 +25,7 @@ public class ListenToRemote extends State
     private NotificationSystem notificationSystem;
     private int objectDetectionDistance = 80; // in millimeters
     private boolean muted = false;
+    private int buzzerFrequency = 1000;
 
 //    private boolean on;
 
@@ -245,6 +246,19 @@ public class ListenToRemote extends State
                 this.engine.setEngineTargetSpeed(this.engineTargetSpeed - this.engineTargetSpeed /
                         (this.engineTargetSpeed * (this.objectDetection.getDistance() / 200)));
             }
+        }
+
+        if (!this.muted) this.notificationSystem.makeSound(this.buzzerFrequency, this.stateMachine.getDeltaTime());
+
+        // If can go forward and wants to go forward (targetSpeed > 0) than stop immediately and make sound if not muted
+        if (!this.canGoForward && this.engine.getOriginalTargetSpeed() > 0) {
+            this.notificationSystem.objectDetected();
+            this.engine.emergencyBrake();
+            System.out.println("noticed object on " + this.objectDetection.getDistance());
+            this.buzzerFrequency = 2000;
+        }
+        else {
+            if(this.buzzerFrequency != 1000) this.buzzerFrequency = 1000;
         }
 
         // If can go forward and wants to go forward (targetSpeed > 0) than stop immediately and make sound if not muted

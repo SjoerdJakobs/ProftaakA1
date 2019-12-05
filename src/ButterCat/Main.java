@@ -37,7 +37,7 @@ public class Main {
             if (conn.available() > 0) {
                 int data = conn.readByte();
                 conn.writeByte(data);
-//                System.out.println("Received: " + data);
+                System.out.println("Received: " + data);
                 switch (data) {
                     case 119:
                         System.out.println("Forward");

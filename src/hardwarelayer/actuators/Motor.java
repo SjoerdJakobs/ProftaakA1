@@ -94,7 +94,7 @@ public class Motor {
         this.targetSpeed = targetSpeed - (int) ((targetSpeed - this.motionlessBaseValue) * turnRate);
     }
     public void setTurnRate(double turnRate) {
-        HelpFunctions.checkValue("Motor turn rate", turnRate,0,1);
+        HelpFunctions.checkValue("Motor turn rate", turnRate,0,2);
         this.turnRate = turnRate;
     }
 

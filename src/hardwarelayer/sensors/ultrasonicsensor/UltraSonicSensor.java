@@ -49,7 +49,7 @@ public class UltraSonicSensor {
     }
 
     /**
-     * listens for a new value from the sensor.
+     * listens for a new value in millimeters from the sensor.
      */
     public void listen() {
         if (sensorTimeout.timeout()) {
@@ -58,7 +58,7 @@ public class UltraSonicSensor {
 //            System.out.println("ultrasonic pulse: " + pulse);
 
             if (pulse > 100) {
-                this.distanceToObject = pulse / 58;
+                this.distanceToObject = pulse / 58 * 10;
             }
 //            System.out.println(getDistanceToObject());
         }

@@ -8,7 +8,6 @@ import TI.Timer;
 public class Engine {
     private Motor servoLeft;
     private Motor servoRight;
-    private Timer turnTimer;
     private boolean needsToTurn;
 
     private NotificationSystem notificationSystem;
@@ -43,55 +42,12 @@ public class Engine {
     }
 
     /**
-     * (+)Getter and (-)setter for the target of the degrees in a turn
-     */
-
-    private int targetTurnRate;
-
-    public int getTargetTurnRate() {
-        return this.targetTurnRate;
-    }
-
-    private void setTargetTurnRate(int targetTurnRate) {
-        HelpFunctions.checkValue("Engine servo turn rate", targetTurnRate, -180, 180);
-        this.targetTurnRate = targetTurnRate;
-    }
-
-    /**
-     * (+)Getter and (-)setter for the current degrees turned in a turn
-     */
-    private int currentTurnDegrees;
-
-    public int getCurrentTurnDegrees() {
-        return this.getCurrentTurnDegrees();
-    }
-
-    private void setCurrentTurnDegrees(int currentTurnDegrees) {
-        HelpFunctions.checkValue("Engine current turn degrees", currentTurnDegrees, -180, 180);
-        this.currentTurnDegrees = currentTurnDegrees;
-    }
-
-    /**
-     * (+)Getter and (-)setter for the radius of a turn
-     */
-    private int turnRadius;
-
-    public int getTurnRadius() {
-        return this.turnRadius;
-    }
-
-    private void setTurnRadius(int turnRadius) {
-        this.turnRadius = turnRadius;
-    }
-
-    /**
      * Change the speed of a servo incrementally
      *
      * @param servo The servo object
      */
     private void changeSpeed(Motor servo) {
         if (Math.abs(servo.getServo().getPulseWidth()) != servo.getTargetSpeed()) {
-            //setServoTargetSpeed(servo, this.targetSpeed);
             servo.updateIncremental();
         }
     }
@@ -104,32 +60,12 @@ public class Engine {
         changeSpeed(servoRight);
     }
 
-    /**
-     * Set the specifics of the kind of turn is made using (+)turnDegrees()
-     *
-     * @param turnDegrees
-     * @param turnRadius
-     */
-    // TODO: currently not used
-    public void setTurnSpecifics(int turnDegrees, int turnRadius) {
-        setTargetTurnRate(turnDegrees);
-        setTurnRadius(turnRadius);
-        this.turnTimer = new Timer(turnRadius);
-    }
-
-    // TODO: CHANGE TO DOUBLE
-    public void setTurnRate(double turnRate) {
-        HelpFunctions.checkValue("Engine turn rate", turnRate, -1, 1);
-    }
-
-
     public void turnLeft(double turnRate) {
 
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
         notificationSystem.left();
     }
-
 
     public void turnRight(double turnRate) {
 
@@ -138,7 +74,7 @@ public class Engine {
         notificationSystem.right();
     }
 
-    public void noTurn() {
+    public void turnStop() {
 
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
@@ -146,7 +82,7 @@ public class Engine {
         setEngineTargetSpeed(this.originalTargetSpeed);
     }
 
-    public void stopDriving() {
+    public void driveStop() {
         setEngineTargetSpeed(0);
         notificationSystem.turnLedsOn();
     }
@@ -158,31 +94,45 @@ public class Engine {
     }
 
     public void driveForward(int speed) {
-        setEngineTargetSpeed(speed);
+        setEngineTargetSpeed(speed * -1);
         notificationSystem.forward();
     }
 
-    /**
-     * Stop immediately
-     */
+    public void stillturnRight() {
+        setEngineTargetSpeed(this.originalTargetSpeed / 2);
+        turnLeft(0);
+        turnRight(2);
+    }
+
+    public void stillturnLeft() {
+        setEngineTargetSpeed(this.originalTargetSpeed / 2);
+        turnLeft(2);
+        turnRight(0);
+    }
+
+    public void stillturnStop() {
+        setEngineTargetSpeed(0);
+        turnLeft(0);
+        turnRight(0);
+    }
+
     public void emergencyBrake() {
         servoLeft.stop();
         servoRight.stop();
+        getMotorLeft().updateInstantPulse(0);
+        getMotorRight().updateInstantPulse(0);
+        setEngineTargetSpeed(0);
         notificationSystem.turnLedsOn();
     }
 
-    /**
-     * Activate both servo motors
-     */
     public void continueDriving() {
         servoLeft.start();
         servoRight.start();
-        notificationSystem.forward();
+        notificationSystem.turnLedsOff();
     }
 
     /**
      * Set the target speed of both the servo's (thus the engine)
-     *
      * @param targetSpeed The provided target speed which will be reached incrementally
      */
     public void setEngineTargetSpeed(int targetSpeed) {
@@ -243,7 +193,7 @@ public class Engine {
             turnLeft(0.1);
             setEngineTargetSpeed(speed);
         } else {
-            noTurn();
+            turnStop();
         }
 
 
@@ -288,9 +238,7 @@ public class Engine {
 
     public String toString() {
         return ("\nLeft motor: " + this.servoLeft.toString() +
-                "\nRight motor: " + this.servoRight.toString() +
-                "\nCurrent turn degrees: " + this.currentTurnDegrees +
-                "\nTarget turn degrees: " + this.targetTurnRate);
+                "\nRight motor: " + this.servoRight.toString());
 
     }
 }

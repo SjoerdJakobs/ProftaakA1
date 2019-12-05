@@ -62,7 +62,7 @@ public class FollowRoute extends State {
         if (lineFollowChecker.rightNoticedLine())
             engine.turnRight(0.8);
         if (lineFollowChecker.midNoticedLine()) {
-            engine.noTurn();
+            engine.turnStop();
             engine.driveForward(250);
         }
         //TODO test if works

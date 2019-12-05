@@ -43,7 +43,7 @@ public class ObjectDetection extends StandardObject {
      * @return true if an object is less than 10 cm away from the BoeBot
      */
     public boolean objectIsTooClose() {
-        return objectIsTooClose(10);
+        return objectIsTooClose(100);
     }
 
     /**

@@ -1,4 +1,4 @@
-package ButterCat.Modules;
+package ButterCat.Modules.button;
 
 public class Button
 {

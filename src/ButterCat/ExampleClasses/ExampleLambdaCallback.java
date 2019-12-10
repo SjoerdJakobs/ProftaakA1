@@ -1,6 +1,6 @@
 package ButterCat.ExampleClasses;
 
-import ButterCat.Modules.Callback;
+import ButterCat.Modules.button.Callback;
 
 /**
  * the class which holds the callback and where the callback actualy can be called from

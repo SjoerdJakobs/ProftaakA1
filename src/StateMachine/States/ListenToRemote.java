@@ -194,19 +194,19 @@ public class ListenToRemote extends State
 
     private void slowSpeed()
     {
-        this.engineTargetSpeed = 50;
+        engineTargetSpeed = 50;
         System.out.println("slowSpeed");
     }
 
     private void mediumSpeed()
     {
-        this.engineTargetSpeed = 125;
+        engineTargetSpeed = 125;
         System.out.println("mediumSpeed");
     }
 
     private void fastSpeed()
     {
-        this.engineTargetSpeed = 200;
+        engineTargetSpeed = 200;
         System.out.println("fastSpeed");
     }
 

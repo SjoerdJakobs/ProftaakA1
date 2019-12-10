@@ -1,7 +1,7 @@
 package Hardware.Sensors.ultrasonicsensor;
 
 import ButterCat.HelpFunctions;
-import ButterCat.Modules.Callback;
+import ButterCat.Modules.button.Callback;
 import TI.BoeBot;
 import TI.Timer;
 //trig pin 7

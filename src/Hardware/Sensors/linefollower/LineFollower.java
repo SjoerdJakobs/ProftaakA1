@@ -1,7 +1,7 @@
 package Hardware.Sensors.linefollower;
 
 import ButterCat.HelpFunctions;
-import ButterCat.Modules.Callback;
+import ButterCat.Modules.button.Callback;
 import TI.BoeBot;
 
 public class LineFollower {

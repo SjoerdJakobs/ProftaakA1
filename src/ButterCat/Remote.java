@@ -1,7 +1,7 @@
 package ButterCat;
 
-import ButterCat.Modules.Button;
-import ButterCat.Modules.Callback;
+import ButterCat.Modules.button.Button;
+import ButterCat.Modules.button.Callback;
 import Hardware.Sensors.InfraRedReceiver;
 import OOFramework.FrameworkProgram;
 import OOFramework.StandardObject;

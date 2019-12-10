@@ -11,11 +11,10 @@ import statemachine.State;
 import statemachine.StateID;
 import statemachine.StateMachine;
 
-public class ListenToRemote extends State
-{
+public class ListenToRemote extends State {
     DriverAI driverAI;
-    Engine   engine;
-    Remote   remote;
+    Engine engine;
+    Remote remote;
     ObjectDetection objectDetection;
 
     private boolean shouldReturnControlToAi;
@@ -27,14 +26,15 @@ public class ListenToRemote extends State
     private int objectDetectionDistance = 80; // in millimeters
     private boolean muted = false;
     private int buzzerFrequency = 1000;
+    private boolean needToCheck;
+
 
 //    private boolean on;
 
     private boolean squareActive;
 
 
-    public ListenToRemote(DriverAI driverAI)
-    {
+    public ListenToRemote(DriverAI driverAI) {
         super(StateID.ListenToRemote);
         shouldReturnControlToAi = false;
         hasAnyButtonHasBeenPressed = false;
@@ -48,55 +48,87 @@ public class ListenToRemote extends State
     }
 
     @Override
-    protected void enter()
-    {
+    protected void enter() {
         super.enter();
         shouldReturnControlToAi = false;
         hasAnyButtonHasBeenPressed = true;
         setButtons();
         System.out.println("aokndaosi daos hdhoas hdoas hdasu hdoas hdo asd ");
+        needToCheck = true;
     }
 
     @Override
-    protected void checkForStateSwitch()
-    {
+    protected void checkForStateSwitch() {
         super.checkForStateSwitch();
 
-        if (shouldReturnControlToAi)
-        {
+        if (shouldReturnControlToAi) {
             stateMachine.SetState(StateID.FollowRoute);
         }
     }
 
-    private void setButtons()
-    {
-        remote.getUpButton().onButtonPress      = () ->{driveForward();};
-        remote.getDownButton().onButtonPress    = () ->{driveBackwards();};
-        remote.getLeftButton().onButtonPress    = () ->{driveLeft();};
-        remote.getRightButton().onButtonPress   = () ->{driveRight();};
-        remote.getOnButton().onButtonPress      = () ->{returnToAiControl();};
-        remote.getMuteButton().onButtonPress    = () ->{muteBuzzer();};
-        remote.getTurn90DegreesLeftButton().onButtonPress   = () ->{turn90DegreesLeft();};
-        remote.getTurn90DegreesRightButton().onButtonPress  = () ->{turn90DegreesRight();};
-        remote.getTurn180DegreesLeftButton().onButtonPress  = () ->{turn180DegreesLeft();};
-        remote.getTurn180DegreesRightButton().onButtonPress = () ->{turn180DegreesRight();};
-        remote.getSpeedOffButton().onButtonPress    = () ->{noSpeed();};
-        remote.getSpeedSlowButton().onButtonPress   = () ->{slowSpeed();};
-        remote.getSpeedMediumButton().onButtonPress = () ->{mediumSpeed();};
-        remote.getSpeedFastButton().onButtonPress   = () ->{fastSpeed();};
-        remote.getCircleButton().onButtonPress      = () ->{driveInCircle();};
-        remote.getSquareButton().onButtonPress      = () ->{driveInSquare();};
-        remote.getTriangleButton().onButtonPress    = () ->{driveInTriangle();};
-        remote.aButtonHasBeenPressed = () ->{anyButtonHasBeenPressed();};
+    private void setButtons() {
+        remote.getUpButton().onButtonPress = () -> {
+            driveForward();
+        };
+        remote.getDownButton().onButtonPress = () -> {
+            driveBackwards();
+        };
+        remote.getLeftButton().onButtonPress = () -> {
+            driveLeft();
+        };
+        remote.getRightButton().onButtonPress = () -> {
+            driveRight();
+        };
+        remote.getOnButton().onButtonPress = () -> {
+            returnToAiControl();
+        };
+        remote.getMuteButton().onButtonPress = () -> {
+            muteBuzzer();
+        };
+        remote.getTurn90DegreesLeftButton().onButtonPress = () -> {
+            turn90DegreesLeft();
+        };
+        remote.getTurn90DegreesRightButton().onButtonPress = () -> {
+            turn90DegreesRight();
+        };
+        remote.getTurn180DegreesLeftButton().onButtonPress = () -> {
+            turn180DegreesLeft();
+        };
+        remote.getTurn180DegreesRightButton().onButtonPress = () -> {
+            turn180DegreesRight();
+        };
+        remote.getSpeedOffButton().onButtonPress = () -> {
+            noSpeed();
+        };
+        remote.getSpeedSlowButton().onButtonPress = () -> {
+            slowSpeed();
+        };
+        remote.getSpeedMediumButton().onButtonPress = () -> {
+            mediumSpeed();
+        };
+        remote.getSpeedFastButton().onButtonPress = () -> {
+            fastSpeed();
+        };
+        remote.getCircleButton().onButtonPress = () -> {
+            driveInCircle();
+        };
+        remote.getSquareButton().onButtonPress = () -> {
+            driveInSquare();
+        };
+        remote.getTriangleButton().onButtonPress = () -> {
+            driveInTriangle();
+        };
+        remote.aButtonHasBeenPressed = () -> {
+            anyButtonHasBeenPressed();
+        };
     }
 
-    private void returnToAiControl()
-    {
+    private void returnToAiControl() {
         this.shouldReturnControlToAi = true;
         System.out.println("on/off");
     }
-    private void anyButtonHasBeenPressed()
-    {
+
+    private void anyButtonHasBeenPressed() {
         this.hasAnyButtonHasBeenPressed = true;
     }
 
@@ -104,9 +136,8 @@ public class ListenToRemote extends State
         this.muted = !this.muted;
     }
 
-    public void driveForward()
-    {
-        if(canGoForward) {
+    public void driveForward() {
+        if (canGoForward) {
             this.engine.turnStop();
             this.engine.driveForward(this.engineTargetSpeed);
             System.out.println("forward");
@@ -114,116 +145,100 @@ public class ListenToRemote extends State
 
     }
 
-    private void driveBackwards()
-    {
+    private void driveBackwards() {
         this.engine.turnStop();
         this.engine.driveBackward(this.engineTargetSpeed);
 
         System.out.println("backwards");
     }
 
-    private void driveRight()
-    {
-        if(this.canGoForward) {
+    private void driveRight() {
+        if (this.canGoForward) {
             this.engine.turnRight(0.6);
             System.out.println("right");
         }
     }
 
-    private void driveLeft()
-    {
-        if(this.canGoForward) {
+    private void driveLeft() {
+        if (this.canGoForward) {
             this.engine.turnLeft(0.6);
             System.out.println("left");
         }
     }
 
 
-    private void driveInCircle()
-    {
-        if(this.canGoForward) {
+    private void driveInCircle() {
+        if (this.canGoForward) {
             this.engine.driveCircle(1, this.engineTargetSpeed);
             System.out.println("circle");
         }
     }
 
-    private void driveInSquare()
-    {
+    private void driveInSquare() {
         this.squareActive = true;
-        if(this.canGoForward) {
+        if (this.canGoForward) {
             this.engine.driveSquare(1, this.engineTargetSpeed);
             System.out.println("square");
         }
     }
 
-    private void driveInTriangle()
-    {
-        if(this.canGoForward) {
+    private void driveInTriangle() {
+        if (this.canGoForward) {
             this.engine.driveTriangle(1, this.engineTargetSpeed);
             System.out.println("triangle");
         }
     }
 
-    private void turn90DegreesLeft()
-    {
-        if(this.canGoForward) {
+    private void turn90DegreesLeft() {
+        if (this.canGoForward) {
             System.out.println("turn90DegreesLeft");
         }
     }
 
-    private void turn90DegreesRight()
-    {
-        if(this.canGoForward) {
+    private void turn90DegreesRight() {
+        if (this.canGoForward) {
             System.out.println("turn90DegreesRight");
         }
     }
 
-    private void turn180DegreesLeft()
-    {
+    private void turn180DegreesLeft() {
         System.out.println("turn180DegreesLeft");
     }
 
-    private void turn180DegreesRight()
-    {
+    private void turn180DegreesRight() {
         System.out.println("turn180DegreesRight");
     }
 
-    private void noSpeed()
-    {
+    private void noSpeed() {
         this.engine.driveStop();
         System.out.println("noSpeed");
     }
 
-    private void slowSpeed()
-    {
+    private void slowSpeed() {
         this.engineTargetSpeed = 50;
         this.engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("slowSpeed");
     }
 
-    private void mediumSpeed()
-    {
+    private void mediumSpeed() {
         this.engineTargetSpeed = 125;
         this.engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("mediumSpeed");
     }
 
-    private void fastSpeed()
-    {
+    private void fastSpeed() {
         this.engineTargetSpeed = 200;
         this.engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("fastSpeed");
     }
 
     @Override
-    protected void logic()
-    {
+    protected void logic() {
         super.logic();
 
         // 
         this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
-        if(this.hasAnyButtonHasBeenPressed)
-        {
+        if (this.hasAnyButtonHasBeenPressed) {
             this.notificationSystem.remoteControll();
             this.hasAnyButtonHasBeenPressed = false;
         }
@@ -239,16 +254,27 @@ public class ListenToRemote extends State
 
             this.sumDeltaTime = 0;
             this.engine.drive();
+
         }
 
         // Slow down if an object is detected and stops at the distance objectDetectionDistance
-        this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
+        //objectdetectiondistance = 80
+//        this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
+//        System.out.println("distance: " + objectDetection.getDistance());
+        System.out.println(needToCheck);
+        if (needToCheck)
+        if (this.objectDetection.objectIsTooClose(this.objectDetectionDistance)) {
+            this.canGoForward = false;
+            needToCheck = false;
+        }
+
         if (this.canGoForward) {
             if (this.objectDetection.objectIsTooClose(this.objectDetectionDistance + 200)) {
-                this.engine.setEngineTargetSpeed(this.engineTargetSpeed - this.engineTargetSpeed *
-                        ((200 - (this.objectDetection.getDistance() - this.objectDetectionDistance)) / 200));
+                double speed = this.engineTargetSpeed - ((200.0 - (objectDetection.getDistance() - objectDetectionDistance)) / 200.0) * this.engineTargetSpeed;
+                this.engine.setEngineTargetSpeed((int) -speed);
             }
         }
+
 
         if (!this.muted) this.notificationSystem.makeSound(this.buzzerFrequency, 10);
 
@@ -257,9 +283,8 @@ public class ListenToRemote extends State
             this.notificationSystem.objectDetected();
             this.engine.emergencyBrake();
             this.buzzerFrequency = 10000;
-        }
-        else {
-            if(this.buzzerFrequency != 1000) this.buzzerFrequency = 5000;
+        } else {
+            if (this.buzzerFrequency != 1000) this.buzzerFrequency = 5000;
         }
 
         // If can go forward and wants to go forward (targetSpeed > 0) than stop immediately and make sound if not muted
@@ -269,12 +294,16 @@ public class ListenToRemote extends State
             System.out.println("noticed object on " + this.objectDetection.getDistance());
         }
 
-        System.out.println("Delta time: " + this.stateMachine.getDeltaTime());
+        this.engine.drive();
+        this.engine.drive();
+        this.engine.drive();
+
+
+//        System.out.println("Delta time: " + this.stateMachine.getDeltaTime());
     }
 
     @Override
-    protected void leave()
-    {
+    protected void leave() {
         super.leave();
         engine.emergencyBrake();
     }

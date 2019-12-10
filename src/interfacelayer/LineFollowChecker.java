@@ -101,5 +101,14 @@ public class LineFollowChecker extends StandardObject {
 
     }
 
+    /**
+     * debug method
+     */
+    public void readAll() {
+        left.read();
+        mid.read();
+        right.read();
+    }
+
 
 }

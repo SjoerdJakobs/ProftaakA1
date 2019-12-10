@@ -2,9 +2,9 @@ package interfacelayer;
 
 
 import TI.BoeBot;
-import hardwarelayer.sensors.buzzer.Buzzer;
-import hardwarelayer.sensors.led.Led;
-import hardwarelayer.sensors.led.NeoLed;
+import hardwarelayer.actuators.buzzer.Buzzer;
+import hardwarelayer.actuators.led.Led;
+import hardwarelayer.actuators.led.NeoLed;
 
 import java.awt.*;
 
@@ -105,14 +105,29 @@ public enum  NotificationSystem {
         neoLed6.turnOff();
     }
 
+    /**
+     * Create a buzzer sound using the wait function
+     * @param frequency The frequency in Hz
+     * @param waitTime The duration for which the buzzer will buzz in milliseconds
+     */
+    public void makeSound(int frequency, int waitTime) {
+        if (buzzer.getFrequency() != frequency) buzzer.setFrequency(frequency);
+        buzzer.buzz(waitTime);
+    }
+
+    /**
+     * Create a buzzer sound using deltaTime
+     * @param frequency The frequency in Hz.
+     * @param deltaTime The difference between now and the previous time the function was called
+     */
     public void makeSound(int frequency, double deltaTime) {
         sumDeltaTimeForBuzzer += deltaTime;
         if (buzzerIsOn) {
-            buzzerIsOn = !buzzerIsOn;
+            buzzerIsOn = false;
             BoeBot.digitalWrite(buzzer.getPin(), true);
         }
         else {
-            buzzerIsOn = !buzzerIsOn;
+            buzzerIsOn = true;
             BoeBot.digitalWrite(buzzer.getPin(), false);
         }
     }

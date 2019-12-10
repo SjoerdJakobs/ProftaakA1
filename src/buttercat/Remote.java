@@ -2,7 +2,7 @@ package buttercat;
 
 import hardwarelayer.sensors.button.Button;
 import interfacelayer.Callback;
-import hardwarelayer.sensors.infraredreceiver.InfraRedReceiver;
+import hardwarelayer.sensors.InfraRedReceiver;
 import ooframework.FrameworkProgram;
 import ooframework.StandardObject;
 

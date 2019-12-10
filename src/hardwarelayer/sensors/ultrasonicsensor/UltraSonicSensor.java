@@ -58,7 +58,7 @@ public class UltraSonicSensor {
 //            System.out.println("ultrasonic pulse: " + pulse);
 
             if (pulse > 100) {
-                this.distanceToObject = pulse / 58 * 10;
+                this.distanceToObject = (int) (pulse / 5.82);
             }
 //            System.out.println(getDistanceToObject());
         }

@@ -24,7 +24,7 @@ public class Program extends FrameworkProgram
     protected void start() {
         super.start();
 
-        engine = new Engine(14, 15);
+        engine = new Engine(15, 14);
         remote = new Remote(this,true,false,false,true);
         stateMachine = new StateMachine(this);
         objectDetection = new ObjectDetection(this);

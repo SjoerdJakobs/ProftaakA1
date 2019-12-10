@@ -3,8 +3,8 @@ package interfacelayer;
 
 import TI.BoeBot;
 import hardwarelayer.actuators.buzzer.Buzzer;
-import hardwarelayer.sensors.led.Led;
-import hardwarelayer.sensors.led.NeoLed;
+import hardwarelayer.actuators.led.Led;
+import hardwarelayer.actuators.led.NeoLed;
 
 import java.awt.*;
 

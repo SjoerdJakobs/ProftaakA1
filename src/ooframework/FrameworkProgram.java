@@ -38,8 +38,8 @@ public class FrameworkProgram
             lastTime = time;
 
             //uncomment to print the deltatime in seconds
-            //String s = String.format("%.5f", deltaTime);
-            //System.out.println(s);
+//            String s = String.format("deltatime is %.5f", deltaTime);
+//            System.out.println(s);
 
             addToLoop();
 

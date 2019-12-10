@@ -2,6 +2,7 @@ package buttercat;
 
 import interfacelayer.Engine;
 
+import interfacelayer.LineFollowChecker;
 import interfacelayer.ObjectDetection;
 import ooframework.FrameworkProgram;
 import ooframework.StandardObject;
@@ -15,6 +16,7 @@ public class DriverAI extends StandardObject
     private Engine engine;
     private Remote remote;
     private ObjectDetection objectDetection;
+    private LineFollowChecker lineFollowChecker;
 
     public DriverAI(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
@@ -23,16 +25,17 @@ public class DriverAI extends StandardObject
     public DriverAI(FrameworkProgram frameworkProgram,
                     boolean usesInput, boolean usesMain,
                     boolean usesRenderer, boolean startsActivated,
-                    Engine engine, Remote remote, StateMachine stateMachine, ObjectDetection objectDetection) {
+                    Engine engine, Remote remote, StateMachine stateMachine, ObjectDetection objectDetection, LineFollowChecker lineFollowChecker) {
 
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
         this.stateMachine = stateMachine;
         this.engine = engine;
         this.remote = remote;
         this.objectDetection = objectDetection;
+        this.lineFollowChecker = lineFollowChecker;
 
         MakeStates();
-        stateMachine.SetState(StateID.SearchForStartPoint);
+        stateMachine.SetState(StateID.FollowRoute);
         //System.out.println("the state should be started");
     }
 
@@ -87,5 +90,9 @@ public class DriverAI extends StandardObject
     public ObjectDetection getObjectDetection()
     {
         return objectDetection;
+    }
+
+    public LineFollowChecker getLineFollowChecker() {
+        return lineFollowChecker;
     }
 }

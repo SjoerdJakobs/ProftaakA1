@@ -1,6 +1,7 @@
 package interfacelayer;
 
 
+import TI.BoeBot;
 import hardwarelayer.sensors.buzzer.Buzzer;
 import hardwarelayer.sensors.led.Led;
 import hardwarelayer.sensors.led.NeoLed;
@@ -19,6 +20,11 @@ public enum  NotificationSystem {
     NeoLed neoLed4 = new NeoLed(3, Color.white);
     NeoLed neoLed5 = new NeoLed(4, Color.white);
     NeoLed neoLed6 = new NeoLed(5, Color.white);
+
+    boolean buzzerIsOn = false;
+    double sumDeltaTimeForBuzzer = 0;
+
+
 
     //implement this in the driveForward method
     public void backwards() {
@@ -99,8 +105,16 @@ public enum  NotificationSystem {
         neoLed6.turnOff();
     }
 
-    public void makeSound() {
-        buzzer.buzz(1000);
+    public void makeSound(int frequency, double deltaTime) {
+        sumDeltaTimeForBuzzer += deltaTime;
+        if (buzzerIsOn) {
+            buzzerIsOn = !buzzerIsOn;
+            BoeBot.digitalWrite(buzzer.getPin(), true);
+        }
+        else {
+            buzzerIsOn = !buzzerIsOn;
+            BoeBot.digitalWrite(buzzer.getPin(), false);
+        }
     }
 
     public void noRemoteControl() {

@@ -9,28 +9,15 @@ import java.util.ArrayList;
 public class InfraRedReceiver
 {
     public Callback somethingHasBeenPressed;
-
-    private int pin1 = -1;
-    private int pin2 = -1;
+    private int pin;
 
     public InfraRedReceiver(int pin) {
-        this.pin1 = pin;
+        this.pin = pin;
     }
 
-    public InfraRedReceiver(int pinIR1, int pinIR2) {
-        this.pin1 = pinIR1;
-        this.pin2 = pinIR2;
-    }
-
-    public void checkForButtonPresses(ArrayList<Button> buttons, double deltaTime, int infrared1Or2)
+    public void checkForButtonPresses(ArrayList<Button> buttons, double deltaTime)
     {
-        HelpFunctions.checkValue("Infrared 1 or 2", infrared1Or2, 1, 2);
-        int pin;
-        if (infrared1Or2 == 1) pin = this.pin1;
-        else pin = this.pin2;
-        HelpFunctions.checkDigitalPin("Infrared pin not initalised", pin);
-
-        int pulseLen = BoeBot.pulseIn(pin, false, 6000);
+        int pulseLen = BoeBot.pulseIn(this.pin, false, 6000);
         long number = 0;
         if (pulseLen > 2000) {
             int lengtes[] = new int[12];

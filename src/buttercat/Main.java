@@ -1,15 +1,56 @@
 package buttercat;
 
 import TI.BoeBot;
+import hardwarelayer.sensors.InfraRedReceiver;
+import hardwarelayer.sensors.button.Button;
 import hardwarelayer.sensors.linefollower.LineFollower;
 import interfacelayer.LineFollowChecker;
+
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
 
         System.out.println("hey");
-        Program program = new Program();
-        program.run();
+//        Program program = new Program();
+//        program.run();
+
+        LineFollower follower1 = new LineFollower(0);
+        LineFollower follower2 = new LineFollower(1);
+        LineFollower follower3 = new LineFollower(2);
+        LineFollower follower4 = new LineFollower(3);
+        int val1, val2, val3, val4;
+
+        InfraRedReceiver infraRedReceiver;
+        ArrayList<Button> buttons = new ArrayList<>();
+        InfraRedReceiver IR1 = new InfraRedReceiver(0);
+        InfraRedReceiver IR2 = new InfraRedReceiver(1);
+
+
+
+
+        while (true) {
+            IR1.checkForButtonPresses(buttons, 0.02);
+            IR2.checkForButtonPresses(buttons, 0.02);
+            BoeBot.wait(19);
+//            follower1.read();
+//            follower2.read();
+//            follower3.read();
+//            follower4.read();
+//            val1 = follower1.getValue();
+//            val2 = follower2.getValue();
+//            val3 = follower3.getValue();
+//            val4 = follower4.getValue();
+//            System.out.println("Lijnvolger 1: " + val1 + ", Lijnvolger 2: " + val2 + ", Lijnvolger 3: " + val3 + ", Lijnvolger 4: " + val4);
+//            BoeBot.wait(200);
+//            BoeBot.digitalWrite(0, true);
+//            BoeBot.uwait(100);
+//            BoeBot.digitalWrite(0, false);
+//            BoeBot.uwait(100);
+//            System.out.println(BoeBot.digitalRead(15) ? "True" : "False");
+//            BoeBot.wait(10);
+        }
+
 
         // Buzzer test
 //        while (true) {

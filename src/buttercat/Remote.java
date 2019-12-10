@@ -129,7 +129,7 @@ public class Remote extends StandardObject
     {
         super.inputLoop(deltaTime);
 
-        infraRedReceiver.checkForButtonPresses(buttons, deltaTime, 1);
+        infraRedReceiver.checkForButtonPresses(buttons, deltaTime);
     }
 
     @Override

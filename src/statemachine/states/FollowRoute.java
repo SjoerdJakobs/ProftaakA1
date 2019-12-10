@@ -17,7 +17,7 @@ public class FollowRoute extends State {
     private LineFollowChecker lineFollowChecker;
     private ObjectDetection objectDetection;
 
-    private boolean shouldGoToRemoteControl,  canDrive;
+    private boolean shouldGoToRemoteControl, canDrive;
 
     private int distance, lastDistance;
 
@@ -52,16 +52,27 @@ public class FollowRoute extends State {
         }
     }
 
+    // make variables so they don't have to be initialized every time the loop is entered
+    private boolean leftNoticed;
+    private boolean rightNoticed;
+    private boolean midNoticed;
+
     @Override
     protected void logic() {
         super.logic();
         engine.drive();
+
 //        System.out.println("L: " + lineFollowChecker.getValue(LineFollowChecker.LEFT_LINEFOLLOWER));
 //        System.out.println("M: " + lineFollowChecker.getValue(LineFollowChecker.MID_LINEFOLLOWER));
 //        System.out.println("R: " + lineFollowChecker.getValue(LineFollowChecker.RIGHT_LINEFOLLOWER));
 //        System.out.println();
-        canDrive = objectDetection.objectIsTooClose(10);
+
+        canDrive = objectDetection.objectIsTooClose(15);
         distance = objectDetection.getDistance();
+
+        leftNoticed = lineFollowChecker.leftNoticedLine();
+        midNoticed = lineFollowChecker.midNoticedLine();
+        rightNoticed = lineFollowChecker.rightNoticedLine();
 
         if (distance < 10 && lastDistance - distance > 20) {
             engine.emergencyBrake();
@@ -70,24 +81,26 @@ public class FollowRoute extends State {
 
         if (canDrive) {
             //TODO test this with boebot
-            if (lineFollowChecker.midNoticedLine()) {
-//                System.out.println("driving forward");
-                engine.driveForward(50);
-                engine.turnStop();
-            }
-            if (lineFollowChecker.leftNoticedLine()) {
-//                System.out.println("adjusting left");
-                engine.turnRight(1);
-            }
-            if (lineFollowChecker.rightNoticedLine()) {
-//                System.out.println("adjusting right");
-                engine.turnLeft(1);
-            }
-
             if (lineFollowChecker.hasNoticedIntersection()) {
                 System.out.println("stop");
                 //TODO implement decellerating
             }
+
+            if (leftNoticed || rightNoticed) {
+                if (leftNoticed) {
+                    System.out.println("adjusting left");
+                    engine.turnRight(1);
+                }
+                if (rightNoticed) {
+                    System.out.println("adjusting right");
+                    engine.turnLeft(1);
+                }
+            } else if (midNoticed) {
+                System.out.println("noticed mid");
+                engine.driveForward(50);
+                engine.turnStop();
+            }
+
         }
 
         lastDistance = distance;

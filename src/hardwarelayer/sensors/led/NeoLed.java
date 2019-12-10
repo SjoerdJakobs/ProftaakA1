@@ -2,6 +2,7 @@ package hardwarelayer.sensors.led;
 
 import TI.BoeBot;
 import TI.Timer;
+import hardwarelayer.actuators.led.LedInterface;
 
 import java.awt.*;
 

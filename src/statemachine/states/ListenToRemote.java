@@ -220,7 +220,7 @@ public class ListenToRemote extends State
     {
         super.logic();
 
-        // 
+        //
         this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
         if(this.hasAnyButtonHasBeenPressed)
         {
@@ -260,13 +260,6 @@ public class ListenToRemote extends State
         }
         else {
             if(this.buzzerFrequency != 1000) this.buzzerFrequency = 5000;
-        }
-
-        // If can go forward and wants to go forward (targetSpeed > 0) than stop immediately and make sound if not muted
-        if (!this.canGoForward && this.engine.getOriginalTargetSpeed() > 0) {
-            this.notificationSystem.objectDetected();
-            this.engine.emergencyBrake();
-            System.out.println("noticed object on " + this.objectDetection.getDistance());
         }
 
         System.out.println("Delta time: " + this.stateMachine.getDeltaTime());

@@ -6,6 +6,6 @@ public enum StateID
     FollowRoute,
     GetRoute,
     ListenToRemote,
-    SearchForStartPoint,
-    ListenToControlPanel;
+    ListenToControlPanel,
+    SearchForStartPoint;
 }

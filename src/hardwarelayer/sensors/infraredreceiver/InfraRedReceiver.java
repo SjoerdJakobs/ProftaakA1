@@ -1,7 +1,7 @@
-package Hardware.Sensors;
+package hardwarelayer.sensors.infraredreceiver;
 
-import ButterCat.Modules.button.Button;
-import ButterCat.Modules.button.Callback;
+import hardwarelayer.sensors.button.Button;
+import interfacelayer.Callback;
 import TI.BoeBot;
 import java.util.ArrayList;
 

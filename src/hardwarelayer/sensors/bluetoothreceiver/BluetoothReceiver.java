@@ -1,8 +1,8 @@
-package Hardware.Sensors.bluetoothreceiver;
+package hardwarelayer.sensors.bluetoothreceiver;
 
-import ButterCat.Modules.asciibutton.AsciiButton;
-import ButterCat.Modules.asciibutton.Callback;
+
 import TI.SerialConnection;
+import hardwarelayer.sensors.asciibutton.AsciiButton;
 
 import java.util.ArrayList;
 
@@ -32,6 +32,7 @@ public class BluetoothReceiver {
             for (AsciiButton asciiButton: asciibuttons) {
                 asciiButton.setPressed(false);
             }
+            data = -1;
         }
     }
 }

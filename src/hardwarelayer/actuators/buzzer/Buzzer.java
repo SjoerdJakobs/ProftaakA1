@@ -27,7 +27,7 @@ public class Buzzer {
     public void mute() {
         buzz(0);
     }
-
+    
     public int getPin() { return this.pin; }
 
     public int getFrequency() { return this.frequency; }

@@ -1,6 +1,10 @@
+<<<<<<< HEAD:src/ButterCat/Modules/button/Button.java
+package ButterCat.Modules.button;
+=======
 package hardwarelayer.sensors.button;
 
 import interfacelayer.Callback;
+>>>>>>> a61ae69f21fd5fabd7c851f2ac0b26e69fe16a4d:src/hardwarelayer/sensors/button/Button.java
 
 public class Button
 {

@@ -35,7 +35,7 @@ public class DriverAI extends StandardObject
         this.lineFollowChecker = lineFollowChecker;
 
         MakeStates();
-        stateMachine.SetState(StateID.ListenToRemote);
+        stateMachine.SetState(StateID.FollowRoute);
         //System.out.println("the state should be started");
     }
 

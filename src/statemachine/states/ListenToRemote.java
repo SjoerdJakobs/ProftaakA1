@@ -62,7 +62,7 @@ public class ListenToRemote extends State
 
         if (shouldReturnControlToAi)
         {
-            stateMachine.SetState(StateID.GetRoute);
+            stateMachine.SetState(StateID.FollowRoute);
         }
     }
 

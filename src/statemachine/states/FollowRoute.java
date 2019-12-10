@@ -5,18 +5,21 @@ import hardwarelayer.sensors.linefollower.LineFollower;
 import interfacelayer.Engine;
 import buttercat.Remote;
 import interfacelayer.LineFollowChecker;
+import interfacelayer.ObjectDetection;
 import ooframework.FrameworkProgram;
 import statemachine.State;
 import statemachine.StateID;
 
 public class FollowRoute extends State {
-    DriverAI driverAI;
-    Engine engine;
-    Remote remote;
+    private DriverAI driverAI;
+    private Engine engine;
+    private Remote remote;
+    private LineFollowChecker lineFollowChecker;
+    private ObjectDetection objectDetection;
 
-    LineFollowChecker lineFollowChecker;
+    private boolean shouldGoToRemoteControl,  canDrive;
 
-    private boolean shouldGoToRemoteControl;
+    private int distance, lastDistance;
 
     public FollowRoute(DriverAI driverAI) {
         super(StateID.FollowRoute);
@@ -26,12 +29,16 @@ public class FollowRoute extends State {
         this.remote = driverAI.getRemote();
 
         this.lineFollowChecker = driverAI.getLineFollowChecker();
+        this.objectDetection = driverAI.getObjectDetection();
+
     }
 
     @Override
     protected void enter() {
         super.enter();
+        System.out.println("following");
         remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
+        lastDistance = 0;
     }
 
     private void setShouldGoToRemoteControlToTrue() {
@@ -50,25 +57,41 @@ public class FollowRoute extends State {
     protected void logic() {
         super.logic();
         engine.drive();
+//        System.out.println("L: " + lineFollowChecker.getValue(LineFollowChecker.LEFT_LINEFOLLOWER));
+//        System.out.println("M: " + lineFollowChecker.getValue(LineFollowChecker.MID_LINEFOLLOWER));
+//        System.out.println("R: " + lineFollowChecker.getValue(LineFollowChecker.RIGHT_LINEFOLLOWER));
+//        System.out.println();
+        canDrive = objectDetection.objectIsTooClose(10);
+        distance = objectDetection.getDistance();
 
-        System.out.println("L: " + lineFollowChecker.getValue(LineFollowChecker.LEFT_LINEFOLLOWER));
-        System.out.println("M: " + lineFollowChecker.getValue(LineFollowChecker.MID_LINEFOLLOWER));
-        System.out.println("R: " + lineFollowChecker.getValue(LineFollowChecker.RIGHT_LINEFOLLOWER));
-        System.out.println();
-
-        //TODO test this with boebot
-        if (lineFollowChecker.leftNoticedLine())
-            engine.turnLeft(0.8);
-        if (lineFollowChecker.rightNoticedLine())
-            engine.turnRight(0.8);
-        if (lineFollowChecker.midNoticedLine()) {
-            engine.turnStop();
-            engine.driveForward(250);
-        }
-        //TODO test if works
-        if (lineFollowChecker.hasNoticedIntersection()) {
+        if (distance < 10 && lastDistance - distance > 20) {
             engine.emergencyBrake();
+            canDrive = false;
         }
+
+        if (canDrive) {
+            //TODO test this with boebot
+            if (lineFollowChecker.midNoticedLine()) {
+//                System.out.println("driving forward");
+                engine.driveForward(50);
+                engine.turnStop();
+            }
+            if (lineFollowChecker.leftNoticedLine()) {
+//                System.out.println("adjusting left");
+                engine.turnRight(1);
+            }
+            if (lineFollowChecker.rightNoticedLine()) {
+//                System.out.println("adjusting right");
+                engine.turnLeft(1);
+            }
+
+            if (lineFollowChecker.hasNoticedIntersection()) {
+                System.out.println("stop");
+                //TODO implement decellerating
+            }
+        }
+
+        lastDistance = distance;
 
     }
 

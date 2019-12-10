@@ -54,7 +54,6 @@ public class ListenToRemote extends State
         shouldReturnControlToAi = false;
         hasAnyButtonHasBeenPressed = true;
         setButtons();
-        System.out.println("aokndaosi daos hdhoas hdoas hdasu hdoas hdo asd ");
     }
 
     @Override
@@ -268,8 +267,6 @@ public class ListenToRemote extends State
             this.engine.emergencyBrake();
             System.out.println("noticed object on " + this.objectDetection.getDistance());
         }
-
-        System.out.println("Delta time: " + this.stateMachine.getDeltaTime());
     }
 
     @Override

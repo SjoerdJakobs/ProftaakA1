@@ -11,7 +11,7 @@ public class LineFollowChecker extends StandardObject {
     //    private LineFollower midRigth;
     private LineFollower right;
 
-    private final static int THRESHOLD = 1300;
+    private final static int THRESHOLD = 1200;
 
     public static final int LEFT_LINEFOLLOWER = 0;
     public static final int MID_LINEFOLLOWER = 1;

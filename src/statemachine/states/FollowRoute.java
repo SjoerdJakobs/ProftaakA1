@@ -53,6 +53,11 @@ public class FollowRoute extends State {
         }
     }
 
+    // make variables so they don't have to be initialized every time the loop is entered
+    private boolean leftNoticed;
+    private boolean rightNoticed;
+    private boolean midNoticed;
+
     @Override
     protected void logic() {
         super.logic();

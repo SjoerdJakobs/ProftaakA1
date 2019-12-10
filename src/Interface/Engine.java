@@ -2,18 +2,12 @@ package Interface;
 
 import ButterCat.HelpFunctions;
 import Hardware.Actuators.Motor;
-import TI.BoeBot;
 import TI.Timer;
 
 public class Engine {
     private Motor servoLeft;
     private Motor servoRight;
     private Timer turnTimer;
-    private boolean needsToTurn;
-
-    private NotificationSystem notificationSystem;
-
-    private int turnTime;
 
     public Engine(int pinServoLeft, int pinServoRight) {
         HelpFunctions.checkDigitalPin("Engine left servo pin", pinServoLeft);
@@ -21,14 +15,6 @@ public class Engine {
 
         servoLeft = new Motor(pinServoLeft, false);
         servoRight = new Motor(pinServoRight, true);
-        needsToTurn = false;
-
-        notificationSystem = NotificationSystem.INSTANCE;
-
-        turnTime = 0;
-        turnDegreesTimer.mark();
-        timerSwitch = true;
-        amountTurned = 0;
     }
 
     private int originalTargetSpeed;
@@ -122,44 +108,32 @@ public class Engine {
         HelpFunctions.checkValue("Engine turn rate", turnRate, -1, 1);
     }
 
-
-    public void turnLeft(double turnRate) {
-
+    public void turnRight(double turnRate) {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
-        notificationSystem.left();
     }
 
-
-    public void turnRight(double turnRate) {
-
+    public void turnLeft(double turnRate) {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), turnRate);
-        notificationSystem.right();
     }
 
     public void noTurn() {
-
-        servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
-        servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
-
+        servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(),0);
+        servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(),0);
         setEngineTargetSpeed(this.originalTargetSpeed);
     }
 
     public void stopDriving() {
         setEngineTargetSpeed(0);
-        notificationSystem.turnLedsOn();
     }
 
-
-    public void driveBackward(int speed) {
-        setEngineTargetSpeed(speed);
-        notificationSystem.backwards();
+    public void driveBackward() {
+        setEngineTargetSpeed(-200);
     }
 
-    public void driveForward(int speed) {
-        setEngineTargetSpeed(speed);
-        notificationSystem.forward();
+    public void driveForward() {
+        setEngineTargetSpeed(200);
     }
 
     /**
@@ -168,7 +142,6 @@ public class Engine {
     public void emergencyBrake() {
         servoLeft.stop();
         servoRight.stop();
-        notificationSystem.turnLedsOn();
     }
 
     /**
@@ -177,7 +150,6 @@ public class Engine {
     public void continueDriving() {
         servoLeft.start();
         servoRight.start();
-        notificationSystem.forward();
     }
 
     /**
@@ -215,82 +187,64 @@ public class Engine {
     public Motor getMotorRight() {
         return this.servoRight;
     }
+  
+	/**
+	* Made by Sem
+	**/
 
-    private Timer turnDegreesTimer = new Timer(this.turnTime);
-    private boolean timerSwitch;
-    private int amountTurned;
-
-    public void driveDegrees(int degrees, int speed) {
-
-
-        if (timerSwitch) {
-            double temp = degrees * speed * (200 / 11);
-            this.turnTime = (int) temp;
-            turnDegreesTimer.setInterval(turnTime);
-            timerSwitch = false;
-            amountTurned = 0;
-
-        }
-
-        if (turnDegreesTimer.timeout()) {
-            amountTurned++;
-
-            needsToTurn = !needsToTurn;
-            BoeBot.uwait(1);
-        }
-
-        if (needsToTurn) {
-            turnLeft(0.1);
-            setEngineTargetSpeed(speed);
-        } else {
-            noTurn();
-        }
-
-
-    }
-
-
-    private int checkAmount(int amountOfTimes) {
-        return amountOfTimes * 2;
-    }
+    private Timer shapeTimer = new Timer(1000);
+    private Timer circleTimer = new Timer(5);
+    private int squareCounter = 0;
+    private int triangleCounter = 0;
+    private int circleCounter = 0;
 
     /**
      * makes the BoeBot drive in a square
      */
+    public void driveSquare() {
+        setCurrentTurnDegrees(360 / 4);
+        if (squareCounter != 4) {
+            if (shapeTimer.timeout()) {
 
-    public void driveSquare(int amountOfTimes, int speed) {
-        amountOfTimes = checkAmount(amountOfTimes);
-        if (amountTurned <= amountOfTimes * 4)
-            driveDegrees(90, speed);
-
+                squareCounter++;
+            } else {
+                driveForward();
+            }
+        }
     }
 
     /**
      * makes the BoeBot drive in a triangle
      */
+    public void driveTriangle() {
+        setCurrentTurnDegrees(360 / 3);
+        if (triangleCounter != 3) {
+            if (shapeTimer.timeout()) {
 
-    public void driveTriangle(int amountOfTimes, int speed) {
-        amountOfTimes = checkAmount(amountOfTimes);
-        if (amountTurned <= amountOfTimes * 3)
-            driveDegrees(120, speed);
-
+                triangleCounter++;
+            } else {
+                driveForward();
+            }
+        }
     }
 
     /**
      * makes the BoeBot drive in a circle
      */
+    public void driveCircle() {
+        setCurrentTurnDegrees(1);
+        if (circleCounter != 360) {
+            if (circleTimer.timeout()) {
 
-    public void driveCircle(int amountOfTimes, int speed) {
-        amountOfTimes = checkAmount(amountOfTimes);
-        if (amountTurned <= amountOfTimes * 360)
-            driveDegrees(1, speed);
+                circleCounter++;
+            } else {
+                driveForward();
+            }
+        }
     }
 
-    public String toString() {
-        return ("\nLeft motor: " + this.servoLeft.toString() +
-                "\nRight motor: " + this.servoRight.toString() +
-                "\nCurrent turn degrees: " + this.currentTurnDegrees +
-                "\nTarget turn degrees: " + this.targetTurnRate);
-
-    }
+    public String toString() { return ("\nLeft motor: " + this.servoLeft.toString() +
+            "\nRight motor: " + this.servoRight.toString() +
+            "\nCurrent turn degrees: " + this.currentTurnDegrees +
+            "\nTarget turn degrees: " + this.targetTurnRate);}
 }

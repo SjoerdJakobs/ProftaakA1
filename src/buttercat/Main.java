@@ -11,6 +11,14 @@ public class Main {
         Program program = new Program();
         program.run();
 
+        // Buzzer test
+//        while (true) {
+//            BoeBot.digitalWrite(9, true);
+//            BoeBot.wait(1);
+//            BoeBot.digitalWrite(9, false);
+//            BoeBot.wait(1);
+//        }
+
 //        LineFollowChecker follower = new LineFollowChecker(program);
 //        LineFollower left = new LineFollower(0);
 //        LineFollower mid = new LineFollower(1);

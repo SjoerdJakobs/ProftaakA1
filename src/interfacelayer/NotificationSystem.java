@@ -2,7 +2,7 @@ package interfacelayer;
 
 
 import TI.BoeBot;
-import hardwarelayer.sensors.buzzer.Buzzer;
+import hardwarelayer.actuators.buzzer.Buzzer;
 import hardwarelayer.sensors.led.Led;
 import hardwarelayer.sensors.led.NeoLed;
 

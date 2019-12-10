@@ -9,6 +9,7 @@ import interfacelayer.NotificationSystem;
 
 import statemachine.State;
 import statemachine.StateID;
+import statemachine.StateMachine;
 
 public class ListenToRemote extends State
 {
@@ -249,7 +250,7 @@ public class ListenToRemote extends State
             }
         }
 
-        if (!this.muted) this.notificationSystem.makeSound(this.buzzerFrequency);
+        if (!this.muted) this.notificationSystem.makeSound(this.buzzerFrequency, 10);
 
         // If can go forward and wants to go forward (targetSpeed > 0) than stop immediately and make sound if not muted
         if (!this.canGoForward && this.engine.getOriginalTargetSpeed() > 0) {
@@ -267,6 +268,8 @@ public class ListenToRemote extends State
             this.engine.emergencyBrake();
             System.out.println("noticed object on " + this.objectDetection.getDistance());
         }
+
+        System.out.println("Delta time: " + this.stateMachine.getDeltaTime());
     }
 
     @Override

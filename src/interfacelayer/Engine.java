@@ -1,7 +1,7 @@
 package interfacelayer;
 
 import buttercat.HelpFunctions;
-import hardwarelayer.actuators.Motor;
+import hardwarelayer.actuators.Motor.Motor;
 import TI.BoeBot;
 import TI.Timer;
 
@@ -14,6 +14,22 @@ public class Engine {
 
     private NotificationSystem notificationSystem;
 
+    /**
+     * ORIGINAL TARGET SPEED: getter and setter
+     * Used to save the original target speed and call for use when it's turning (because in a turn the targetSpeed is adjusted)
+     */
+    private int originalTargetSpeed;
+    public int getOriginalTargetSpeed() { return this.originalTargetSpeed; }
+    private void setOriginalTargetSpeed(int originalTargetSpeed) {
+        HelpFunctions.checkValue("Engine original target speed", originalTargetSpeed, -250, 250);
+        this.originalTargetSpeed = originalTargetSpeed;
+    }
+
+    /**
+     * CONSTRUCTOR
+     * @param pinServoLeft Pin connected to the left servo motor.
+     * @param pinServoRight Pin connected to the right servo motor.
+     */
     public Engine(int pinServoLeft, int pinServoRight) {
         HelpFunctions.checkDigitalPin("Engine left servo pin", pinServoLeft);
         HelpFunctions.checkDigitalPin("Engine right servo pin", pinServoRight);
@@ -28,17 +44,6 @@ public class Engine {
         turnDegreesTimer.mark();
         timerSwitch = true;
         amountTurned = 0;
-    }
-
-    /**
-     * ORIGINAL TARGET SPEED: getter and setter
-     * Used to save the original target speed and call for use when it's turning (because in a turn the targetSpeed is adjusted)
-     */
-    private int originalTargetSpeed;
-    public int getOriginalTargetSpeed() { return this.originalTargetSpeed; }
-    private void setOriginalTargetSpeed(int originalTargetSpeed) {
-        HelpFunctions.checkValue("Engine original target speed", originalTargetSpeed, -250, 250);
-        this.originalTargetSpeed = originalTargetSpeed;
     }
 
     /**
@@ -60,7 +65,7 @@ public class Engine {
 
     /**
      * Turn left while driving
-     * @param turnRate
+     * @param turnRate turn rate with value 0: no turn, 1: stop right wheel, 2: drive right wheel backwards
      */
     public void turnLeft(double turnRate) {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
@@ -68,16 +73,50 @@ public class Engine {
         notificationSystem.left();
     }
 
+    /**
+     * Turn right while driving
+     * @param turnRate turn rate with value 0: no turn, 1: stop left wheel, 2: drive left wheel backwards
+     */
     public void turnRight(double turnRate) {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), turnRate);
         notificationSystem.right();
     }
 
+    /**
+     * Stop turning regardless of the target speed
+     */
     public void turnStop() {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
         setEngineTargetSpeed(this.originalTargetSpeed);
+    }
+
+    /**
+     * TODO: fix the this.originalTargetSpeed
+     * Turn right while standing still (targetSpeed of 0)
+     */
+    public void stillturnRight() {
+        setEngineTargetSpeed(this.originalTargetSpeed / 2);
+        turnRight(2);
+    }
+
+    /**
+     * TODO: fix the this.originalTargetSpeed
+     * Turn left while standing still (targetSpeed of 0)
+     */
+    public void stillturnLeft() {
+        setEngineTargetSpeed(this.originalTargetSpeed / 2);
+        turnLeft(2);
+    }
+
+    /**
+     * TODO: fix the this.originalTargetSpeed
+     * Stop turning
+     */
+    public void stillturnStop() {
+        setEngineTargetSpeed(0);
+        turnStop();
     }
 
     public void driveStop() {
@@ -94,24 +133,6 @@ public class Engine {
     public void driveForward(int speed) {
         setEngineTargetSpeed(speed * -1);
         notificationSystem.forward();
-    }
-
-    public void stillturnRight() {
-        setEngineTargetSpeed(this.originalTargetSpeed / 2);
-        turnLeft(0);
-        turnRight(2);
-    }
-
-    public void stillturnLeft() {
-        setEngineTargetSpeed(this.originalTargetSpeed / 2);
-        turnLeft(2);
-        turnRight(0);
-    }
-
-    public void stillturnStop() {
-        setEngineTargetSpeed(0);
-        turnLeft(0);
-        turnRight(0);
     }
 
     public void emergencyBrake() {

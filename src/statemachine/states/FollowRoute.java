@@ -36,7 +36,6 @@ public class FollowRoute extends State {
     @Override
     protected void enter() {
         super.enter();
-        System.out.println("following");
         remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
         lastDistance = 0;
     }

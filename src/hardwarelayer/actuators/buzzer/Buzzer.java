@@ -1,6 +1,7 @@
-package hardwarelayer.sensors.buzzer;
+package hardwarelayer.actuators.buzzer;
 
 import TI.BoeBot;
+import TI.PWM;
 
 public class Buzzer {
 
@@ -17,7 +18,7 @@ public class Buzzer {
      * @param time the amount of time in ms to make the sound for
      */
     public void buzz(int time) {
-        BoeBot.freqOut(pin, frequency, time);
+        BoeBot.freqOut(pin, this.frequency, time);
     }
 
     /**
@@ -29,5 +30,7 @@ public class Buzzer {
     
     public int getPin() { return this.pin; }
 
+    public int getFrequency() { return this.frequency; }
+    public void setFrequency(int frequency) { this.frequency = frequency; }
 
 }

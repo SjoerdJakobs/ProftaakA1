@@ -51,10 +51,10 @@ public class FollowRoute extends State {
         super.logic();
         engine.drive();
 
-        System.out.println("L: " + lineFollowChecker.getValue(LineFollowChecker.LEFT_LINEFOLLOWER));
-        System.out.println("M: " + lineFollowChecker.getValue(LineFollowChecker.MID_LINEFOLLOWER));
-        System.out.println("R: " + lineFollowChecker.getValue(LineFollowChecker.RIGHT_LINEFOLLOWER));
-        System.out.println();
+//        System.out.println("L: " + lineFollowChecker.getValue(LineFollowChecker.LEFT_LINEFOLLOWER));
+//        System.out.println("M: " + lineFollowChecker.getValue(LineFollowChecker.MID_LINEFOLLOWER));
+//        System.out.println("R: " + lineFollowChecker.getValue(LineFollowChecker.RIGHT_LINEFOLLOWER));
+//        System.out.println();
 
         //TODO test this with boebot
         if (lineFollowChecker.leftNoticedLine())
@@ -62,7 +62,7 @@ public class FollowRoute extends State {
         if (lineFollowChecker.rightNoticedLine())
             engine.turnRight(0.8);
         if (lineFollowChecker.midNoticedLine()) {
-            engine.noTurn();
+            engine.turnStop();
             engine.driveForward(250);
         }
         //TODO test if works

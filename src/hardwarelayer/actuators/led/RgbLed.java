@@ -1,4 +1,4 @@
-package hardwarelayer.sensors.led;
+package hardwarelayer.actuators.led;
 
 import buttercat.HelpFunctions;
 import TI.PWM;

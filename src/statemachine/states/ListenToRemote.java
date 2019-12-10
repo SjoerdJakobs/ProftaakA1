@@ -9,6 +9,7 @@ import interfacelayer.NotificationSystem;
 
 import statemachine.State;
 import statemachine.StateID;
+import statemachine.StateMachine;
 
 public class ListenToRemote extends State
 {
@@ -53,6 +54,7 @@ public class ListenToRemote extends State
         shouldReturnControlToAi = false;
         hasAnyButtonHasBeenPressed = true;
         setButtons();
+        System.out.println("aokndaosi daos hdhoas hdoas hdasu hdoas hdo asd ");
     }
 
     @Override
@@ -243,22 +245,21 @@ public class ListenToRemote extends State
         this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
         if (this.canGoForward) {
             if (this.objectDetection.objectIsTooClose(this.objectDetectionDistance + 200)) {
-                this.engine.setEngineTargetSpeed(this.engineTargetSpeed - this.engineTargetSpeed /
-                        (this.engineTargetSpeed * (this.objectDetection.getDistance() / 200)));
+                this.engine.setEngineTargetSpeed(this.engineTargetSpeed - this.engineTargetSpeed *
+                        ((200 - (this.objectDetection.getDistance() - this.objectDetectionDistance)) / 200));
             }
         }
 
-        if (!this.muted) this.notificationSystem.makeSound(this.buzzerFrequency, this.stateMachine.getDeltaTime());
+        if (!this.muted) this.notificationSystem.makeSound(this.buzzerFrequency, 10);
 
         // If can go forward and wants to go forward (targetSpeed > 0) than stop immediately and make sound if not muted
         if (!this.canGoForward && this.engine.getOriginalTargetSpeed() > 0) {
             this.notificationSystem.objectDetected();
             this.engine.emergencyBrake();
-            System.out.println("noticed object on " + this.objectDetection.getDistance());
-            this.buzzerFrequency = 2000;
+            this.buzzerFrequency = 10000;
         }
         else {
-            if(this.buzzerFrequency != 1000) this.buzzerFrequency = 1000;
+            if(this.buzzerFrequency != 1000) this.buzzerFrequency = 5000;
         }
 
         // If can go forward and wants to go forward (targetSpeed > 0) than stop immediately and make sound if not muted
@@ -266,8 +267,9 @@ public class ListenToRemote extends State
             this.notificationSystem.objectDetected();
             this.engine.emergencyBrake();
             System.out.println("noticed object on " + this.objectDetection.getDistance());
-            if (!this.muted) this.notificationSystem.makeSound(1000, this.stateMachine.getDeltaTime());
         }
+
+        System.out.println("Delta time: " + this.stateMachine.getDeltaTime());
     }
 
     @Override

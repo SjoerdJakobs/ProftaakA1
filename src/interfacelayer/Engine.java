@@ -70,7 +70,7 @@ public class Engine {
     public void turnLeft(double turnRate) {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
-        notificationSystem.left();
+        notificationSystem.right();
     }
 
     /**
@@ -80,7 +80,7 @@ public class Engine {
     public void turnRight(double turnRate) {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), turnRate);
-        notificationSystem.right();
+        notificationSystem.left();
     }
 
     /**

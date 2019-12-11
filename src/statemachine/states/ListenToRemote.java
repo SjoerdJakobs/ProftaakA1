@@ -107,7 +107,6 @@ public class ListenToRemote extends State
     {
         if(canGoForward) {
             this.engine.turnStop();
-            this.engine.stillturnStop();
             this.engine.driveForward(this.engineTargetSpeed);
             System.out.println("forward");
         }
@@ -117,7 +116,6 @@ public class ListenToRemote extends State
     private void driveBackwards()
     {
         this.engine.turnStop();
-        this.engine.stillturnStop();
         this.engine.driveBackward(this.engineTargetSpeed);
 
         System.out.println("backwards");
@@ -126,12 +124,7 @@ public class ListenToRemote extends State
     private void driveRight()
     {
         if(this.canGoForward) {
-            if (this.engineTargetSpeed == 0) {
-                engine.stillturnRight();
-            }
-            else {
-                this.engine.turnRight(0.6);
-            }
+            this.engine.turnRight(0.6);
             System.out.println("right");
         }
     }
@@ -139,12 +132,7 @@ public class ListenToRemote extends State
     private void driveLeft()
     {
         if(this.canGoForward) {
-            if (this.engineTargetSpeed == 0) {
-                engine.stillturnLeft();
-            }
-            else {
-                this.engine.turnLeft(0.6);
-            }
+            this.engine.turnLeft(0.6);
             System.out.println("left");
         }
     }

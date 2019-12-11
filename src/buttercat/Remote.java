@@ -60,7 +60,7 @@ public class Remote extends StandardObject
     public Remote(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated)
     {
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
-        infraRedReceiver = new InfraRedReceiver();
+        infraRedReceiver = new InfraRedReceiver(1);
         infraRedReceiver.somethingHasBeenPressed = () -> {
             onAnyButtonPress();
         };
@@ -129,7 +129,7 @@ public class Remote extends StandardObject
     {
         super.inputLoop(deltaTime);
 
-        infraRedReceiver.checkForButtonPresses(buttons,deltaTime);
+        infraRedReceiver.checkForButtonPresses(buttons, deltaTime);
     }
 
     @Override

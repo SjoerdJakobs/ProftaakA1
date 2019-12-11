@@ -97,7 +97,7 @@ public class Engine {
      * Turn right while standing still (targetSpeed of 0)
      */
     public void stillturnRight() {
-        setEngineTargetSpeed(this.originalTargetSpeed / 2);
+        setEngineTargetSpeed(100 / 2);  // 100 = this.originalTargetSpeed
         turnRight(2);
     }
 
@@ -106,7 +106,7 @@ public class Engine {
      * Turn left while standing still (targetSpeed of 0)
      */
     public void stillturnLeft() {
-        setEngineTargetSpeed(this.originalTargetSpeed / 2);
+        setEngineTargetSpeed(100 / 2); // 100 = this.originalTargetSpeed
         turnLeft(2);
     }
 

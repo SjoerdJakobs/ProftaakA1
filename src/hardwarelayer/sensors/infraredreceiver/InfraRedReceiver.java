@@ -1,5 +1,6 @@
 package hardwarelayer.sensors.infraredreceiver;
 
+import buttercat.HelpFunctions;
 import hardwarelayer.sensors.button.Button;
 import interfacelayer.Callback;
 import TI.BoeBot;
@@ -8,15 +9,20 @@ import java.util.ArrayList;
 public class InfraRedReceiver
 {
     public Callback somethingHasBeenPressed;
+    private int pin;
+
+    public InfraRedReceiver(int pin) {
+        this.pin = pin;
+    }
 
     public void checkForButtonPresses(ArrayList<Button> buttons, double deltaTime)
     {
-        int pulseLen = BoeBot.pulseIn(11, false, 6000);
+        int pulseLen = BoeBot.pulseIn(this.pin, false, 6000);
         long number = 0;
         if (pulseLen > 2000) {
             int lengtes[] = new int[12];
             for (int i = 0; i < 12; i++) {
-                lengtes[i] = BoeBot.pulseIn(11, false, 20000);
+                lengtes[i] = BoeBot.pulseIn(pin, false, 20000);
             }
             number = readButtonReturnInt(lengtes);
 

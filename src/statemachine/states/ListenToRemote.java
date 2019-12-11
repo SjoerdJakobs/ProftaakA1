@@ -53,7 +53,6 @@ public class ListenToRemote extends State {
         shouldReturnControlToAi = false;
         hasAnyButtonHasBeenPressed = true;
         setButtons();
-        System.out.println("aokndaosi daos hdhoas hdoas hdasu hdoas hdo asd ");
         needToCheck = true;
     }
 

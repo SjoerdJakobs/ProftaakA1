@@ -17,6 +17,7 @@ public class Main {
         System.out.println("hey");
         Program program = new Program();
         program.run();
+
     }
 }
 

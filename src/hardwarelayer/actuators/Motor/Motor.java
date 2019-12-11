@@ -1,4 +1,4 @@
-package hardwarelayer.actuators;
+package hardwarelayer.actuators.Motor;
 
 import buttercat.HelpFunctions;
 import TI.Servo;

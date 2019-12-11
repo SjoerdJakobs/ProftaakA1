@@ -2,7 +2,14 @@ package buttercat;
 
 import TI.BoeBot;
 import hardwarelayer.sensors.linefollower.LineFollower;
+import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
+import interfacelayer.NotificationSystem;
+import ooframework.FrameworkProgram;
+import TI.SerialConnection;
+
+import TI.SerialConnection;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -11,6 +18,92 @@ public class Main {
         Program program = new Program();
         program.run();
 
+    }
+}
+
+//    }
+//}
+
+//Bluetooth test
+//    SerialConnection conn = new SerialConnection();
+//
+//while (true) {
+//        if (conn.available() > 0) {
+//            int data = conn.readByte();
+//            conn.writeByte(data);
+//            System.out.println("Received: " + data);
+//        }
+//            switch (data) {
+//                case 119: //w
+//                    System.out.println("Forward");
+//                    break;
+//                case 97: //a
+//                    System.out.println("Left");
+//                    break;
+//                case 100: //d
+//                    System.out.println("Right");
+//                    break;
+//                case 115: //s
+//                    System.out.println("Backwards");
+//                    break;
+//                case 32: //space
+//                    System.out.println("Stop");
+//                    break;
+//            }
+//        }
+//
+//    }
+//}
+
+
+// Buzzer test
+//        while (true) {
+//            BoeBot.digitalWrite(9, true);
+//            BoeBot.wait(1);
+//            BoeBot.digitalWrite(9, false);
+//            BoeBot.wait(1);
+//        }
+
+
+//Bluetooth test
+//    SerialConnection conn = new SerialConnection();
+//
+//while (true) {
+//        if (conn.available() > 0) {
+//            int data = conn.readByte();
+//            conn.writeByte(data);
+//            System.out.println("Received: " + data);
+//        }
+//            switch (data) {
+//                case 119: //w
+//                    System.out.println("Forward");
+//                    break;
+//                case 97: //a
+//                    System.out.println("Left");
+//                    break;
+//                case 100: //d
+//                    System.out.println("Right");
+//                    break;
+//                case 115: //s
+//                    System.out.println("Backwards");
+//                    break;
+//                case 32: //space
+//                    System.out.println("Stop");
+//                    break;
+//            }
+//        }
+//
+//    }
+//}
+
+
+// Buzzer test
+//        while (true) {
+//            BoeBot.digitalWrite(9, true);
+//            BoeBot.wait(1);
+//            BoeBot.digitalWrite(9, false);
+//            BoeBot.wait(1);
+//        }
 //        LineFollowChecker follower = new LineFollowChecker(program);
 //        LineFollower left = new LineFollower(0);
 //        LineFollower mid = new LineFollower(1);
@@ -64,5 +157,3 @@ public class Main {
         Program program = new Program();
         program.run();
         */
-    }
-}

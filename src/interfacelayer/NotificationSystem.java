@@ -2,9 +2,9 @@ package interfacelayer;
 
 
 import TI.BoeBot;
-import hardwarelayer.sensors.buzzer.Buzzer;
-import hardwarelayer.sensors.led.Led;
-import hardwarelayer.sensors.led.NeoLed;
+import hardwarelayer.actuators.buzzer.Buzzer;
+import hardwarelayer.actuators.led.Led;
+import hardwarelayer.actuators.led.NeoLed;
 
 import java.awt.*;
 
@@ -35,6 +35,7 @@ public enum  NotificationSystem {
         neoLed5.turnOff();
         neoLed6.turnOff();
     }
+
 
     //implement this in the driveBackwards method
     public void forward() {
@@ -105,14 +106,29 @@ public enum  NotificationSystem {
         neoLed6.turnOff();
     }
 
+    /**
+     * Create a buzzer sound using the wait function
+     * @param frequency The frequency in Hz
+     * @param waitTime The duration for which the buzzer will buzz in milliseconds
+     */
+    public void makeSound(int frequency, int waitTime) {
+        if (buzzer.getFrequency() != frequency) buzzer.setFrequency(frequency);
+        buzzer.buzz(waitTime);
+    }
+
+    /**
+     * Create a buzzer sound using deltaTime
+     * @param frequency The frequency in Hz.
+     * @param deltaTime The difference between now and the previous time the function was called
+     */
     public void makeSound(int frequency, double deltaTime) {
         sumDeltaTimeForBuzzer += deltaTime;
         if (buzzerIsOn) {
-            buzzerIsOn = !buzzerIsOn;
+            buzzerIsOn = false;
             BoeBot.digitalWrite(buzzer.getPin(), true);
         }
         else {
-            buzzerIsOn = !buzzerIsOn;
+            buzzerIsOn = true;
             BoeBot.digitalWrite(buzzer.getPin(), false);
         }
     }
@@ -125,6 +141,60 @@ public enum  NotificationSystem {
         neoLed5.setColor(Color.RED);
         neoLed6.setColor(Color.RED);
         turnLedsOn();
+    }
+
+    public void leftLineFollower(Color rgb) {
+        neoLed4.setColor(rgb);
+        neoLed4.turnOn();
+        neoLed5.turnOff();
+        neoLed6.turnOff();
+    }
+
+    public void midLineFollower(Color rgb) {
+        neoLed5.setColor(rgb);
+        neoLed5.turnOn();
+        neoLed4.turnOff();
+        neoLed6.turnOff();
+    }
+
+    public void rightLineFollower(Color rgb) {
+        neoLed6.setColor(rgb);
+        neoLed6.turnOn();
+        neoLed4.turnOff();
+        neoLed5.turnOff();
+    }
+
+    public void midRightLineFollower(Color rgb) {
+        neoLed5.setColor(rgb);
+        neoLed6.setColor(rgb);
+        neoLed6.turnOn();
+        neoLed5.turnOn();
+        neoLed4.turnOff();
+
+    }
+
+    public void midLeftLineFollower(Color rgb) {
+        neoLed5.setColor(rgb);
+        neoLed4.setColor(rgb);
+        neoLed4.turnOn();
+        neoLed5.turnOn();
+        neoLed6.turnOff();
+
+    }
+
+    public void allLineFollowers(Color rgb) {
+        neoLed1.setColor(rgb);
+        neoLed2.setColor(rgb);
+        neoLed3.setColor(rgb);
+        neoLed4.setColor(rgb);
+        neoLed5.setColor(rgb);
+        neoLed6.setColor(rgb);
+        neoLed1.turnOn();
+        neoLed2.turnOn();
+        neoLed3.turnOn();
+        neoLed4.turnOn();
+        neoLed5.turnOn();
+        neoLed6.turnOn();
     }
 
 }

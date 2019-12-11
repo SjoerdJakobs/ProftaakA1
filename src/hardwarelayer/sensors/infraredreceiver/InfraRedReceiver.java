@@ -1,4 +1,4 @@
-package hardwarelayer.sensors;
+package hardwarelayer.sensors.infraredreceiver;
 
 import hardwarelayer.sensors.button.Button;
 import interfacelayer.Callback;

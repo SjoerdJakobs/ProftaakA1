@@ -1,4 +1,4 @@
-package hardwarelayer.sensors.led;
+package hardwarelayer.actuators.led;
 
 import TI.BoeBot;
 import TI.Timer;

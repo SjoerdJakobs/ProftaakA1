@@ -3,14 +3,16 @@ package hardwarelayer.sensors.bluetoothreceiver;
 
 import TI.SerialConnection;
 import hardwarelayer.sensors.asciibutton.AsciiButton;
+import interfacelayer.Callback;
 
 import java.util.ArrayList;
 
 public class BluetoothReceiver {
 
-    SerialConnection conn = new SerialConnection();
+    public Callback somethingHasBeenPressed;
 
     public void checkForButtonPresses(ArrayList<AsciiButton> asciibuttons) {
+        SerialConnection conn = new SerialConnection();
         int data = conn.readByte();
         conn.writeByte(data);
         //System.out.println("Received: " + data);
@@ -20,6 +22,7 @@ public class BluetoothReceiver {
                     if (!asciiButton.isPressed()) {
                         asciiButton.setPressed(true);
                         asciiButton.onButtonPress.run();
+                        somethingHasBeenPressed.run();
                     } else if (asciiButton.isPressed() && asciiButton.isContinuousCallback()) {
                         asciiButton.onButtonPress.run();
                     }
@@ -27,9 +30,8 @@ public class BluetoothReceiver {
                     asciiButton.setPressed(false);
                 }
             }
-        }
-        else{
-            for (AsciiButton asciiButton: asciibuttons) {
+        } else {
+            for (AsciiButton asciiButton : asciibuttons) {
                 asciiButton.setPressed(false);
             }
             data = -1;

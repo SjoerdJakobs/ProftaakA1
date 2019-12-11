@@ -1,6 +1,7 @@
 package statemachine.states;
 
 
+import TI.SerialConnection;
 import buttercat.ControlPanel;
 import buttercat.DriverAI;
 import buttercat.Remote;
@@ -9,6 +10,8 @@ import interfacelayer.NotificationSystem;
 import interfacelayer.ObjectDetection;
 import statemachine.State;
 import statemachine.StateID;
+
+import java.util.ArrayList;
 
 public class ListentoControlPanel extends State {
 
@@ -27,6 +30,7 @@ public class ListentoControlPanel extends State {
     private int objectDetectionDistance = 80; // in millimeters
     private boolean muted = false;
     private int buzzerFrequency = 1000;
+    private ArrayList<Integer> commands;
 
     private boolean shouldGoToRemoteControl;
 
@@ -42,6 +46,7 @@ public class ListentoControlPanel extends State {
         this.controlPanel = driverAI.getControlPanel();
         this.objectDetection = driverAI.getObjectDetection();
         this.notificationSystem = NotificationSystem.INSTANCE;
+        this.commands = new ArrayList<>();
     }
 
     @Override
@@ -71,20 +76,54 @@ public class ListentoControlPanel extends State {
     }
 
     private void setAsciiButtons() {
-        controlPanel.getWButton().onButtonPress      = () ->{driveForward();};
-        controlPanel.getSButton().onButtonPress    = () ->{driveBackwards();};
-        controlPanel.getAButton().onButtonPress    = () ->{driveLeft();};
-        controlPanel.getDButton().onButtonPress   = () ->{driveRight();};
-        controlPanel.getEscButton().onButtonPress      = () ->{returnToAiControl();};
-        controlPanel.getMButton().onButtonPress    = () ->{muteBuzzer();};
-        controlPanel.getZButton().onButtonPress   = () ->{turn90DegreesLeft();};
-        controlPanel.getCButton().onButtonPress  = () ->{turn90DegreesRight();};
-        controlPanel.getQButton().onButtonPress  = () ->{turn180DegreesLeft();};
-        controlPanel.getEButton().onButtonPress = () ->{turn180DegreesRight();};
-        controlPanel.getSpaceButton().onButtonPress    = () ->{noSpeed();};
-        controlPanel.getOneButton().onButtonPress   = () ->{slowSpeed();};
-        controlPanel.getTwoButton().onButtonPress = () ->{mediumSpeed();};
-        controlPanel.getThreeButton().onButtonPress   = () ->{fastSpeed();};
+        controlPanel.getWButton().onButtonPress = () -> {
+            driveForward();
+        };
+        controlPanel.getSButton().onButtonPress = () -> {
+            driveBackwards();
+        };
+        controlPanel.getAButton().onButtonPress = () -> {
+            driveLeft();
+        };
+        controlPanel.getDButton().onButtonPress = () -> {
+            driveRight();
+        };
+        controlPanel.getEscButton().onButtonPress = () -> {
+            returnToAiControl();
+        };
+        controlPanel.getMButton().onButtonPress = () -> {
+            muteBuzzer();
+        };
+        controlPanel.getZButton().onButtonPress = () -> {
+            turn90DegreesLeft();
+        };
+        controlPanel.getCButton().onButtonPress = () -> {
+            turn90DegreesRight();
+        };
+        controlPanel.getQButton().onButtonPress = () -> {
+            turn180DegreesLeft();
+        };
+        controlPanel.getEButton().onButtonPress = () -> {
+            turn180DegreesRight();
+        };
+        controlPanel.getSpaceButton().onButtonPress = () -> {
+            noSpeed();
+        };
+        controlPanel.getOneButton().onButtonPress = () -> {
+            slowSpeed();
+        };
+        controlPanel.getTwoButton().onButtonPress = () -> {
+            mediumSpeed();
+        };
+        controlPanel.getThreeButton().onButtonPress = () -> {
+            fastSpeed();
+        };
+        controlPanel.getPButton().onButtonPress = () -> {
+            listen();
+        };
+        controlPanel.getOButton().onButtonPress = () -> {
+
+        };
     }
 
     private void driveForward() {
@@ -125,49 +164,68 @@ public class ListentoControlPanel extends State {
         this.muted = !this.muted;
     }
 
-    private void turn90DegreesLeft()
-    {
-        if(this.canGoForward) {
+    private void turn90DegreesLeft() {
+        if (this.canGoForward) {
             System.out.println("turn90DegreesLeft");
         }
     }
 
-    private void turn90DegreesRight()
-    {
-        if(this.canGoForward) {
+    private void turn90DegreesRight() {
+        if (this.canGoForward) {
             System.out.println("turn90DegreesRight");
         }
     }
 
-    private void turn180DegreesLeft()
-    {
+    private void turn180DegreesLeft() {
         System.out.println("turn180DegreesLeft");
     }
 
-    private void turn180DegreesRight()
-    {
+    private void turn180DegreesRight() {
         System.out.println("turn180DegreesRight");
     }
 
-    private void slowSpeed()
-    {
+    private void slowSpeed() {
         this.engineTargetSpeed = 50;
         this.engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("slowSpeed");
     }
 
-    private void mediumSpeed()
-    {
+    private void mediumSpeed() {
         this.engineTargetSpeed = 125;
         this.engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("mediumSpeed");
     }
 
-    private void fastSpeed()
-    {
+    private void fastSpeed() {
         this.engineTargetSpeed = 200;
         this.engine.setEngineTargetSpeed(this.engineTargetSpeed);
         System.out.println("fastSpeed");
+    }
+
+    private void listen() {
+        SerialConnection conn = new SerialConnection();
+
+        int data = conn.readByte();
+        if (data != controlPanel.getPButton().getAscii()) {
+            conn.writeByte(data);
+//        if(ascii == ascii van o) {
+//            stopListen();
+//        }
+            if (!controlPanel.getPButton().isPressed()) {
+                controlPanel.getPButton().setPressed(true);
+                commands.add(data);
+                controlPanel.getPButton().onButtonPress.run();
+            } else if (controlPanel.getOButton().getAscii() == data) {
+                controlPanel.getPButton().setPressed(false);
+                controlPanel.getOButton().setPressed(false);
+            } else if (controlPanel.getPButton().isPressed()) {
+                commands.add(data);
+                controlPanel.getPButton().onButtonPress.run();
+            }
+        }
+    }
+    private void stopListen() {
+
     }
 
     private void returnToAiControl() {
@@ -181,10 +239,18 @@ public class ListentoControlPanel extends State {
 //        }
     }
 
+    private void anyButtonHasBeenPressed() {
+        this.hasAnyButtonHasBeenPressed = true;
+    }
+
     @Override
     protected void logic() {
         super.logic();
-        canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
+        this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
+        if (this.hasAnyButtonHasBeenPressed) {
+            notificationSystem.noRemoteControl();
+            this.hasAnyButtonHasBeenPressed = false;
+        }
 
         // Each 0.001s the engine will update the servo motors' speed.
         sumDeltaTime += stateMachine.getDeltaTime();

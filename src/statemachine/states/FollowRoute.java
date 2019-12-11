@@ -1,5 +1,6 @@
 package statemachine.states;
 
+import buttercat.ControlPanel;
 import buttercat.DriverAI;
 import hardwarelayer.sensors.linefollower.LineFollower;
 import interfacelayer.Engine;
@@ -16,17 +17,20 @@ public class FollowRoute extends State {
     private Remote remote;
     private LineFollowChecker lineFollowChecker;
     private ObjectDetection objectDetection;
+    private ControlPanel controlPanel;
 
-    private boolean shouldGoToRemoteControl,  canDrive;
+    private boolean shouldGoToRemoteControl,  canDrive, shouldGoToControlPanelControl;
 
     private int distance, lastDistance;
 
     public FollowRoute(DriverAI driverAI) {
         super(StateID.FollowRoute);
         shouldGoToRemoteControl = false;
+        shouldGoToControlPanelControl = false;
         this.driverAI = driverAI;
         this.engine = driverAI.getEngine();
         this.remote = driverAI.getRemote();
+        this.controlPanel = driverAI.getControlPanel();
 
         this.lineFollowChecker = driverAI.getLineFollowChecker();
         this.objectDetection = driverAI.getObjectDetection();
@@ -38,6 +42,7 @@ public class FollowRoute extends State {
         super.enter();
         System.out.println("following");
         remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
+        controlPanel.aButtonHasBeenPressed = this::setShouldGoToControlPanelControl;
         lastDistance = 0;
     }
 
@@ -45,11 +50,18 @@ public class FollowRoute extends State {
         shouldGoToRemoteControl = true;
     }
 
+    private void setShouldGoToControlPanelControl() {
+        shouldGoToControlPanelControl = true;
+    }
+
     @Override
     protected void checkForStateSwitch() {
         super.checkForStateSwitch();
         if (shouldGoToRemoteControl) {
             stateMachine.SetState(StateID.ListenToRemote);
+        }
+        else if (shouldGoToControlPanelControl) {
+            stateMachine.SetState(StateID.ListenToControlPanel);
         }
     }
 

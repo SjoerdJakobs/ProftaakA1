@@ -3,26 +3,58 @@ package buttercat;
 import TI.BoeBot;
 import TI.SerialConnection;
 
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class Main {
-    public static void main(String[] args) {
+//Main Programm
+//public class Main {
+//    public static void main(String[] args) {
+//
+//        System.out.println("hey");
+//        Program program = new Program();
+//        program.run();
+//
+//    }
+//}
 
-        System.out.println("hey");
-        Program program = new Program();
-        program.run();
+//trash
+//public class Main {
+//    public static void main(String[] args) {
+//        SerialConnection conn = new SerialConnection();
+//        ArrayList<Integer> list = new ArrayList<Integer>();
+//        Collections.addAll(list, 12,13,14,15,16);
+//        String sumData = "";
+//
+//        for(Integer data: list) {
+//            sumData += data;
+//        }
+//        int data = Integer.parseInt(sumData);
+//        while(true) {
+//            if(conn.available() > 0) {
+//                int received = conn.readByte();
+//                conn.writeByte(list);
+//                System.out.println("Received: " + received);
+//            }
+//
+//        }
+//    }
+//}
 
-    }
-}
 
 //Bluetooth test
-//    SerialConnection conn = new SerialConnection();
+//public class Main {
+//    public static void main(String[] args) {
+//        SerialConnection conn = new SerialConnection();
 //
-//while (true) {
-//        if (conn.available() > 0) {
-//            int data = conn.readByte();
-//            conn.writeByte(data);
-//            System.out.println("Received: " + data);
+//        while (true) {
+//            if (conn.available() > 0) {
+//                int data = conn.readByte();
+//                conn.writeByte(data);
+//                System.out.println("Received: " + data);
+//            }
 //        }
+//    }
+//}
 //            switch (data) {
 //                case 119: //w
 //                    System.out.println("Forward");

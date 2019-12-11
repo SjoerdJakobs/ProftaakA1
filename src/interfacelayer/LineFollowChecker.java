@@ -24,7 +24,7 @@ public class LineFollowChecker extends StandardObject {
      * @param frameworkProgram the program to run with
      */
     public LineFollowChecker(FrameworkProgram frameworkProgram) {
-        super(frameworkProgram);
+        super(frameworkProgram,true,false,false,true);
 
         //TODO change if pins are different after putting the linefollowers on project boebot
         this.left = new LineFollower(2);
@@ -39,8 +39,8 @@ public class LineFollowChecker extends StandardObject {
      * @param deltaTime the time difference
      */
     @Override
-    protected void mainLoop(double deltaTime) {
-        super.mainLoop(deltaTime);
+    protected void inputLoop(double deltaTime) {
+        super.inputLoop(deltaTime);
 
         left.startReading().run();
         midLeft.startReading().run();

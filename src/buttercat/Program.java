@@ -1,5 +1,6 @@
 package buttercat;
 
+import TEMP.TempEngine;
 import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
 import ooframework.FrameworkProgram;
@@ -14,6 +15,7 @@ public class Program extends FrameworkProgram
     }
 
     private Engine              engine;
+    private TempEngine          tempEngine;
     private Remote              remote;
     private StateMachine        stateMachine;
     private ObjectDetection     objectDetection;
@@ -31,7 +33,7 @@ public class Program extends FrameworkProgram
         objectDetection = new ObjectDetection(this);
         lineFollowChecker = new LineFollowChecker(this);
         controlPanel = new ControlPanel(this);
-        driverAI = new DriverAI(this,true,false,false,true,engine,remote,stateMachine,objectDetection, lineFollowChecker, controlPanel);
+        driverAI = new DriverAI(this,true,false,false,true,engine,tempEngine,remote,stateMachine,objectDetection, lineFollowChecker, controlPanel);
     }
 
     @Override

@@ -70,16 +70,10 @@ public class FollowRoute extends State {
     @Override
     protected void logic() {
         super.logic();
-        colors();
+        colors(0.009f);
 
         canDrive = !objectDetection.objectIsTooClose(80);
         distance = objectDetection.getDistance();
-
-//        if (distance < 10 && lastDistance - distance > 20) {
-//            System.out.println("braking");
-//            engine.emergencyBrake();
-//            canDrive = false;
-//        }
 
         if (canDrive) {
             notificationSystem.turnLedsOff();
@@ -91,45 +85,11 @@ public class FollowRoute extends State {
                 notificationSystem.allLineFollowers(rgb);
             }
 
-
-            if (lineFollowChecker.leftNoticedLine() && !(lineFollowChecker.midNoticedLine() || lineFollowChecker.rightNoticedLine())) {
-//                System.out.println("adjusting left");
-
-                notificationSystem.leftLineFollower(rgb);
-                if (!goingLeft) {
-                    engine.turnLeft(1);
-                }
-
-                goingLeft = true;
-                goingRight = false;
-                goingForward = false;
-
-            }
-            if (lineFollowChecker.rightNoticedLine() && !(lineFollowChecker.leftNoticedLine() || lineFollowChecker.midNoticedLine())) {
-//                System.out.println("adjusting right");
-                notificationSystem.rightLineFollower(rgb);
-                if (!goingRight) {
-                    engine.turnRight(1);
-                }
-
-
-                goingRight = true;
-                goingLeft = false;
-                goingForward = false;
-            }
-
-            if (lineFollowChecker.midNoticedLine() && !(lineFollowChecker.leftNoticedLine() || lineFollowChecker.rightNoticedLine())) {
-//                System.out.println("noticed mid");
-                notificationSystem.midLineFollower(rgb);
-                if (!goingForward) {
-                    engine.turnStop();
-                    engine.driveForward(this.engineTargetSpeed);
-                }
-
-                goingForward = true;
-                goingLeft = false;
-                goingRight = false;
-            }
+            checkLeft();
+            checkMidLeft();
+            checkMidRight();
+            checkRight();
+            checkMid();
 
 //            BoeBot.wait(100);
         } else {
@@ -148,7 +108,10 @@ public class FollowRoute extends State {
         }
     }
 
-    public void colors() {
+    /**
+     * method to calculate the color for displaying the line follower
+     */
+    private void colors(float value) {
 
         rgb = Color.getHSBColor(rainbowValue, 1, 1);
 
@@ -159,6 +122,83 @@ public class FollowRoute extends State {
         }
 
 
+    }
+
+    private void checkMid() {
+        if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine() && !(lineFollowChecker.leftNoticedLine() || lineFollowChecker.rightNoticedLine())) {
+//                System.out.println("noticed mid");
+            notificationSystem.midLineFollower(rgb);
+            if (!goingForward) {
+                engine.turnStop();
+                engine.driveForward(this.engineTargetSpeed);
+            }
+
+            goingForward = true;
+            goingLeft = false;
+            goingRight = false;
+        }
+    }
+
+    private void checkMidLeft() {
+        if (lineFollowChecker.midLeftNoticedLine() && !lineFollowChecker.rightNoticedLine()) {
+
+            notificationSystem.leftLineFollower(rgb);
+            if (!goingLeft) {
+                engine.turnLeft(0.4);
+            }
+
+            goingLeft = true;
+            goingRight = false;
+            goingForward = false;
+
+        }
+    }
+
+    private void checkMidRight() {
+        if (lineFollowChecker.midRightNoticedLine() && !lineFollowChecker.leftNoticedLine()) {
+//                System.out.println("adjusting right");
+            notificationSystem.rightLineFollower(rgb);
+            if (!goingRight) {
+                engine.turnRight(0.4);
+            }
+
+
+            goingRight = true;
+            goingLeft = false;
+            goingForward = false;
+        }
+    }
+
+    private void checkRight() {
+        if (lineFollowChecker.rightNoticedLine() && !(lineFollowChecker.midLeftNoticedLine() || lineFollowChecker.leftNoticedLine())) {
+            colors(0.1f);
+//                System.out.println("adjusting right");
+            notificationSystem.rightLineFollower(rgb);
+            if (!goingRight) {
+                engine.turnRight(1);
+            }
+
+
+            goingRight = true;
+            goingLeft = false;
+            goingForward = false;
+        }
+    }
+
+    private void checkLeft() {
+        if (lineFollowChecker.leftNoticedLine() && !(lineFollowChecker.midRightNoticedLine() || lineFollowChecker.rightNoticedLine())) {
+            colors(0.1f);
+
+            notificationSystem.leftLineFollower(rgb);
+            if (!goingLeft) {
+                engine.turnLeft(1);
+            }
+
+            goingLeft = true;
+            goingRight = false;
+            goingForward = false;
+
+        }
     }
 
     @Override

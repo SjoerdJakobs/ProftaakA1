@@ -50,6 +50,7 @@ public class FollowRoute extends State {
     @Override
     protected void enter() {
         super.enter();
+        System.out.println("following");
         remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
         lastDistance = 0;
         engine.setEngineTargetSpeed(this.engineTargetSpeed);
@@ -66,6 +67,11 @@ public class FollowRoute extends State {
             stateMachine.SetState(StateID.ListenToRemote);
         }
     }
+
+    // make variables so they don't have to be initialized every time the loop is entered
+    private boolean leftNoticed;
+    private boolean rightNoticed;
+    private boolean midNoticed;
 
     @Override
     protected void logic() {

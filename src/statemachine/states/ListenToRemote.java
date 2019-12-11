@@ -236,7 +236,7 @@ public class ListenToRemote extends State {
     protected void logic() {
         super.logic();
 
-        // 
+        //
         this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
         if (this.hasAnyButtonHasBeenPressed) {
             this.notificationSystem.remoteControll();
@@ -274,7 +274,6 @@ public class ListenToRemote extends State {
                 this.engine.setEngineTargetSpeed((int) -speed);
             }
         }
-
 
         if (!this.muted) this.notificationSystem.makeSound(this.buzzerFrequency, 10);
 

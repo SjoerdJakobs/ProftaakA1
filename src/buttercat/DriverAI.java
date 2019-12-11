@@ -17,6 +17,7 @@ public class DriverAI extends StandardObject
     private Remote remote;
     private ObjectDetection objectDetection;
     private LineFollowChecker lineFollowChecker;
+    private ControlPanel controlPanel;
 
     public DriverAI(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
@@ -25,7 +26,7 @@ public class DriverAI extends StandardObject
     public DriverAI(FrameworkProgram frameworkProgram,
                     boolean usesInput, boolean usesMain,
                     boolean usesRenderer, boolean startsActivated,
-                    Engine engine, Remote remote, StateMachine stateMachine, ObjectDetection objectDetection, LineFollowChecker lineFollowChecker) {
+                    Engine engine, Remote remote, StateMachine stateMachine, ObjectDetection objectDetection, LineFollowChecker lineFollowChecker, ControlPanel controlPanel) {
 
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
         this.stateMachine = stateMachine;
@@ -33,6 +34,7 @@ public class DriverAI extends StandardObject
         this.remote = remote;
         this.objectDetection = objectDetection;
         this.lineFollowChecker = lineFollowChecker;
+        this.controlPanel = controlPanel;
 
         MakeStates();
         stateMachine.SetState(StateID.ListenToRemote);
@@ -94,5 +96,9 @@ public class DriverAI extends StandardObject
 
     public LineFollowChecker getLineFollowChecker() {
         return lineFollowChecker;
+    }
+
+    public ControlPanel getControlPanel() {
+        return controlPanel;
     }
 }

@@ -29,7 +29,8 @@ public class Remote extends StandardObject
     public static final long SPEED_TWO = 100000010000L;//100000010000L
     public static final long SPEED_TRHREE = 10000010000L;//010000010000L
 
-    private InfraRedReceiver infraRedReceiver;
+    private InfraRedReceiver infraRedReceiver1;
+    private InfraRedReceiver infraRedReceiver2;
     private ArrayList<Button> buttons;
 
     private Button upButton;
@@ -60,8 +61,12 @@ public class Remote extends StandardObject
     public Remote(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated)
     {
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
-        infraRedReceiver = new InfraRedReceiver(6);
-        infraRedReceiver.somethingHasBeenPressed = () -> {
+        infraRedReceiver1 = new InfraRedReceiver(0);
+        infraRedReceiver2 = new InfraRedReceiver(1);
+        infraRedReceiver1.somethingHasBeenPressed = () -> {
+            onAnyButtonPress();
+        };
+        infraRedReceiver2.somethingHasBeenPressed = () -> {
             onAnyButtonPress();
         };
         buttons = new ArrayList<Button>();
@@ -129,7 +134,8 @@ public class Remote extends StandardObject
     {
         super.inputLoop(deltaTime);
 
-        infraRedReceiver.checkForButtonPresses(buttons, deltaTime);
+        infraRedReceiver1.checkForButtonPresses(buttons, deltaTime);
+        infraRedReceiver2.checkForButtonPresses(buttons, deltaTime);
     }
 
     @Override
@@ -148,9 +154,14 @@ public class Remote extends StandardObject
         this.upButton = upButton;
     }
 
-    public InfraRedReceiver getInfraRedReceiver()
+    public InfraRedReceiver getInfraRedReceiver1()
     {
-        return infraRedReceiver;
+        return infraRedReceiver1;
+    }
+
+    public InfraRedReceiver getInfraRedReceiver2()
+    {
+        return infraRedReceiver2;
     }
 
     public ArrayList<Button> getButtons()

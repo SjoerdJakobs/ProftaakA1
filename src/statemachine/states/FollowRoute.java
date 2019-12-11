@@ -89,20 +89,22 @@ public class FollowRoute extends State {
 
         System.out.println(engine.toString());
         System.out.println(lineFollowChecker.toString());
-        System.out.println(objectDetection.toString());
+        System.out.println(objectDetection.toString() + "\t Can drive: " + (canDrive ? "true" : "false"));
 
         /*
         if (button.isPressed()) {
             System.out.println("Pressed");
             canDrive = true;
         }
-
+        */
+        // TODO: use Callback button instead of digitalRead
+        // TODO: fix bug: when starting in FollowRoute, ultrasonic sensor reads <80 thus must press the button to start the BoeBot
+        if (!BoeBot.digitalRead(11)) canDrive = true;
         if (objectDetection.objectIsTooClose(80)) {
-            System.out.println("Blocked");
             canDrive = false;
         }
-        */
-        canDrive = !objectDetection.objectIsTooClose(80);
+
+//        canDrive = !objectDetection.objectIsTooClose(80);
 
         if (canDrive) {
             if (changeNeoLeds) {

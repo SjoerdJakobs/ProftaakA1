@@ -40,7 +40,7 @@ public class ObjectDetection extends StandardObject {
     /**
      * returns whether an object is too close or not
      *
-     * @return true if an object is less than 10 cm away from the BoeBot
+     * @return true if an object is less than 100 mm away from the BoeBot
      */
     public boolean objectIsTooClose() {
         return objectIsTooClose(100);
@@ -49,7 +49,7 @@ public class ObjectDetection extends StandardObject {
     /**
      * checks if an object is less than the given distance away
      *
-     * @param distance the distance to check for in cm
+     * @param distance the distance to check for in mm
      * @return true if an object is less than the distance amount away
      */
     public boolean objectIsTooClose(int distance) {

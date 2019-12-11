@@ -19,6 +19,7 @@ public class Program extends FrameworkProgram
     private ObjectDetection     objectDetection;
     private DriverAI            driverAI;
     private LineFollowChecker   lineFollowChecker;
+    private ControlPanel        controlPanel;
 
     @Override
     protected void start() {
@@ -29,7 +30,8 @@ public class Program extends FrameworkProgram
         stateMachine = new StateMachine(this);
         objectDetection = new ObjectDetection(this);
         lineFollowChecker = new LineFollowChecker(this);
-        driverAI = new DriverAI(this,true,false,false,true,engine,remote,stateMachine,objectDetection, lineFollowChecker);
+        controlPanel = new ControlPanel(this);
+        driverAI = new DriverAI(this,true,false,false,true,engine,remote,stateMachine,objectDetection, lineFollowChecker, controlPanel);
     }
 
     @Override

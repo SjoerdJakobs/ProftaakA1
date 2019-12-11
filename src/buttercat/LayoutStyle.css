@@ -1,0 +1,4 @@
+.panebg{
+    -fx-background-image: url("../buttercat/butterCat.png");
+    -fx-background-size: 100% 100%;
+}

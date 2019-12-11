@@ -2,7 +2,14 @@ package buttercat;
 
 import TI.BoeBot;
 import hardwarelayer.sensors.linefollower.LineFollower;
+import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
+import interfacelayer.NotificationSystem;
+import ooframework.FrameworkProgram;
+import TI.SerialConnection;
+
+import TI.SerialConnection;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -10,6 +17,123 @@ public class Main {
         System.out.println("hey");
         Program program = new Program();
         program.run();
+//        NotificationSystem nf = NotificationSystem.INSTANCE;
+//        LineFollowChecker lineFollowChecker = new LineFollowChecker(new FrameworkProgram());
+//        Engine engine = new Engine(14,15);
+//
+//        while (true) {
+//            lineFollowChecker.readAll();
+//            engine.drive();
+//
+//            if (lineFollowChecker.leftNoticedLine()) {
+//                nf.leftLineFollower();
+//                engine.turnLeft(1);
+//            }
+//            if (lineFollowChecker.rightNoticedLine()) {
+//                nf.rightLineFollower();
+////                engine.turnRight(1);
+//            }
+//            if (lineFollowChecker.midNoticedLine()) {
+//                nf.midLineFollower();
+////                engine.driveForward(50);
+////                engine.turnStop();
+//            }
+//
+//            BoeBot.wait(1);
+//        }
+        // Buzzer test
+//        while (true) {
+//            BoeBot.digitalWrite(9, true);
+//            BoeBot.wait(1);
+//            BoeBot.digitalWrite(9, false);
+//            BoeBot.wait(1);
+//        }
+
+    }
+}
+
+//Bluetooth test
+//    SerialConnection conn = new SerialConnection();
+//
+//while (true) {
+//        if (conn.available() > 0) {
+//            int data = conn.readByte();
+//            conn.writeByte(data);
+//            System.out.println("Received: " + data);
+//        }
+//            switch (data) {
+//                case 119: //w
+//                    System.out.println("Forward");
+//                    break;
+//                case 97: //a
+//                    System.out.println("Left");
+//                    break;
+//                case 100: //d
+//                    System.out.println("Right");
+//                    break;
+//                case 115: //s
+//                    System.out.println("Backwards");
+//                    break;
+//                case 32: //space
+//                    System.out.println("Stop");
+//                    break;
+//            }
+//        }
+//
+//    }
+//}
+
+
+// Buzzer test
+//        while (true) {
+//            BoeBot.digitalWrite(9, true);
+//            BoeBot.wait(1);
+//            BoeBot.digitalWrite(9, false);
+//            BoeBot.wait(1);
+//        }
+
+//    }
+//}
+
+//Bluetooth test
+//    SerialConnection conn = new SerialConnection();
+//
+//while (true) {
+//        if (conn.available() > 0) {
+//            int data = conn.readByte();
+//            conn.writeByte(data);
+//            System.out.println("Received: " + data);
+//        }
+//            switch (data) {
+//                case 119: //w
+//                    System.out.println("Forward");
+//                    break;
+//                case 97: //a
+//                    System.out.println("Left");
+//                    break;
+//                case 100: //d
+//                    System.out.println("Right");
+//                    break;
+//                case 115: //s
+//                    System.out.println("Backwards");
+//                    break;
+//                case 32: //space
+//                    System.out.println("Stop");
+//                    break;
+//            }
+//        }
+//
+//    }
+//}
+
+
+// Buzzer test
+//        while (true) {
+//            BoeBot.digitalWrite(9, true);
+//            BoeBot.wait(1);
+//            BoeBot.digitalWrite(9, false);
+//            BoeBot.wait(1);
+//        }
 
         // Buzzer test
 //        while (true) {
@@ -72,5 +196,3 @@ public class Main {
         Program program = new Program();
         program.run();
         */
-    }
-}

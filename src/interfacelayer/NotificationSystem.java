@@ -164,6 +164,24 @@ public enum  NotificationSystem {
         neoLed5.turnOff();
     }
 
+    public void midRightLineFollower(Color rgb) {
+        neoLed5.setColor(rgb);
+        neoLed6.setColor(rgb);
+        neoLed6.turnOn();
+        neoLed5.turnOn();
+        neoLed4.turnOff();
+
+    }
+
+    public void midLeftLineFollower(Color rgb) {
+        neoLed5.setColor(rgb);
+        neoLed4.setColor(rgb);
+        neoLed4.turnOn();
+        neoLed5.turnOn();
+        neoLed6.turnOff();
+
+    }
+
     public void allLineFollowers(Color rgb) {
         neoLed1.setColor(rgb);
         neoLed2.setColor(rgb);

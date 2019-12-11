@@ -99,11 +99,13 @@ public class FollowRoute extends State {
                 engine.emergencyBrake();
             }
 
-            checkLeft();
-            checkMidLeft();
-            checkMidRight();
-            checkRight();
-            checkMid();
+            if (!lineFollowChecker.hasNoticedIntersection()) {
+                checkLeft();
+                checkMidLeft();
+                checkMidRight();
+                checkRight();
+                checkMid();
+            }
 
 //            BoeBot.wait(100);
         } else {
@@ -142,10 +144,10 @@ public class FollowRoute extends State {
         if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.leftNoticedLine())) {
 //                System.out.println("noticed mid");
             notificationSystem.midLineFollower(rgb);
-            if (!goingForward) {
+//            if (!goingForward) {
                 engine.turnStop();
-                engine.driveForward(this.engineTargetSpeed);
-            }
+                engine.updateInstantPulse(this.engineTargetSpeed);
+//            }
 
             goingForward = true;
             goingLeft = false;
@@ -157,9 +159,10 @@ public class FollowRoute extends State {
         if (lineFollowChecker.midLeftNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.midRightNoticedLine())) {
 //            System.out.println("noticed mid left");
             notificationSystem.leftLineFollower(rgb);
-            if (!goingLeft) {
-                engine.turnLeft(0.4);
-            }
+//            if (!goingLeft) {
+                engine.instantLeft();
+                notificationSystem.midLeftLineFollower(rgb);
+//            }
 
             goingLeft = true;
             goingRight = false;
@@ -172,9 +175,10 @@ public class FollowRoute extends State {
         if (lineFollowChecker.midRightNoticedLine() && !(lineFollowChecker.leftNoticedLine() || lineFollowChecker.midLeftNoticedLine() )) {
 //                System.out.println("adjusting mid right");
             notificationSystem.rightLineFollower(rgb);
-            if (!goingRight) {
-                engine.turnRight(0.4);
-            }
+//            if (!goingRight) {
+                engine.instantRight();
+                notificationSystem.midRightLineFollower(rgb);
+//            }
 
 
             goingRight = true;
@@ -188,9 +192,9 @@ public class FollowRoute extends State {
             colors(0.1f);
 //                System.out.println("adjusting right");
             notificationSystem.rightLineFollower(rgb);
-            if (!goingRight) {
-                engine.turnRight(1);
-            }
+//            if (!goingRight) {
+                engine.instantRight();
+//            }
 
 
             goingRight = true;
@@ -202,17 +206,23 @@ public class FollowRoute extends State {
     private void checkLeft() {
         if (lineFollowChecker.leftNoticedLine() && !(lineFollowChecker.midRightNoticedLine() || lineFollowChecker.rightNoticedLine())) {
             colors(0.1f);
-//            System.out.println("noticed left");
+            System.out.println("noticed left");
             notificationSystem.leftLineFollower(rgb);
-            if (!goingLeft) {
-                engine.turnLeft(1);
-            }
+//            if (!goingLeft) {
+//                engine.turnLeft(1);
+                engine.instantLeft();
+//                System.out.println(engine.toString());
+//            }
 
             goingLeft = true;
             goingRight = false;
             goingForward = false;
 
         }
+    }
+
+    public void followHardCodedRoute(int counter) {
+
     }
 
     @Override

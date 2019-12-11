@@ -174,6 +174,19 @@ public class Engine {
         //servo.getServo().getPulseWidth() < servo.getTargetSpeed() ?
     }
 
+    public void updateInstantPulse(int amount) {
+        servoLeft.updateInstantPulse(amount);
+        servoRight.updateInstantPulse(amount);
+    }
+
+    public void instantLeft() {
+        servoLeft.updateInstantPulse(0);
+    }
+
+    public void instantRight() {
+        servoRight.updateInstantPulse(0);
+    }
+
     /**
      * (+)Getter for both the left and right motor
      */

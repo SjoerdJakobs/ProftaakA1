@@ -61,8 +61,9 @@ public class ListenToRemote extends State {
     protected void checkForStateSwitch() {
         super.checkForStateSwitch();
 
-        if (shouldReturnControlToAi) {
-            stateMachine.SetState(StateID.FollowRoute);
+        if (shouldReturnControlToAi)
+        {
+            stateMachine.SetState(StateID.GetRoute);
         }
     }
 

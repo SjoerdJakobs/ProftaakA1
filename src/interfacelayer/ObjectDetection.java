@@ -19,7 +19,7 @@ public class ObjectDetection extends StandardObject {
         super(frameworkProgram);
 
         // trigger pin: 7, echo pin: 8
-        this.sensor = new UltraSonicSensor(7, 8);
+        this.sensor = new UltraSonicSensor(10, 9);
     }
 
     /**

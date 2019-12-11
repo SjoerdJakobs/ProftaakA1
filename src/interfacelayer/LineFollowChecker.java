@@ -8,7 +8,7 @@ import ooframework.StandardObject;
 public class LineFollowChecker extends StandardObject {
     private LineFollower left;
     private LineFollower midLeft;
-        private LineFollower midRigth;
+    private LineFollower midRigth;
     private LineFollower right;
 
     private final static int THRESHOLD = 1200;
@@ -27,10 +27,10 @@ public class LineFollowChecker extends StandardObject {
         super(frameworkProgram);
 
         //TODO change if pins are different after putting the linefollowers on project boebot
-        this.left = new LineFollower(0);
-        this.midLeft = new LineFollower(1);
-        this.midRigth = new LineFollower(2);
-        this.right = new LineFollower(3);
+        this.left = new LineFollower(2);
+        this.midLeft = new LineFollower(3);
+        this.midRigth = new LineFollower(1);
+        this.right = new LineFollower(0);
     }
 
     /**

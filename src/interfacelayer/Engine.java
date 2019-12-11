@@ -67,7 +67,7 @@ public class Engine {
      * Turn left while driving
      * @param turnRate turn rate with value 0: no turn, 1: stop right wheel, 2: drive right wheel backwards
      */
-    public void turnLeft(double turnRate) {
+    public void turnRight(double turnRate) {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), turnRate);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), 0);
         notificationSystem.right();
@@ -77,7 +77,7 @@ public class Engine {
      * Turn right while driving
      * @param turnRate turn rate with value 0: no turn, 1: stop left wheel, 2: drive left wheel backwards
      */
-    public void turnRight(double turnRate) {
+    public void turnLeft(double turnRate) {
         servoRight.updateTurnTargetSpeed(servoRight.getTargetSpeed(), 0);
         servoLeft.updateTurnTargetSpeed(servoLeft.getTargetSpeed(), turnRate);
         notificationSystem.left();

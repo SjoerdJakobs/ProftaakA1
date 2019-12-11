@@ -32,6 +32,7 @@ public class LineFollower {
     public void read() {
         if (lineTimer.timeout())
             this.value = BoeBot.analogRead(pin);
+//        System.out.println(this.value);
     }
 
     /**

@@ -24,7 +24,7 @@ public class FollowRoute extends State {
 
     private int distance, lastDistance, timer = 5;
 
-    private int engineTargetSpeed = 70;
+    private int engineTargetSpeed = 125;
 
     private float rainbowValue;
     private Color rgb;
@@ -77,8 +77,15 @@ public class FollowRoute extends State {
     protected void logic() {
         super.logic();
         colors(0.009f);
+//        System.out.print("left : " + lineFollowChecker.getValue(LineFollowChecker.LEFT_LINEFOLLOWER));
+//        System.out.print(" mid l: " + lineFollowChecker.getValue(LineFollowChecker.MID_LEFT_LINEFOLLOWER));
+//        System.out.print(" mid r: " + lineFollowChecker.getValue(LineFollowChecker.MID_RIGHT_LINEFOLLOWER));
+//        System.out.println(" right: " + lineFollowChecker.getValue(LineFollowChecker.RIGHT_LINEFOLLOWER));
+
+        System.out.println(engine.toString());
 
         canDrive = !objectDetection.objectIsTooClose(80);
+//        System.out.println(objectDetection.getDistance());
         distance = objectDetection.getDistance();
 
         if (canDrive) {
@@ -86,9 +93,10 @@ public class FollowRoute extends State {
             //TODO test this with boebot
             //TODO add 4th line follower
             if (lineFollowChecker.hasNoticedIntersection()) {
-                System.out.println("stop");
+//                System.out.println("stop");
                 //TODO implement decellerating
                 notificationSystem.allLineFollowers(rgb);
+                engine.emergencyBrake();
             }
 
             checkLeft();
@@ -131,7 +139,7 @@ public class FollowRoute extends State {
     }
 
     private void checkMid() {
-        if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine() && !(lineFollowChecker.leftNoticedLine() || lineFollowChecker.rightNoticedLine())) {
+        if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.leftNoticedLine())) {
 //                System.out.println("noticed mid");
             notificationSystem.midLineFollower(rgb);
             if (!goingForward) {
@@ -146,8 +154,8 @@ public class FollowRoute extends State {
     }
 
     private void checkMidLeft() {
-        if (lineFollowChecker.midLeftNoticedLine() && !lineFollowChecker.rightNoticedLine()) {
-
+        if (lineFollowChecker.midLeftNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.midRightNoticedLine())) {
+//            System.out.println("noticed mid left");
             notificationSystem.leftLineFollower(rgb);
             if (!goingLeft) {
                 engine.turnLeft(0.4);
@@ -161,8 +169,8 @@ public class FollowRoute extends State {
     }
 
     private void checkMidRight() {
-        if (lineFollowChecker.midRightNoticedLine() && !lineFollowChecker.leftNoticedLine()) {
-//                System.out.println("adjusting right");
+        if (lineFollowChecker.midRightNoticedLine() && !(lineFollowChecker.leftNoticedLine() || lineFollowChecker.midLeftNoticedLine() )) {
+//                System.out.println("adjusting mid right");
             notificationSystem.rightLineFollower(rgb);
             if (!goingRight) {
                 engine.turnRight(0.4);
@@ -194,7 +202,7 @@ public class FollowRoute extends State {
     private void checkLeft() {
         if (lineFollowChecker.leftNoticedLine() && !(lineFollowChecker.midRightNoticedLine() || lineFollowChecker.rightNoticedLine())) {
             colors(0.1f);
-
+//            System.out.println("noticed left");
             notificationSystem.leftLineFollower(rgb);
             if (!goingLeft) {
                 engine.turnLeft(1);

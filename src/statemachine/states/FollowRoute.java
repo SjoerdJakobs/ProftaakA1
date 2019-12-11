@@ -29,6 +29,9 @@ public class FollowRoute extends State {
     private float rainbowValue;
     private Color rgb;
 
+    private int[] route;
+    private int counter;
+
     public FollowRoute(DriverAI driverAI) {
         super(StateID.FollowRoute);
         shouldGoToRemoteControl = false;
@@ -44,6 +47,8 @@ public class FollowRoute extends State {
         this.goingRight = false;
 
         this.rainbowValue = 0;
+        this.counter = 0;
+        this.route = new int[]{1,2,0,1,0,0,1,0,2};
 
     }
 
@@ -82,7 +87,7 @@ public class FollowRoute extends State {
 //        System.out.print(" mid r: " + lineFollowChecker.getValue(LineFollowChecker.MID_RIGHT_LINEFOLLOWER));
 //        System.out.println(" right: " + lineFollowChecker.getValue(LineFollowChecker.RIGHT_LINEFOLLOWER));
 
-        System.out.println(engine.toString());
+//        System.out.println(engine.toString());
 
         canDrive = !objectDetection.objectIsTooClose(80);
 //        System.out.println(objectDetection.getDistance());
@@ -93,6 +98,7 @@ public class FollowRoute extends State {
             //TODO test this with boebot
             //TODO add 4th line follower
             if (lineFollowChecker.hasNoticedIntersection()) {
+                counter++;
 //                System.out.println("stop");
                 //TODO implement decellerating
                 notificationSystem.allLineFollowers(rgb);
@@ -115,6 +121,8 @@ public class FollowRoute extends State {
             goingLeft = false;
             goingRight = false;
         }
+
+        followHardCodedRoute(counter);
 
 
         lastDistance = distance;
@@ -145,7 +153,7 @@ public class FollowRoute extends State {
 //                System.out.println("noticed mid");
             notificationSystem.midLineFollower(rgb);
 //            if (!goingForward) {
-                engine.turnStop();
+//                engine.turnStop();
                 engine.updateInstantPulse(this.engineTargetSpeed);
 //            }
 
@@ -222,6 +230,22 @@ public class FollowRoute extends State {
     }
 
     public void followHardCodedRoute(int counter) {
+        int action = route[counter];
+
+        switch (action) {
+            case 0:
+                // straight
+                engine.driveForward(this.engineTargetSpeed);
+                break;
+            case 1:
+                //right
+                engine.instantRight();
+                break;
+            case 2:
+                //left
+                engine.instantLeft();
+                break;
+        }
 
     }
 

@@ -8,7 +8,7 @@ import ooframework.StandardObject;
 public class LineFollowChecker extends StandardObject {
     private LineFollower left;
     private LineFollower midLeft;
-    private LineFollower midRigth;
+    private LineFollower midRight;
     private LineFollower right;
 
     private final static int THRESHOLD = 1200;
@@ -29,7 +29,7 @@ public class LineFollowChecker extends StandardObject {
         //TODO change if pins are different after putting the linefollowers on project boebot
         this.left = new LineFollower(2);
         this.midLeft = new LineFollower(3);
-        this.midRigth = new LineFollower(1);
+        this.midRight = new LineFollower(1);
         this.right = new LineFollower(0);
     }
 
@@ -44,7 +44,7 @@ public class LineFollowChecker extends StandardObject {
 
         left.startReading().run();
         midLeft.startReading().run();
-        midRigth.startReading().run();
+        midRight.startReading().run();
         right.startReading().run();
     }
 
@@ -57,7 +57,7 @@ public class LineFollowChecker extends StandardObject {
     }
 
     public boolean midRightNoticedLine() {
-        return midRigth.getValue() > THRESHOLD;
+        return midRight.getValue() > THRESHOLD;
     }
 
     public boolean rightNoticedLine() {
@@ -96,7 +96,7 @@ public class LineFollowChecker extends StandardObject {
                 res = midLeft.getValue();
                 break;
             case 2:
-                res = midRigth.getValue();
+                res = midRight.getValue();
                 break;
             case 3:
                 res = right.getValue();
@@ -112,9 +112,15 @@ public class LineFollowChecker extends StandardObject {
     public void readAll() {
         left.read();
         midLeft.read();
-        midRigth.read();
+        midRight.read();
         right.read();
     }
 
+    public String toString() {
+        return "lfLeft: " + (left.getValue() > THRESHOLD ? "black (" : "white (") + this.left.getValue() +
+                ")\tlfMidLeft: " + (midLeft.getValue() > THRESHOLD ? "black (" : "white (")+ this.midLeft.getValue() +
+                ")\tlfMidRight: " + (midRight.getValue() > THRESHOLD ? "black (" : "white (") + this.midRight.getValue() +
+                ")\tlfRight: " + (right.getValue() > THRESHOLD ? "black (" : "white (") + this.right.getValue() + ")";
+    }
 
 }

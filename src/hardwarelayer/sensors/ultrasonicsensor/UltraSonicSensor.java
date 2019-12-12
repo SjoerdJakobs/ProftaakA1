@@ -76,4 +76,8 @@ public class UltraSonicSensor {
     public Callback onDistanceCallback() {
         return this.distanceCallback;
     }
+
+    public String toString() {
+        return "Ultrasonic sensor distance: " + getDistanceToObject() + " mm";
+    }
 }

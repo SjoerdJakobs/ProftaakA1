@@ -87,9 +87,9 @@ public class FollowRoute extends State {
 
         colors(0.009f);
 
-        System.out.println(engine.toString());
-        System.out.println(lineFollowChecker.toString());
-        System.out.println(objectDetection.toString() + "\t Can drive: " + (canDrive ? "true" : "false"));
+//        System.out.println(engine.toString());
+//        System.out.println(lineFollowChecker.toString());
+//        System.out.println(objectDetection.toString() + "\t Can drive: " + (canDrive ? "true" : "false"));
 
         /*
         if (button.isPressed()) {
@@ -100,6 +100,7 @@ public class FollowRoute extends State {
         // TODO: use Callback button instead of digitalRead
         // TODO: fix bug: when starting in FollowRoute, ultrasonic sensor reads <80 thus must press the button to start the BoeBot
         if (!BoeBot.digitalRead(11)) canDrive = true;
+//        System.out.println("distance: " + objectDetection.getDistance());
         if (objectDetection.objectIsTooClose(80)) {
             canDrive = false;
         }
@@ -150,7 +151,7 @@ public class FollowRoute extends State {
 
         rgb = Color.getHSBColor(rainbowValue, 1, 1);
 
-        rainbowValue += 0.009;
+        rainbowValue += value;
 
         if (rainbowValue == 1.0) {
             rainbowValue = 0;

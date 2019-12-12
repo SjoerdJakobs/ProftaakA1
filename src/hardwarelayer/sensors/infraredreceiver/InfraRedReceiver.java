@@ -20,7 +20,7 @@ public class InfraRedReceiver
             }
             number = readButtonReturnInt(lengtes);
 
-            //System.out.println(number);
+            System.out.println(number);
 
             for (Button button : buttons) {
                 if (button.getAddress() == number) {

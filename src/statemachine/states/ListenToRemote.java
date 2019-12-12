@@ -53,7 +53,7 @@ public class ListenToRemote extends State {
         shouldReturnControlToAi = false;
         hasAnyButtonHasBeenPressed = true;
         setButtons();
-        System.out.println("aokndaosi daos hdhoas hdoas hdasu hdoas hdo asd ");
+        System.out.println("LISTENING TO REMOTE");
         needToCheck = true;
     }
 
@@ -68,60 +68,24 @@ public class ListenToRemote extends State {
     }
 
     private void setButtons() {
-        remote.getUpButton().onButtonPress = () -> {
-            driveForward();
-        };
-        remote.getDownButton().onButtonPress = () -> {
-            driveBackwards();
-        };
-        remote.getLeftButton().onButtonPress = () -> {
-            driveLeft();
-        };
-        remote.getRightButton().onButtonPress = () -> {
-            driveRight();
-        };
-        remote.getOnButton().onButtonPress = () -> {
-            returnToAiControl();
-        };
-        remote.getMuteButton().onButtonPress = () -> {
-            muteBuzzer();
-        };
-        remote.getTurn90DegreesLeftButton().onButtonPress = () -> {
-            turn90DegreesLeft();
-        };
-        remote.getTurn90DegreesRightButton().onButtonPress = () -> {
-            turn90DegreesRight();
-        };
-        remote.getTurn180DegreesLeftButton().onButtonPress = () -> {
-            turn180DegreesLeft();
-        };
-        remote.getTurn180DegreesRightButton().onButtonPress = () -> {
-            turn180DegreesRight();
-        };
-        remote.getSpeedOffButton().onButtonPress = () -> {
-            noSpeed();
-        };
-        remote.getSpeedSlowButton().onButtonPress = () -> {
-            slowSpeed();
-        };
-        remote.getSpeedMediumButton().onButtonPress = () -> {
-            mediumSpeed();
-        };
-        remote.getSpeedFastButton().onButtonPress = () -> {
-            fastSpeed();
-        };
-        remote.getCircleButton().onButtonPress = () -> {
-            driveInCircle();
-        };
-        remote.getSquareButton().onButtonPress = () -> {
-            driveInSquare();
-        };
-        remote.getTriangleButton().onButtonPress = () -> {
-            driveInTriangle();
-        };
-        remote.aButtonHasBeenPressed = () -> {
-            anyButtonHasBeenPressed();
-        };
+        remote.getUpButton().onButtonPress = this::driveForward;
+        remote.getDownButton().onButtonPress = this::driveBackwards;
+        remote.getLeftButton().onButtonPress = this::driveLeft;
+        remote.getRightButton().onButtonPress = this::driveRight;
+        remote.getOnButton().onButtonPress = this::returnToAiControl;
+        remote.getMuteButton().onButtonPress = this::muteBuzzer;
+        remote.getTurn90DegreesLeftButton().onButtonPress = this::turn90DegreesLeft;
+        remote.getTurn90DegreesRightButton().onButtonPress = this::turn90DegreesRight;
+        remote.getTurn180DegreesLeftButton().onButtonPress = this::turn180DegreesLeft;
+        remote.getTurn180DegreesRightButton().onButtonPress = this::turn180DegreesRight;
+        remote.getSpeedOffButton().onButtonPress = this::noSpeed;
+        remote.getSpeedSlowButton().onButtonPress = this::slowSpeed;
+        remote.getSpeedMediumButton().onButtonPress = this::mediumSpeed;
+        remote.getSpeedFastButton().onButtonPress = this::fastSpeed;
+        remote.getCircleButton().onButtonPress = this::driveInCircle;
+        remote.getSquareButton().onButtonPress = this::driveInSquare;
+        remote.getTriangleButton().onButtonPress = this::driveInTriangle;
+        remote.aButtonHasBeenPressed = this::anyButtonHasBeenPressed;
     }
 
     private void returnToAiControl() {
@@ -262,7 +226,7 @@ public class ListenToRemote extends State {
         //objectdetectiondistance = 80
 //        this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
 //        System.out.println("distance: " + objectDetection.getDistance());
-        System.out.println(needToCheck);
+//        System.out.println("to check: " + needToCheck);
         if (needToCheck)
         if (this.objectDetection.objectIsTooClose(this.objectDetectionDistance)) {
             this.canGoForward = false;

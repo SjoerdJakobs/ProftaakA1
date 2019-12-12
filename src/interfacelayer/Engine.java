@@ -174,6 +174,24 @@ public class Engine {
         //servo.getServo().getPulseWidth() < servo.getTargetSpeed() ?
     }
 
+    public void updateInstantPulse(int targetSpeed, double turn) {
+        this.originalTargetSpeed = targetSpeed;
+        setServoTargetSpeed(servoLeft, targetSpeed);
+        setServoTargetSpeed(servoRight, targetSpeed);
+        if (turn < 0) {
+            servoLeft.updateInstantPulse((int)(targetSpeed - targetSpeed * Math.abs(turn)));
+            servoRight.updateInstantPulse(targetSpeed);
+            setServoTargetSpeed(servoLeft, (int)(targetSpeed - targetSpeed * Math.abs(turn)));
+            setServoTargetSpeed(servoRight, targetSpeed);
+        }
+        else {
+            servoLeft.updateInstantPulse(targetSpeed);
+            servoRight.updateInstantPulse((int)(targetSpeed - targetSpeed * Math.abs(turn)));
+            setServoTargetSpeed(servoLeft, targetSpeed);
+            setServoTargetSpeed(servoRight, (int)(targetSpeed - targetSpeed * Math.abs(turn)));
+        }
+    }
+
     public void updateInstantPulse(int amount) {
         servoLeft.updateInstantPulse(amount);
         servoRight.updateInstantPulse(amount);
@@ -269,7 +287,7 @@ public class Engine {
     }
 
     public String toString() {
-        return ("\nLeft motor: " + this.servoLeft.toString() +
+        return ("\nLeft motor:  " + this.servoLeft.toString() +
                 "\nRight motor: " + this.servoRight.toString());
 
     }

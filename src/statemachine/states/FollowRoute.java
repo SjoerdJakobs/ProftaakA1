@@ -26,7 +26,7 @@ public class FollowRoute extends State {
 
     private int distance, lastDistance, timer = 5;
 
-    private int engineTargetSpeed = 125;
+    private int engineTargetSpeed = -125;
 
     private float rainbowValue;
     private Color rgb;

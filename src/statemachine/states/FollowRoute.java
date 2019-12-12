@@ -236,5 +236,6 @@ public class FollowRoute extends State {
     @Override
     protected void leave() {
         super.leave();
+        BoeBot.wait(1000);
     }
 }

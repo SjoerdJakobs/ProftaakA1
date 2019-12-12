@@ -1,5 +1,6 @@
 package statemachine.states;
 
+import TI.BoeBot;
 import buttercat.DriverAI;
 import interfacelayer.Engine;
 import buttercat.Remote;
@@ -237,6 +238,10 @@ public class ListenToRemote extends State {
     protected void logic() {
         super.logic();
 
+        System.out.println(engine.toString());
+        System.out.println(objectDetection.toString());
+        //System.out.println(remote.toString());
+
         //
         this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
         if (this.hasAnyButtonHasBeenPressed) {
@@ -262,7 +267,7 @@ public class ListenToRemote extends State {
         //objectdetectiondistance = 80
 //        this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
 //        System.out.println("distance: " + objectDetection.getDistance());
-        System.out.println(needToCheck);
+//        System.out.println(needToCheck);
         if (needToCheck)
         if (this.objectDetection.objectIsTooClose(this.objectDetectionDistance)) {
             this.canGoForward = false;
@@ -306,5 +311,6 @@ public class ListenToRemote extends State {
     protected void leave() {
         super.leave();
         engine.emergencyBrake();
+        BoeBot.wait(1000);
     }
 }

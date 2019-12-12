@@ -11,16 +11,16 @@ public class InfraRedReceiver
 
     public void checkForButtonPresses(ArrayList<Button> buttons, double deltaTime)
     {
-        int pulseLen = BoeBot.pulseIn(11, false, 6000);
+        int pulseLen = BoeBot.pulseIn(1, false, 6000);
         long number = 0;
         if (pulseLen > 2000) {
             int lengtes[] = new int[12];
             for (int i = 0; i < 12; i++) {
-                lengtes[i] = BoeBot.pulseIn(11, false, 20000);
+                lengtes[i] = BoeBot.pulseIn(1, false, 20000);
             }
             number = readButtonReturnInt(lengtes);
 
-            //System.out.println(number);
+            System.out.println(number);
 
             for (Button button : buttons) {
                 if (button.getAddress() == number) {

@@ -1,8 +1,8 @@
 package statemachine.states;
 
-import TEMP.TempEngine;
 import buttercat.DriverAI;
 import buttercat.Remote;
+import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
 import interfacelayer.ObjectDetection;
 import statemachine.State;
@@ -11,7 +11,7 @@ import statemachine.StateID;
 public class TempFollowRoute extends State
 {
     private Remote remote;
-    private TempEngine engine;
+    private Engine engine;
     private LineFollowChecker lineFollowChecker;
     private ObjectDetection objectDetection;
 
@@ -32,7 +32,7 @@ public class TempFollowRoute extends State
     public TempFollowRoute(DriverAI driverAI)
     {
         super(StateID.TempFollowRoute);
-        this.engine = driverAI.getTempEngine();
+        this.engine = driverAI.getEngine();
         this.lineFollowChecker =  driverAI.getLineFollowChecker();
         this.remote =  driverAI.getRemote();
         this.objectDetection = driverAI.getObjectDetection();
@@ -42,7 +42,7 @@ public class TempFollowRoute extends State
     protected void enter()
     {
         super.enter();
-        engine.SetTargetSpeed(50, 0);
+        engine.sJSetTargetSpeed(50, 0);
         hasSideLine = true;
         remote.aButtonHasBeenPressed = () ->{
             setShouldGoToRemoteControlToTrue();};
@@ -74,7 +74,7 @@ public class TempFollowRoute extends State
                     &&  lineFollowChecker.midRightNoticedLine() && lineFollowChecker.rightNoticedLine())
             {
                 //System.out.println("All lines detected.");
-                engine.SetTargetSpeed(40, 0);
+                engine.sJSetTargetSpeed(40, 0);
                 hasSideLine = true;
                 currentTurning = true;
                 isOnOrginLines = true;
@@ -87,24 +87,24 @@ public class TempFollowRoute extends State
             setTurnDirection();
             setTurnCounter();
 
-            engine.SetTargetSpeed(40, 0);
+            engine.sJSetTargetSpeed(40, 0);
 
             switch (turn)
             {
                 case LEFT:
-                    engine.Steer(true, 3);
+                    engine.sJSteer(true, 3);
                     break;
                 case RIGHT:
-                    engine.Steer(false, 3);
+                    engine.sJSteer(false, 3);
                     break;
                 case TURN_AROUND_lEFT:
-                    engine.Steer(true, 3);
+                    engine.sJSteer(true, 3);
                     break;
                 case TURN_AROUND_RIGHT:
-                    engine.Steer(false, 3);
+                    engine.sJSteer(false, 3);
                     break;
                 case DEFAULT:
-                    engine.SetTargetSpeed(0,0);
+                    engine.sJSetTargetSpeed(0,0);
                     System.out.println("wrong turn value");
                     break;
             }
@@ -134,7 +134,7 @@ public class TempFollowRoute extends State
         }
         if(objectDetection.objectIsTooClose(100))
         {
-            engine.SetTargetSpeed(0,0);
+            engine.sJSetTargetSpeed(0,0);
             //System.out.println(objectDetection.getDistance());
         }
         engine.drive();
@@ -210,44 +210,44 @@ public class TempFollowRoute extends State
     {
         if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine()) {
             //System.out.println("pin 1 and 2");
-            engine.Steer(true, 0);
-            engine.SetTargetSpeed(500, 0);
+            engine.sJSteer(true, 0);
+            engine.sJSetTargetSpeed(500, 0);
         } else if (lineFollowChecker.leftNoticedLine() && lineFollowChecker.midLeftNoticedLine()) {
             //System.out.println("pin 0 and 1");
-            engine.Steer(false, 0.8);
-            engine.SetTargetSpeed(200, 0);
+            engine.sJSteer(false, 0.8);
+            engine.sJSetTargetSpeed(200, 0);
         } else if (lineFollowChecker.midRightNoticedLine() && lineFollowChecker.rightNoticedLine()) {
             //System.out.println("pin 2 and 3");
-            engine.Steer(true, 0.8);
-            engine.SetTargetSpeed(200, 0);
+            engine.sJSteer(true, 0.8);
+            engine.sJSetTargetSpeed(200, 0);
         } else if (lineFollowChecker.midRightNoticedLine()) {
             //System.out.println("pin 2");
-            engine.Steer(true, 0.70);
-            engine.SetTargetSpeed(200, 0);
+            engine.sJSteer(true, 0.70);
+            engine.sJSetTargetSpeed(200, 0);
             lastDetectedPin = 2;
         } else if (lineFollowChecker.midLeftNoticedLine()) {
             //System.out.println("pin 1");
-            engine.Steer(false, 0.70);
-            engine.SetTargetSpeed(200, 0);
+            engine.sJSteer(false, 0.70);
+            engine.sJSetTargetSpeed(200, 0);
             lastDetectedPin = 1;
         } else if (lineFollowChecker.rightNoticedLine()) {
             //System.out.println("pin 3");
-            engine.Steer(true, 1.6);
-            engine.SetTargetSpeed(200, 0);
+            engine.sJSteer(true, 1.6);
+            engine.sJSetTargetSpeed(200, 0);
             lastDetectedPin = 3;
         } else if (lineFollowChecker.leftNoticedLine()) {
             //System.out.println("pin 0");
-            engine.Steer(false, 1.6);
-            engine.SetTargetSpeed(200, 0);
+            engine.sJSteer(false, 1.6);
+            engine.sJSetTargetSpeed(200, 0);
             lastDetectedPin = 0;
         } else if (lastDetectedPin == 2 || lastDetectedPin == 3) {
             //System.out.println("last pin 2 or 3");
-            engine.Steer(true, 1.2);
-            engine.SetTargetSpeed(200, 0);
+            engine.sJSteer(true, 1.2);
+            engine.sJSetTargetSpeed(200, 0);
         } else if (lastDetectedPin == 1 || lastDetectedPin == 0) {
             //System.out.println("last pin 1 or 0");
-            engine.Steer(false, 1.2);
-            engine.SetTargetSpeed(200, 0);
+            engine.sJSteer(false, 1.2);
+            engine.sJSetTargetSpeed(200, 0);
         }
 
     }

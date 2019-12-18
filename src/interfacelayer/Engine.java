@@ -12,6 +12,28 @@ public class Engine {
     private int turnTime;
     private boolean needsToTurn;
 
+    /**********************
+    * VARIABLES OF SJOERD *
+    ***********************/
+
+    public int leftSpeed    = 0;
+    public int rightSpeed   = 0;
+
+    public int currentSpeed = 0;
+    public int targetSpeed  = 0;
+
+    public double turnRate          = 0;
+    public double accelerateSpeed   = 0;
+
+    public double fastWheel = 0;
+    public double slowWheel = 0;
+
+    public boolean left;
+
+    /**************************
+    * END VARIABLES OF SJOERD *
+    ***************************/
+
     private NotificationSystem notificationSystem;
 
     /**
@@ -291,4 +313,115 @@ public class Engine {
                 "\nRight motor: " + this.servoRight.toString());
 
     }
+
+
+    /*******************************************************************************************************************
+     *******************************************************************************************************************
+     *************************************                                        **************************************
+     *************************************          ENGINE   OF   SJOERD          **************************************
+     *************************************                                        **************************************
+     *******************************************************************************************************************
+     ******************************************************************************************************************/
+
+
+    public void sJDrive()
+    {
+        sJChangeSpeed();
+        sJTakeCorner();
+        servoRight.getServo().update(rightSpeed);
+        servoLeft.getServo().update(leftSpeed);
+    }
+
+    private void sJTakeCorner()
+    {
+        if(fastWheel != 0 || slowWheel != 0) {
+            if (!left) {
+                rightSpeed = (int) (1500 - (currentSpeed + fastWheel));
+                leftSpeed = (int) (1500 + (currentSpeed + slowWheel));
+            } else {
+                rightSpeed = (int) (1500 - (currentSpeed + slowWheel));
+                leftSpeed = (int) (1500 + (currentSpeed + fastWheel));
+            }
+        }
+        if (turnRate != 0) {
+            if (turnRate == 3) {
+                if (!left) {
+                    rightSpeed = (int) (1500 - (currentSpeed));
+                    leftSpeed = (int) (1500 - (currentSpeed));
+                } else {
+                    rightSpeed = (int) (1500 + (currentSpeed));
+                    leftSpeed = (int) (1500 + (currentSpeed));
+                }
+            }
+            else if(turnRate > 1 && turnRate <= 2)
+            {
+                //System.out.println("super turn");
+                if (!left) {
+                    rightSpeed = (int) (1500 - (currentSpeed * (1.6)));
+                    leftSpeed = (int) (1500 - (currentSpeed * (turnRate-1)));
+                } else {
+                    rightSpeed = (int) (1500 + (currentSpeed * (turnRate-1)));
+                    leftSpeed = (int) (1500 + (currentSpeed * (1.6)));
+                }
+            }
+            else if (turnRate <= 1)
+            {
+                //System.out.println("normal turn");
+                if (!left) {
+                    rightSpeed = (int) (1500 - (currentSpeed * (turnRate + 1)));
+                    leftSpeed = (int) (1500 + (currentSpeed * (1 - turnRate)));
+                } else {
+                    rightSpeed = (int) (1500 - (currentSpeed * (1 - turnRate)));
+                    leftSpeed = (int) (1500 + (currentSpeed * (turnRate + 1)));
+                }
+            }
+        }
+    }
+
+    private void sJChangeSpeed()
+    {
+        if(currentSpeed != targetSpeed)
+        {
+            if(accelerateSpeed == 0)
+            {
+                currentSpeed = targetSpeed;
+            }
+            else
+            {
+                currentSpeed += accelerateSpeed;
+                if(currentSpeed > targetSpeed)
+                {
+                    currentSpeed = targetSpeed;
+                }
+            }
+            rightSpeed  = 1500 - currentSpeed;
+            leftSpeed   = 1500 + currentSpeed;
+        }
+    }
+
+    public void sJSetTargetSpeed(int speed, double accelerationSpeed)
+    {
+        targetSpeed = speed;
+        if(targetSpeed < currentSpeed)
+        {
+            accelerateSpeed = (accelerationSpeed * -1);
+        }
+    }
+
+    public void sJSteer(boolean left, double turnRate)
+    {
+        this.left = left;
+        this.turnRate = turnRate;
+        this.fastWheel = 0;
+        this.slowWheel = 0;
+    }
+
+    public void sJManualSteer(boolean left, double fastWheelVal, double slowWheelVal)
+    {
+        this.left = left;
+        this.turnRate = 0;
+        this.slowWheel = slowWheelVal;
+        this.fastWheel = fastWheelVal;
+    }
+
 }

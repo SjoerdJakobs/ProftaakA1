@@ -14,6 +14,7 @@ public class StateMachine extends StandardObject
 
     private double deltaTime;
     public double getDeltaTime() {return deltaTime; }
+    long timeSinceSwitch;
 
 
     public StateMachine(FrameworkProgram frameworkProgram) {
@@ -37,12 +38,21 @@ public class StateMachine extends StandardObject
         }
     }
 
+    public void SetState(StateID stateID)
+    {
+        SetState(stateID,0);
+    }
     /**
      * set the currentState of the state machine and exit the former currentState
      * @param stateID the id of the state that will become the current state
-     */
-    public void SetState(StateID stateID)
+     */public void SetState(StateID stateID,
+     long delay)
     {
+        if(System.nanoTime() - timeSinceSwitch < delay*1000_000_000L)
+        {
+            return;
+        }
+
         if(!states.containsKey(stateID)) {
             throw new IllegalArgumentException("State unknown");
         }
@@ -51,6 +61,7 @@ public class StateMachine extends StandardObject
         }
         currentState = states.get(stateID);
         currentState.enter();
+        timeSinceSwitch = System.nanoTime();
     }
 
     /**

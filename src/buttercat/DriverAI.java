@@ -37,8 +37,8 @@ public class DriverAI extends StandardObject
         this.controlPanel = controlPanel;
 
         MakeStates();
-        stateMachine.SetState(StateID.ListenToRemote);
-//        stateMachine.SetState(StateID.ListenToControlPanel);
+//        stateMachine.SetState(StateID.ListenToRemote);
+        stateMachine.SetState(StateID.ListenToControlPanel);
         //System.out.println("the state should be started");
     }
 

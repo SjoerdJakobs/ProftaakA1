@@ -1,6 +1,5 @@
 package buttercat;
 
-import TEMP.TempEngine;
 import interfacelayer.Engine;
 
 import interfacelayer.LineFollowChecker;
@@ -17,12 +16,10 @@ public class DriverAI extends StandardObject
     private Engine engine;
 
 
-
-    private TempEngine tempEngine;
-    private Remote remote;
+    private buttercat.Remote remote;
     private ObjectDetection objectDetection;
     private LineFollowChecker lineFollowChecker;
-    private ControlPanel controlPanel;
+    private buttercat.ControlPanel controlPanel;
 
     public DriverAI(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
@@ -31,12 +28,11 @@ public class DriverAI extends StandardObject
     public DriverAI(FrameworkProgram frameworkProgram,
                     boolean usesInput, boolean usesMain,
                     boolean usesRenderer, boolean startsActivated,
-                    Engine engine, TempEngine tempEngine, Remote remote, StateMachine stateMachine, ObjectDetection objectDetection, LineFollowChecker lineFollowChecker, ControlPanel controlPanel) {
+                    Engine engine, buttercat.Remote remote, StateMachine stateMachine, ObjectDetection objectDetection, LineFollowChecker lineFollowChecker, buttercat.ControlPanel controlPanel) {
 
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
         this.stateMachine = stateMachine;
         this.engine = engine;
-        this.tempEngine = tempEngine;
         this.remote = remote;
         this.objectDetection = objectDetection;
         this.lineFollowChecker = lineFollowChecker;
@@ -86,12 +82,12 @@ public class DriverAI extends StandardObject
         this.engine = engine;
     }
 
-    public Remote getRemote()
+    public buttercat.Remote getRemote()
     {
         return remote;
     }
 
-    public void setRemote(Remote remote)
+    public void setRemote(buttercat.Remote remote)
     {
         this.remote = remote;
     }
@@ -105,18 +101,8 @@ public class DriverAI extends StandardObject
         return lineFollowChecker;
     }
 
-    public ControlPanel getControlPanel() {
+    public buttercat.ControlPanel getControlPanel() {
         return controlPanel;
-    }
-
-    public TempEngine getTempEngine()
-    {
-        return tempEngine;
-    }
-
-    public void setTempEngine(TempEngine tempEngine)
-    {
-        this.tempEngine = tempEngine;
     }
 
     public void setObjectDetection(ObjectDetection objectDetection)
@@ -129,7 +115,7 @@ public class DriverAI extends StandardObject
         this.lineFollowChecker = lineFollowChecker;
     }
 
-    public void setControlPanel(ControlPanel controlPanel)
+    public void setControlPanel(buttercat.ControlPanel controlPanel)
     {
         this.controlPanel = controlPanel;
     }

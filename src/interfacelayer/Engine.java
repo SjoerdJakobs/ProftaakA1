@@ -80,6 +80,12 @@ public class Engine {
     /**
      * To drive forward with the speed set using setTargetSpeed()
      */
+    public void drive(int iterations) {
+        for (int i = 0; i < iterations; i++) {
+            changeSpeed(servoLeft);
+            changeSpeed(servoRight);
+        }
+    }
     public void drive() {
         changeSpeed(servoLeft);
         changeSpeed(servoRight);

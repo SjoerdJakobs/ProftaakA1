@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacelayer.gui.Controller">
+<StackPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacelayer.gui.grid.Controller">
    <children>
       <BorderPane fx:id="backgroundPane" prefHeight="200.0" prefWidth="200.0">
          <center>
@@ -34,11 +34,12 @@
                         <Font name="Consolas" size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="helpButton" layoutX="868.0" layoutY="23.0" mnemonicParsing="false" text="Help">
+                  <Button fx:id="helpButton" layoutX="869.0" layoutY="22.0" mnemonicParsing="false" text="Help">
                      <font>
                         <Font name="Consolas" size="14.0" />
                      </font>
                   </Button>
+                  <ComboBox fx:id="typeBox" layoutX="186.0" layoutY="22.0" prefWidth="150.0" promptText="Choose type" visibleRowCount="4" />
                </children>
             </AnchorPane>
          </top>

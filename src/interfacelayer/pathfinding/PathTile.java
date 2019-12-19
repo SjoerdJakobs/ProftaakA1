@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 public class PathTile {
     private Button button;
     private boolean navigatable;
+    private boolean isStartPoint;
+    private boolean isEndPoint;
     private int xPos;
     private int yPos;
 
@@ -39,6 +41,14 @@ public class PathTile {
         } else {
             button.getStyleClass().add("notNavigatable");
         }
+    }
+
+    public void setStartPoint(boolean value) {
+        this.isStartPoint = value;
+    }
+
+    public void setEnd(boolean end) {
+        isEndPoint = end;
     }
 
     public int getxPos() {

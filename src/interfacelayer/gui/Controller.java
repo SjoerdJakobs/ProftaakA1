@@ -64,7 +64,7 @@ public class Controller {
                 path.add(button, x, y);
                 PathTile tile = new PathTile(button, false, x, y);
                 addAction(tile);
-                route[x - 1][y - 1] = tile;
+                route[y - 1][x - 1] = tile;
             }
         }
     }
@@ -79,18 +79,10 @@ public class Controller {
 
     }
 
-    private void addListener(TextField textField) {
-
-    }
-
-    public PathTile getFromArray(int x, int y) {
-        return  route[x - 1][y - 1];
-    }
-
     public void gridToString() {
         for (int i = 0; i < route.length; i++) {
             for (int j = 0; j < route[0].length; j++) {
-                System.out.print(route[i][i]);
+                System.out.print(route[i][j]);
             }
             System.out.println();
         }

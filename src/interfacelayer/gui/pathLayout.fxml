@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -21,14 +22,35 @@
             </GridPane>
          </center>
          <top>
-            <AnchorPane prefHeight="69.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="69.0" prefWidth="800.0">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" text="Grid size:" />
-                  <TextField fx:id="gridSizeField" layoutX="14.0" layoutY="35.0" />
-                  <Button fx:id="saveButton" layoutX="945.0" layoutY="22.0" mnemonicParsing="false" text="Save" />
+                  <TextField fx:id="gridSizeField" layoutX="14.0" layoutY="22.0" promptText="Grid size">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="saveButton" layoutX="935.0" layoutY="22.0" mnemonicParsing="false" text="Save">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </top>
+         <left>
+            <VBox prefHeight="679.0" prefWidth="315.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="TOP_LEFT" text="Adding a route:" textFill="#e4e1a2">
+                     <font>
+                        <Font name="Consolas" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets top="10.0" />
+               </opaqueInsets>
+            </VBox>
+         </left>
       </BorderPane>
    </children>
 </StackPane>

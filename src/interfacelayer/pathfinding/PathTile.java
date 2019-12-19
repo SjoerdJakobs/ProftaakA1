@@ -50,7 +50,7 @@ public class PathTile {
     }
 
     public String toString() {
-        return "tile: " + button.getId() + "| navigatable: " + this.navigatable + "| x - y: " + this.xPos + " - " + this.yPos;
+        return "|tile: " + button.getId() + "| navigatable: " + this.navigatable + "| x - y: " + this.xPos + " - " + this.yPos;
 
     }
 

@@ -78,17 +78,20 @@ public class Motor {
      * Getters and setters for each variable.
      */
     public Servo getServo() { return this.servo; }
+
     public int getMotionlessBaseValue() { return this.motionlessBaseValue; }
+
     public boolean getTurningClockwise() { return this.turningClockwise; }
+
     public int getTargetSpeed() { return this.targetSpeed; }
+
     public double getTurnRate() { return this.turnRate; }
 
-    public void setMotionlessBaseValue(int motionlessBaseValue) { this.motionlessBaseValue = motionlessBaseValue; }
-    public void setTurningClockwise(boolean turningClockwise) { this.turningClockwise = turningClockwise; }
     public void setTargetSpeed(int targetSpeed) {
         HelpFunctions.checkValue("Motor target speed", targetSpeed,1250,1750);
         this.targetSpeed = targetSpeed - (int) ((targetSpeed - this.motionlessBaseValue) * turnRate);
     }
+
     public void setTurnRate(double turnRate) {
         HelpFunctions.checkValue("Motor turn rate", turnRate,0,2);
         this.turnRate = turnRate;

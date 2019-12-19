@@ -9,6 +9,7 @@ public class Engine {
     private Motor servoLeft;
     private Motor servoRight;
 
+    /**** VARIABLES FOR UNUSED TURNDEGREES() ****/
     private int turnTime;
     private boolean needsToTurn;
 
@@ -16,19 +17,19 @@ public class Engine {
     * VARIABLES OF SJOERD *
     ***********************/
 
-    public int leftSpeed    = 0;
-    public int rightSpeed   = 0;
+    private int leftSpeed    = 0;
+    private int rightSpeed   = 0;
 
-    public int currentSpeed = 0;
-    public int targetSpeed  = 0;
+    private int currentSpeed = 0;
+    private int targetSpeed  = 0;
 
-    public double turnRate          = 0;
-    public double accelerateSpeed   = 0;
+    private double turnRate          = 0;
+    private double accelerateSpeed   = 0;
 
-    public double fastWheel = 0;
-    public double slowWheel = 0;
+    private double fastWheel = 0;
+    private double slowWheel = 0;
 
-    public boolean left;
+    private boolean left;
 
     /**************************
     * END VARIABLES OF SJOERD *
@@ -41,7 +42,9 @@ public class Engine {
      * Used to save the original target speed and call for use when it's turning (because in a turn the targetSpeed is adjusted)
      */
     private int originalTargetSpeed;
+
     public int getOriginalTargetSpeed() { return this.originalTargetSpeed; }
+
     private void setOriginalTargetSpeed(int originalTargetSpeed) {
         HelpFunctions.checkValue("Engine original target speed", originalTargetSpeed, -250, 250);
         this.originalTargetSpeed = originalTargetSpeed;
@@ -202,24 +205,26 @@ public class Engine {
         //servo.getServo().getPulseWidth() < servo.getTargetSpeed() ?
     }
 
-    public void updateInstantPulse(int targetSpeed, double turn) {
-        this.originalTargetSpeed = targetSpeed;
-        setServoTargetSpeed(servoLeft, targetSpeed);
-        setServoTargetSpeed(servoRight, targetSpeed);
-        if (turn < 0) {
-            servoLeft.updateInstantPulse((int)(targetSpeed - targetSpeed * Math.abs(turn)));
-            servoRight.updateInstantPulse(targetSpeed);
-            setServoTargetSpeed(servoLeft, (int)(targetSpeed - targetSpeed * Math.abs(turn)));
-            setServoTargetSpeed(servoRight, targetSpeed);
-        }
-        else {
-            servoLeft.updateInstantPulse(targetSpeed);
-            servoRight.updateInstantPulse((int)(targetSpeed - targetSpeed * Math.abs(turn)));
-            setServoTargetSpeed(servoLeft, targetSpeed);
-            setServoTargetSpeed(servoRight, (int)(targetSpeed - targetSpeed * Math.abs(turn)));
+    /**
+     * Set the target speed per servo instantly (without (de)acceleration).
+     * @param turn The turn value between -2 and 2.
+     */
+    public void updateInstantTurn(double turn) {
+        HelpFunctions.checkValue("Engine Instant pulse update turn value", turn, -2, 2);
+        if (turn != 0) {
+            if (turn > 0) {
+                servoLeft.updateInstantPulse(this.originalTargetSpeed);
+                servoRight.updateInstantPulse((int) (this.originalTargetSpeed - this.originalTargetSpeed * Math.abs(turn)));
+                setServoTargetSpeed(servoLeft, this.originalTargetSpeed);
+                setServoTargetSpeed(servoRight, (int) (this.originalTargetSpeed - this.originalTargetSpeed * Math.abs(turn)));
+            } else {
+                servoLeft.updateInstantPulse((int) (this.originalTargetSpeed - this.originalTargetSpeed * Math.abs(turn)));
+                servoRight.updateInstantPulse(this.originalTargetSpeed);
+                setServoTargetSpeed(servoLeft, (int) (this.originalTargetSpeed - this.originalTargetSpeed * Math.abs(turn)));
+                setServoTargetSpeed(servoRight, this.originalTargetSpeed);
+            }
         }
     }
-
     public void updateInstantPulse(int targetSpeed) {
         this.originalTargetSpeed = targetSpeed;
         setServoTargetSpeed(servoLeft, targetSpeed);
@@ -229,39 +234,17 @@ public class Engine {
         servoRight.updateInstantPulse(targetSpeed);
     }
 
-    public void instantLeft() {
-        servoLeft.updateInstantPulse(0);
-    }
-
-    public void instantRight() {
-        servoRight.updateInstantPulse(0);
-    }
-
-    /**
-     * (+)Getter for both the left and right motor
-     */
-    public Motor getMotorLeft() {
-        return this.servoLeft;
-    }
-
-    public Motor getMotorRight() {
-        return this.servoRight;
-    }
-
     private Timer turnDegreesTimer = new Timer(this.turnTime);
     private boolean timerSwitch;
     private int amountTurned;
 
-    public void driveDegrees(int degrees, int speed) {
-
-
+    private void driveDegrees(int degrees, int speed) {
         if (timerSwitch) {
-            double temp = degrees * speed * (200 / 11);
+            double temp = degrees * speed * (200d / 11d);
             this.turnTime = (int) temp;
             turnDegreesTimer.setInterval(turnTime);
             timerSwitch = false;
             amountTurned = 0;
-
         }
 
         if (turnDegreesTimer.timeout()) {
@@ -277,8 +260,6 @@ public class Engine {
         } else {
             turnStop();
         }
-
-
     }
 
 
@@ -290,7 +271,7 @@ public class Engine {
      * makes the BoeBot drive in a square
      */
 
-    public void driveSquare(int amountOfTimes, int speed) {
+    private void driveSquare(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 4)
             driveDegrees(90, speed);
@@ -301,7 +282,7 @@ public class Engine {
      * makes the BoeBot drive in a triangle
      */
 
-    public void driveTriangle(int amountOfTimes, int speed) {
+    private void driveTriangle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 3)
             driveDegrees(120, speed);
@@ -312,7 +293,7 @@ public class Engine {
      * makes the BoeBot drive in a circle
      */
 
-    public void driveCircle(int amountOfTimes, int speed) {
+    private void driveCircle(int amountOfTimes, int speed) {
         amountOfTimes = checkAmount(amountOfTimes);
         if (amountTurned <= amountOfTimes * 360)
             driveDegrees(1, speed);
@@ -321,9 +302,13 @@ public class Engine {
     public String toString() {
         return ("\nLeft motor:  " + this.servoLeft.toString() +
                 "\nRight motor: " + this.servoRight.toString());
-
     }
 
+    /**
+     * (+)Getter for both the left and right motor
+     */
+    public Motor getMotorLeft() { return this.servoLeft; }
+    public Motor getMotorRight() { return this.servoRight; }
 
     /*******************************************************************************************************************
      *******************************************************************************************************************

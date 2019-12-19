@@ -1,0 +1,20 @@
+.button {
+    -fx-font-size: 14px;
+}
+
+#backgroundPane {
+    -fx-background-color: #545557;
+}
+
+.navigatable {
+    -fx-background-color: #8fb391;
+}
+
+.notNavigatable {
+    -fx-background-color: #dbd7de;
+}
+
+#saveButton {
+    -fx-text-fill: #f0f2f0;
+    -fx-background-color: #5dba62;
+}

@@ -23,6 +23,7 @@ public class PathVisualiser extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("pathLayout.fxml"));
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("interfacelayer/gui/stylesheet.css");
         stage.setScene(scene);
         stage.setTitle("Buttercat");
         stage.show();

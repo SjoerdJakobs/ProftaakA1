@@ -3,38 +3,96 @@ package interfacelayer.gui;
 import com.sun.javafx.scene.control.skin.ButtonSkin;
 import interfacelayer.pathfinding.PathTile;
 import javafx.animation.ScaleTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.util.Arrays;
+
 public class Controller {
     private PathTile[][] route;
-    @FXML
-    GridPane path;
+    @FXML GridPane path;
+    @FXML TextField gridSizeField;
+    @FXML Button saveButton;
 
 
     int amount = 8;
+
     public void initialize() {
         initGrid();
+        saveButton.setSkin(new TileButtonSkin(saveButton));
+
+
+        gridSizeField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    gridSizeField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+
+                if (!gridSizeField.getText().isEmpty() || !(gridSizeField.getText() == null))
+                    if (!gridSizeField.getText().isEmpty())
+                        amount = Integer.parseInt(gridSizeField.getText());
+
+                initGrid();
+            }
+        });
+
+        saveButton.setOnAction(event ->  {
+            gridToString();
+        });
 
     }
 
     private void initGrid() {
+        path.getChildren().clear();
         route = new PathTile[amount][amount];
         for (int x = 1; x <= amount; x++) {
             for (int y = 1; y <= amount; y++) {
                 Button button = new Button(" ");
-                button.setMinWidth(500/amount);
-                button.setMinHeight(500/amount);
+                button.setMinWidth(500 / amount);
+                button.setMinHeight(500 / amount);
                 button.setId(x + "-" + y);
                 button.setSkin(new TileButtonSkin(button));
-                path.add(button,x,y);
-                PathTile tile = new PathTile(button, false);
-                route[x-1][y-1] = tile;
+                path.add(button, x, y);
+                PathTile tile = new PathTile(button, false, x, y);
+                addAction(tile);
+                route[x - 1][y - 1] = tile;
             }
+        }
+    }
+
+    private void addAction(PathTile tile) {
+        Button button = tile.getButton();
+        button.setOnAction(e -> {
+            System.out.println(button.getId() + " clicked");
+            System.out.println("tile is " + tile.isNavigatable());
+            tile.setNavigatable(!tile.isNavigatable());
+        });
+
+    }
+
+    private void addListener(TextField textField) {
+
+    }
+
+    public PathTile getFromArray(int x, int y) {
+        return  route[x - 1][y - 1];
+    }
+
+    public void gridToString() {
+        for (int i = 0; i < route.length; i++) {
+            for (int j = 0; j < route[0].length; j++) {
+                System.out.print(route[i][i]);
+            }
+            System.out.println();
         }
     }
 

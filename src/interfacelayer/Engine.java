@@ -79,11 +79,11 @@ public class Engine {
 
     /**
      * To drive forward with the speed set using setTargetSpeed()
+     * This function doesn't need to be used when using updateInstantPulse()
      */
     public void drive(int iterations) {
         for (int i = 0; i < iterations; i++) {
-            changeSpeed(servoLeft);
-            changeSpeed(servoRight);
+            drive();
         }
     }
     public void drive() {

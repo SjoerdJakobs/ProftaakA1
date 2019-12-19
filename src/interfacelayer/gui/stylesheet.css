@@ -1,35 +1,22 @@
+.root {
+-fx-background-color: #51535c;
+}
+
 .button {
-    -fx-font-size: 14px;
-    -fx-font-family: "Consolas";
+-fx-background-color: #8a3232;
+-fx-text-fill: #dedede;
 }
 
-#backgroundPane {
-    -fx-background-color: #545557;
+.list-cell {
+-fx-text-fill: #dedede;
+-fx-font-size: 14px;
 }
 
-.navigatable {
-    -fx-background-color: #8fb391;
+.list-cell:odd {
+-fx-background-color: linear-gradient(#116a73 0.0%, #10666e 100.0%);
 }
 
-.notNavigatable {
-    -fx-background-color: #dbd7de;
-}
+.list-cell:even {
+-fx-background-color: linear-gradient(#38767c 0.0%, #347075 100.0%);
 
-#saveButton {
-    -fx-text-fill: #f0f2f0;
-    -fx-background-color: #5dba62;
-}
-
-#helpButton {
-    -fx-text-fill: #f0f2f0;
-    -fx-background-color: #5dba62;
-}
-
-#typeBox{
-    
-    -fx-background-color: #5dba62;
-}
-
-.combo-box:text-input {
-    -fx-text-fill: #f0f2f0; 
 }

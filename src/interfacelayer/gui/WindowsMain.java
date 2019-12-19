@@ -1,6 +1,5 @@
 package interfacelayer.gui;
 
-import interfacelayer.gui.grid.PathVisualiser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +16,7 @@ public class WindowsMain extends Application{
         Parent root = FXMLLoader.load(getClass().getResource("layout.fxml"));
 
 
+        //TODO add saving a route under a name, adding window to give name, adding window to select route and see
         Scene scene = new Scene(root);
         scene.getStylesheets().add("interfacelayer/gui/stylesheet.css");
         stage.setScene(scene);

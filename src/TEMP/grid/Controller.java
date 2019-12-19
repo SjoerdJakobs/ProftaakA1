@@ -1,10 +1,8 @@
-package interfacelayer.gui.grid;
+package TEMP.grid;
 
 import com.sun.javafx.scene.control.skin.ButtonSkin;
 import interfacelayer.pathfinding.PathTile;
 import javafx.animation.ScaleTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,37 +33,37 @@ public class Controller {
 
     int amount = 8;
 
-    public void initialize() {
-        initGrid();
-        saveButton.setSkin(new TileButtonSkin(saveButton));
-
-
-        gridSizeField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                //make sure the user can only enter numbers
-                if (!newValue.matches("\\d*")) {
-                    gridSizeField.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-
-                if (!gridSizeField.getText().isEmpty() || !(gridSizeField.getText() == null))
-                    if (!gridSizeField.getText().isEmpty())
-                        amount = Integer.parseInt(gridSizeField.getText());
-
-                initGrid();
-            }
-        });
-
-        saveButton.setOnAction(event -> gridToString());
-        helpButton.setOnAction(event -> {
-            try {
-                showHelp();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-    }
+//    public void initialize() {
+//        initGrid();
+//        saveButton.setSkin(new TileButtonSkin(saveButton));
+//
+//
+//        gridSizeField.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//                //make sure the user can only enter numbers
+//                if (!newValue.matches("\\d*")) {
+//                    gridSizeField.setText(newValue.replaceAll("[^\\d]", ""));
+//                }
+//
+//                if (!gridSizeField.getText().isEmpty() || !(gridSizeField.getText() == null))
+//                    if (!gridSizeField.getText().isEmpty())
+//                        amount = Integer.parseInt(gridSizeField.getText());
+//
+//                initGrid();
+//            }
+//        });
+//
+//        saveButton.setOnAction(event -> gridToString());
+//        helpButton.setOnAction(event -> {
+//            try {
+//                showHelp();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//
+//    }
 
     private void showHelp() throws IOException {
         AnchorPane help = new AnchorPane();

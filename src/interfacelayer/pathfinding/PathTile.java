@@ -30,7 +30,7 @@ public class PathTile {
     }
 
     public void setNavigatable(boolean navigatable) {
-        System.out.println("setting " + button.getId() + " to " + navigatable);
+//        System.out.println("setting " + button.getId() + " to " + navigatable);
         this.navigatable = navigatable;
         button.getStyleClass().removeAll("navigatable", "notNavigatable", "focus");
 

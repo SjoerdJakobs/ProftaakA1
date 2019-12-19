@@ -21,9 +21,9 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("hey");
-        Application.launch(PathVisualiser.class, args);
-//        Program program = new Program();
-////        program.run();
+
+        Program program = new Program();
+        program.run();
 
 
     }

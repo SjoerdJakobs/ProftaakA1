@@ -24,7 +24,7 @@ public class FollowRoute extends State {
 
     private boolean shouldGoToRemoteControl, canDrive;
 
-    private int distance, lastDistance, timer = 5;
+    private int distance, lastDistance;
 
     private int engineTargetSpeed = -125;
 
@@ -138,9 +138,7 @@ public class FollowRoute extends State {
 
         lastDistance = distance;
 
-        for (int i = 0; i < timer; i++) {
-            engine.drive();
-        }
+        engine.drive(5);
     }
 
     /**

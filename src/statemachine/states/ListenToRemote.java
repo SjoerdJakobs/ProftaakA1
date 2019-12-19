@@ -299,9 +299,7 @@ public class ListenToRemote extends State {
             System.out.println("noticed object on " + this.objectDetection.getDistance());
         }
 
-        this.engine.drive();
-        this.engine.drive();
-        this.engine.drive();
+        this.engine.drive(3);
 
 
 //        System.out.println("Delta time: " + this.stateMachine.getDeltaTime());

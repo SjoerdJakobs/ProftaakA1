@@ -137,7 +137,7 @@ public class TempFollowRoute extends State
             engine.sJSetTargetSpeed(0,0);
             //System.out.println(objectDetection.getDistance());
         }
-        engine.drive();
+        engine.sJDrive();
     }
 
     private void setTurnCounter()

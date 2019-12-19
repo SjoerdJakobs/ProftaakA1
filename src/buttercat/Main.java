@@ -7,6 +7,8 @@ import hardwarelayer.sensors.linefollower.LineFollower;
 import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
 import interfacelayer.NotificationSystem;
+import interfacelayer.gui.PathVisualiser;
+import javafx.application.Application;
 import ooframework.FrameworkProgram;
 import TI.SerialConnection;
 
@@ -19,8 +21,10 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("hey");
-        Program program = new Program();
-        program.run();
+        Application.launch(PathVisualiser.class, args);
+//        Program program = new Program();
+////        program.run();
+
 
     }
 }

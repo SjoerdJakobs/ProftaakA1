@@ -1,5 +1,6 @@
 package buttercat;
 
+import TEMP.TempEngine;
 import interfacelayer.Engine;
 
 import interfacelayer.LineFollowChecker;
@@ -14,6 +15,10 @@ public class DriverAI extends StandardObject
 {
     private StateMachine stateMachine;
     private Engine engine;
+
+
+
+    private TempEngine tempEngine;
     private Remote remote;
     private ObjectDetection objectDetection;
     private LineFollowChecker lineFollowChecker;
@@ -26,23 +31,25 @@ public class DriverAI extends StandardObject
     public DriverAI(FrameworkProgram frameworkProgram,
                     boolean usesInput, boolean usesMain,
                     boolean usesRenderer, boolean startsActivated,
-                    Engine engine, Remote remote, StateMachine stateMachine, ObjectDetection objectDetection, LineFollowChecker lineFollowChecker, ControlPanel controlPanel) {
+                    Engine engine, TempEngine tempEngine, Remote remote, StateMachine stateMachine, ObjectDetection objectDetection, LineFollowChecker lineFollowChecker, ControlPanel controlPanel) {
 
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
         this.stateMachine = stateMachine;
         this.engine = engine;
+        this.tempEngine = tempEngine;
         this.remote = remote;
         this.objectDetection = objectDetection;
         this.lineFollowChecker = lineFollowChecker;
         this.controlPanel = controlPanel;
 
         MakeStates();
-        stateMachine.SetState(StateID.FollowRoute);
+        stateMachine.SetState(StateID.TempFollowRoute);
         //System.out.println("the state should be started");
     }
 
     void MakeStates() {
         stateMachine.AddState(new FollowRoute(this));
+        stateMachine.AddState(new TempFollowRoute(this));
         stateMachine.AddState(new GetRoute(this));
         stateMachine.AddState(new ListenToRemote(this));
         stateMachine.AddState(new SearchForStartPoint(this));
@@ -100,5 +107,30 @@ public class DriverAI extends StandardObject
 
     public ControlPanel getControlPanel() {
         return controlPanel;
+    }
+
+    public TempEngine getTempEngine()
+    {
+        return tempEngine;
+    }
+
+    public void setTempEngine(TempEngine tempEngine)
+    {
+        this.tempEngine = tempEngine;
+    }
+
+    public void setObjectDetection(ObjectDetection objectDetection)
+    {
+        this.objectDetection = objectDetection;
+    }
+
+    public void setLineFollowChecker(LineFollowChecker lineFollowChecker)
+    {
+        this.lineFollowChecker = lineFollowChecker;
+    }
+
+    public void setControlPanel(ControlPanel controlPanel)
+    {
+        this.controlPanel = controlPanel;
     }
 }

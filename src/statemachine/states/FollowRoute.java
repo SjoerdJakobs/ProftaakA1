@@ -83,7 +83,7 @@ public class FollowRoute extends State {
     @Override
     protected void logic() {
         super.logic();
-        checkAllLinefollowers();
+//        checkAllLinefollowers();
 
         colors(0.009f);
 
@@ -121,13 +121,7 @@ public class FollowRoute extends State {
             }
 
             if (!lineFollowChecker.hasNoticedIntersection()) {
-                checkLeft();
-                checkLeftCombi();
-                checkMidLeft();
-                checkMidCombi();
-                checkMidRight();
-                checkRightCombi();
-                checkRight();
+                //TODO implement
             }
 
 //            BoeBot.wait(100);
@@ -160,24 +154,25 @@ public class FollowRoute extends State {
 
     }
 
-    private void checkLeft() {
-        if (this.leftHasLine && !this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
-            notificationSystem.leftLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, -1);
-        }
-    }
+    private void checkMid() {
+        if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.leftNoticedLine())) {
+//                System.out.println("noticed mid");
+            notificationSystem.midLineFollower(rgb);
+//            if (!goingForward) {
+                engine.turnStop();
+                engine.updateInstantPulse(this.engineTargetSpeed);
+//            }
 
-    private void checkLeftCombi() {
-        if (this.leftHasLine && this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
-            notificationSystem.leftLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, -0.6);
         }
     }
 
     private void checkMidLeft() {
-        if (!this.leftHasLine && this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
+        if (lineFollowChecker.midLeftNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.midRightNoticedLine())) {
+//            System.out.println("noticed mid left");
+            notificationSystem.leftLineFollower(rgb);
+//            if (!goingLeft) {
+            engine.instantLeft();
             notificationSystem.midLeftLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, -0.2);
         }
     }
 

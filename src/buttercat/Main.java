@@ -2,40 +2,58 @@ package buttercat;
 
 import TI.BoeBot;
 import TI.SerialConnection;
+import hardwarelayer.sensors.asciibutton.AsciiButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 //Main Programm
-//public class Main {
-//    public static void main(String[] args) {
-//
-//        System.out.println("hey");
-//        Program program = new Program();
-//        program.run();
-//
-//    }
-//}
+public class Main {
+    public static void main(String[] args) {
 
-//trash
+        System.out.println("hey");
+        Program program = new Program();
+        program.run();
+
+    }
+}
+
+//send route test //Not ready yet
 //public class Main {
+//
 //    public static void main(String[] args) {
+//        boolean listen = false;
+//        ArrayList<Integer> commands = new ArrayList<>();
+//        AsciiButton PButton = new AsciiButton(112);
+//
+//        listen(listen, commands, PButton);
+//    }
+//
+//    private static void listen(boolean listen, ArrayList<Integer> commands, AsciiButton PButton) {
 //        SerialConnection conn = new SerialConnection();
-//        ArrayList<Integer> list = new ArrayList<Integer>();
-//        Collections.addAll(list, 12,13,14,15,16);
-//        String sumData = "";
+//        System.out.println("enters listen");
 //
-//        for(Integer data: list) {
-//            sumData += data;
-//        }
-//        int data = Integer.parseInt(sumData);
-//        while(true) {
-//            if(conn.available() > 0) {
-//                int received = conn.readByte();
-//                conn.writeByte(list);
-//                System.out.println("Received: " + received);
-//            }
+//        int data = conn.readByte();
+//        System.out.println("received: " + data);
 //
+//        if (data == PButton.getAscii() && !listen) {
+//            listen = true;
+//            commands.clear();
+//            System.out.println("cleared commands");
+//            PButton.setPressed(true);
+//            PButton.onButtonPress.run();
+//            return;
+//        } else if (data == PButton.getAscii() && listen && !commands.isEmpty()) {
+//            listen = false;
+//            PButton.setPressed(false);
+//            System.out.println("stop listening");
+//            return;
+//        } else if (data != PButton.getAscii()) {
+//            commands.add(data);
+//            System.out.println("added command: " + data);
+//            System.out.println(commands.toString());
+//        } else {
+//            System.out.println("didn't do anything");
 //        }
 //    }
 //}
@@ -51,29 +69,27 @@ import java.util.Collections;
 //                int data = conn.readByte();
 //                conn.writeByte(data);
 //                System.out.println("Received: " + data);
-//            }
-//        }
-//    }
-//}
-//            switch (data) {
-//                case 119: //w
-//                    System.out.println("Forward");
-//                    break;
-//                case 97: //a
-//                    System.out.println("Left");
-//                    break;
-//                case 100: //d
-//                    System.out.println("Right");
-//                    break;
-//                case 115: //s
-//                    System.out.println("Backwards");
-//                    break;
-//                case 32: //space
-//                    System.out.println("Stop");
-//                    break;
-//            }
-//        }
 //
+//
+//                switch (data) {
+//                    case 119: //w
+//                        System.out.println("Forward");
+//                        break;
+//                    case 97: //a
+//                        System.out.println("Left");
+//                        break;
+//                    case 100: //d
+//                        System.out.println("Right");
+//                        break;
+//                    case 115: //s
+//                        System.out.println("Backwards");
+//                        break;
+//                    case 32: //space
+//                        System.out.println("Stop");
+//                        break;
+//                }
+//            }
+//        }
 //    }
 //}
 

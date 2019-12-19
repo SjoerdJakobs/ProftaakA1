@@ -1,21 +1,18 @@
-package Hardware.Sensors.Button;
+package hardwarelayer.sensors.button;
 
-import java.security.InvalidParameterException;
+import buttercat.HelpFunctions;
 
 public class Button2
 {
     private int pin;
     private boolean isPressed;
 
-    public Button2(int pin) throws InvalidParameterException {
-        if (pin > 15)
-            throw new InvalidParameterException("Pin number is too high: does not exist.");
-        if (pin < 0)
-            throw new InvalidParameterException("Pin number is too low: does not exist.");
+    public Button2(int pin) {
+        HelpFunctions.checkDigitalPin("Button pin", pin);
 
         this.pin = pin;
         this.isPressed = false;
-//        onButtonPress = () -> callback();
+        onButtonPress = () -> callback();
     }
 
     private void callback() {

@@ -215,8 +215,8 @@ public class ListentoControlPanel extends State {
     }
 
     private void listen() {
-        SerialConnection conn = new SerialConnection();
         System.out.println("enters listen");
+        SerialConnection conn = new SerialConnection();
 
         int data = conn.readByte();
         System.out.println("received: " + data);

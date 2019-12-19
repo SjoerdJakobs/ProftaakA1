@@ -63,7 +63,7 @@ public class ControlPanel extends StandardObject {
         EButton = new AsciiButton(101, true);
         ZButton = new AsciiButton(122, true);
         CButton = new AsciiButton(99, true);
-        PButton = new AsciiButton(112);
+        PButton = new AsciiButton(112, true);
         asciiButtons.add(WButton);
         asciiButtons.add(AButton);
         asciiButtons.add(SButton);

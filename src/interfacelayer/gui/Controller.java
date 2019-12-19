@@ -33,6 +33,7 @@ public class Controller {
         gridSizeField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //make sure the user can only enter numbers
                 if (!newValue.matches("\\d*")) {
                     gridSizeField.setText(newValue.replaceAll("[^\\d]", ""));
                 }

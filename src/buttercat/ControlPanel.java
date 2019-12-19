@@ -42,9 +42,13 @@ public class ControlPanel extends StandardObject {
     protected ControlPanel(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated) {
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
         bluetoothReceiver = new BluetoothReceiver();
+        asciiButtons = new ArrayList<>();
         bluetoothReceiver.somethingHasBeenPressed = () -> {
             onAnyButtonPress();
         };
+//        aButtonHasBeenPressed = () ->{
+//            haha();
+//        };
         WButton = new AsciiButton(119, true);
         AButton = new AsciiButton(97, true);
         SButton = new AsciiButton(115, true);
@@ -82,9 +86,48 @@ public class ControlPanel extends StandardObject {
 
     private void onAnyButtonPress()
     {
+        System.out.println("In onanybuttonpress");
         aButtonHasBeenPressed.run();
+        System.out.println("na onanybuttonpress");
+
     }
 
+//    void haha()
+//    {
+//        System.out.println("kut");
+//    }
+
+    @Override
+    protected void start()
+    {
+        super.start();
+    }
+
+    @Override
+    protected void awake()
+    {
+        super.awake();
+    }
+
+    @Override
+    protected void sleep()
+    {
+        super.sleep();
+    }
+
+    @Override
+    protected void inputLoop(double deltaTime)
+    {
+        super.inputLoop(deltaTime);
+
+        bluetoothReceiver.checkForButtonPresses(asciiButtons);
+    }
+
+    @Override
+    protected void destroy()
+    {
+        super.destroy();
+    }
 
     public BluetoothReceiver getBluetoothReceiver() {
         return bluetoothReceiver;
@@ -96,6 +139,7 @@ public class ControlPanel extends StandardObject {
 
     public AsciiButton getWButton() {
         System.out.println("get w");
+        System.out.println(WButton.getAscii());
         return WButton;
     }
 

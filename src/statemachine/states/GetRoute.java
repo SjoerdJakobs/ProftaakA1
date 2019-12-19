@@ -42,6 +42,7 @@ public class GetRoute extends State {
     }
 
     private void setShouldGoToControlPanelControlTrue(){
+        System.out.println("setshouldtocontrol");
         shouldGoToControlPanel = true;
     }
 

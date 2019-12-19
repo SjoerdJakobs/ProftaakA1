@@ -82,15 +82,17 @@ public class ListentoControlPanel extends State {
     private void setAsciiButtons() {
         System.out.println("Setting the asciibuttons");
         controlPanel.getWButton().onButtonPress = () -> {
-            System.out.println("drive"); driveForward();
-        };        System.out.println("W");
+            driveForward();
+        };
+        System.out.println("W");
 
         controlPanel.getSButton().onButtonPress = () -> {
             driveBackwards();
         };
         controlPanel.getAButton().onButtonPress = () -> {
             driveLeft();
-        };System.out.println("a");
+        };
+        System.out.println("a");
         controlPanel.getDButton().onButtonPress = () -> {
             driveRight();
         };
@@ -99,39 +101,45 @@ public class ListentoControlPanel extends State {
         };
         controlPanel.getMButton().onButtonPress = () -> {
             muteBuzzer();
-        };System.out.println("m");
+        };
+        System.out.println("m");
         controlPanel.getZButton().onButtonPress = () -> {
             turn90DegreesLeft();
         };
         controlPanel.getCButton().onButtonPress = () -> {
             turn90DegreesRight();
-        };System.out.println("c");
+        };
+        System.out.println("c");
         controlPanel.getQButton().onButtonPress = () -> {
             turn180DegreesLeft();
         };
         controlPanel.getEButton().onButtonPress = () -> {
             turn180DegreesRight();
-        };System.out.println("e");
+        };
+        System.out.println("e");
         controlPanel.getSpaceButton().onButtonPress = () -> {
             noSpeed();
         };
         controlPanel.getOneButton().onButtonPress = () -> {
             slowSpeed();
-        };System.out.println("1");
+        };
+        System.out.println("1");
         controlPanel.getTwoButton().onButtonPress = () -> {
             mediumSpeed();
         };
         controlPanel.getThreeButton().onButtonPress = () -> {
             fastSpeed();
-        };System.out.println("3");
+        };
+        System.out.println("3");
         controlPanel.getPButton().onButtonPress = () -> {
             listen();
         };
+        controlPanel.aButtonHasBeenPressed = () ->{anyButtonHasBeenPressed();};
         System.out.println("asciibuttons set");
     }
 
     private void driveForward() {
-        if (canGoForward) {
+        if (this.canGoForward) {
             engine.turnStop();
             engine.driveForward(this.engineTargetSpeed);
             System.out.println("forward");
@@ -271,9 +279,11 @@ public class ListentoControlPanel extends State {
     @Override
     protected void logic() {
         super.logic();
-        System.out.println("in logic");
+//        System.out.println("in logic");
+
         this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
         if (this.hasAnyButtonHasBeenPressed) {
+            System.out.println("Button press");
             notificationSystem.noRemoteControl();
             this.hasAnyButtonHasBeenPressed = false;
         }

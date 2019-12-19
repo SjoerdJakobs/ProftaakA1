@@ -42,7 +42,7 @@ public class FollowRoute extends State {
         super.enter();
         System.out.println("following");
         remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
-        controlPanel.aButtonHasBeenPressed = this::setShouldGoToControlPanelControl;
+        controlPanel.aButtonHasBeenPressed = () -> {setShouldGoToControlPanelControl();};
         lastDistance = 0;
     }
 
@@ -51,6 +51,7 @@ public class FollowRoute extends State {
     }
 
     private void setShouldGoToControlPanelControl() {
+        System.out.println("setshouldtocontrol");
         shouldGoToControlPanelControl = true;
     }
 

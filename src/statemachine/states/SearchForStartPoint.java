@@ -45,6 +45,7 @@ public class SearchForStartPoint extends State
 
     private void setShouldGoToControlPanelControlToTrue()
     {
+        System.out.println("setshouldtocontrol");
         shouldGotoControlPanelControl = true;
     }
 

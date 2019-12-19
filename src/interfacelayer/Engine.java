@@ -220,9 +220,13 @@ public class Engine {
         }
     }
 
-    public void updateInstantPulse(int amount) {
-        servoLeft.updateInstantPulse(amount);
-        servoRight.updateInstantPulse(amount);
+    public void updateInstantPulse(int targetSpeed) {
+        this.originalTargetSpeed = targetSpeed;
+        setServoTargetSpeed(servoLeft, targetSpeed);
+        setServoTargetSpeed(servoRight, targetSpeed);
+
+        servoLeft.updateInstantPulse(targetSpeed);
+        servoRight.updateInstantPulse(targetSpeed);
     }
 
     public void instantLeft() {

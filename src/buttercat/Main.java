@@ -1,14 +1,7 @@
 package buttercat;
 
 import TI.BoeBot;
-import hardwarelayer.sensors.linefollower.LineFollower;
 import interfacelayer.Engine;
-import interfacelayer.LineFollowChecker;
-import interfacelayer.NotificationSystem;
-import ooframework.FrameworkProgram;
-import TI.SerialConnection;
-
-import TI.SerialConnection;
 
 
 public class Main {
@@ -18,6 +11,22 @@ public class Main {
         Program program = new Program();
         program.run();
 
+//        Engine engine = new Engine(SavedPins.SERVO_RIGHT_PIN, SavedPins.SERVO_LEFT_PIN);
+//        engine.setEngineTargetSpeed(100);
+//        while(true) {
+//            engine.drive();
+//            System.out.println(engine.toString());
+//            engine.stillturnStop();
+//
+//            if (engine.getMotorLeft().getServo().getPulseWidth() == 1400) {
+//                engine.setEngineTargetSpeed(0);
+//            }
+//            if (engine.getMotorLeft().getServo().getPulseWidth() == 1500) {
+//                engine.updateInstantPulse(100);
+//            }
+//
+//            BoeBot.wait(30);
+//        }
     }
 }
 

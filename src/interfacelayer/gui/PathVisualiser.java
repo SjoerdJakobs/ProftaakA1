@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class PathVisualiser extends Application {
     private int amount;
-    private Stage stage;
+    public static Stage stage;
 
     public void setAmount(int amount) {
         this.amount = amount;
@@ -21,7 +21,6 @@ public class PathVisualiser extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.stage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("pathLayout.fxml"));
 
         Scene scene = new Scene(root);
@@ -30,9 +29,6 @@ public class PathVisualiser extends Application {
         stage.setTitle("Buttercat");
         stage.show();
 
-    }
-
-    public Stage getStage() {
-        return this.stage;
+        PathVisualiser.stage = stage;
     }
 }

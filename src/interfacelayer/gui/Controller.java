@@ -7,20 +7,34 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import jssc.SerialPort;
+import jssc.SerialPortException;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Controller {
     private PathTile[][] route;
-    @FXML GridPane path;
-    @FXML TextField gridSizeField;
-    @FXML Button saveButton;
+    @FXML
+    GridPane path;
+    @FXML
+    TextField gridSizeField;
+    @FXML
+    Button saveButton;
+    @FXML
+    Button helpButton;
 
 
     int amount = 8;
@@ -46,9 +60,31 @@ public class Controller {
             }
         });
 
-        saveButton.setOnAction(event ->  {
-            gridToString();
+        saveButton.setOnAction(event -> gridToString());
+        helpButton.setOnAction(event -> {
+            try {
+                showHelp();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
+
+    }
+
+    private void showHelp() throws IOException {
+        Parent help = FXMLLoader.load(getClass().getResource("pathLayout.fxml"));
+        Scene helpScene = new Scene(help);
+        Stage helpWindow = new Stage();
+        helpWindow.setTitle("Help");
+        helpWindow.setScene(helpScene);
+
+        helpWindow.initModality(Modality.WINDOW_MODAL);
+        helpWindow.initOwner(PathVisualiser.stage);
+
+        helpWindow.setX(PathVisualiser.stage.getX() + 100);
+        helpWindow.setY(PathVisualiser.stage.getY() + 100);
+
+        helpWindow.show();
 
     }
 

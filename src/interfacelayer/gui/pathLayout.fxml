@@ -34,23 +34,14 @@
                         <Font name="Consolas" size="14.0" />
                      </font>
                   </Button>
+                  <Button fx:id="helpButton" layoutX="868.0" layoutY="23.0" mnemonicParsing="false" text="Help">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </top>
-         <left>
-            <VBox prefHeight="679.0" prefWidth="315.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label alignment="TOP_LEFT" text="Adding a route:" textFill="#e4e1a2">
-                     <font>
-                        <Font name="Consolas" size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-               <opaqueInsets>
-                  <Insets top="10.0" />
-               </opaqueInsets>
-            </VBox>
-         </left>
       </BorderPane>
    </children>
 </StackPane>

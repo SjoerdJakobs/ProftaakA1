@@ -15,6 +15,37 @@ public enum  NotificationSystem {
     //    RgbLed rgbLed = new RgbLed(2, 1, 0, 0, 0, 0, true);
     Buzzer buzzer = new Buzzer(9, 2000);
     NeoLed neoLed1 = new NeoLed(0, Color.white);
+
+    public NeoLed getNeoLed1()
+    {
+        return neoLed1;
+    }
+
+    public NeoLed getNeoLed2()
+    {
+        return neoLed2;
+    }
+
+    public NeoLed getNeoLed3()
+    {
+        return neoLed3;
+    }
+
+    public NeoLed getNeoLed4()
+    {
+        return neoLed4;
+    }
+
+    public NeoLed getNeoLed5()
+    {
+        return neoLed5;
+    }
+
+    public NeoLed getNeoLed6()
+    {
+        return neoLed6;
+    }
+
     NeoLed neoLed2 = new NeoLed(1, Color.white);
     NeoLed neoLed3 = new NeoLed(2, Color.white);
     NeoLed neoLed4 = new NeoLed(3, Color.white);

@@ -1,6 +1,7 @@
 package buttercat;
 
 import TI.BoeBot;
+import TI.Servo;
 import hardwarelayer.sensors.linefollower.LineFollower;
 import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
@@ -21,9 +22,20 @@ public class Main {
     }
 }
 
-//    }
-//}
-
+//
+//
+// engine test
+//        Servo rightWheel    = new Servo(14);
+//        Servo leftWheel     = new Servo(15);
+//
+//        rightWheel.update(1485);
+//        leftWheel.update(1515);
+//        while (true)
+//        {
+//
+//        }
+//
+//
 //Bluetooth test
 //    SerialConnection conn = new SerialConnection();
 //

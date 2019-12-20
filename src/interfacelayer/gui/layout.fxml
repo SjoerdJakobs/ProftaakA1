@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -46,5 +47,10 @@
             <Font name="Consolas Bold" size="14.0" />
          </font>
       </Button>
+      <ImageView fitHeight="99.0" fitWidth="186.0" layoutX="393.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/butterCat.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

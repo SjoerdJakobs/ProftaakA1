@@ -10,9 +10,11 @@ public class Route {
 
     private String name;
     private ArrayList<String> commands;
+    // 1 rechts, 2 links, 0 rechtdoor
 
     /**
      * make a new route
+     *
      * @param name the name to give the route
      */
     public Route(String name) {
@@ -36,8 +38,30 @@ public class Route {
         this.commands = new ArrayList<>(commands);
     }
 
+    public int[] routeToNumbers() {
+        int[] res = new int[this.commands.size()];
+        if (this.isValid()) {
+            for (int i = 0; i < this.commands.size(); i++) {
+                String cur = this.commands.get(i);
+                switch (cur) {
+                    case "Forward":
+                        res[i] = 0;
+                        break;
+                    case "Left":
+                        res[i] = 2;
+                        break;
+                    case "Right":
+                        res[i] = 1;
+                        break;
+                }
+            }
+        }
+        return res;
+    }
+
     /**
      * checks if the route is valid
+     *
      * @return <code>true</code> if this route's commands are not empty, <code>false</code> otherwise
      */
     public boolean isValid() {

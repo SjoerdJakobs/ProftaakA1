@@ -2,6 +2,7 @@ package interfacelayer.gui;
 
 import com.sun.javafx.scene.control.skin.ButtonSkin;
 import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -180,7 +181,7 @@ public class Controller implements Initializable {
      */
     public void displayContentsOfRoute() {
         Route selected = routesList.getSelectionModel().getSelectedItem();
-        if (selected == null) return;
+        if (selected == null || !selected.isValid()) return;
 //        System.out.println("selected route: " + selected);
 //        System.out.println("command list: " + selected.getCommands());
         nameField.setText(selected.getName());
@@ -217,8 +218,6 @@ public class Controller implements Initializable {
      * makes a temporary {@link Route route} to add as placeholder
      */
     private void makeTemp() {
-        ArrayList<String> tempArr = new ArrayList<>();
-        tempArr.add("Forward");
         this.temp = new Route("Your saved routes will be shown here!");
         this.routes.add(temp);
     }

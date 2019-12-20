@@ -21,5 +21,15 @@
          <font>
             <Font name="Consolas Bold" size="14.0" />
          </font></Button>
+      <TextField fx:id="nameField" layoutX="34.0" layoutY="709.0" prefHeight="27.0" prefWidth="264.0" promptText="Route name">
+         <font>
+            <Font name="Consolas" size="14.0" />
+         </font>
+      </TextField>
+      <Button fx:id="saveButton" layoutX="301.0" layoutY="709.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="51.0" text="Save">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

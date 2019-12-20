@@ -20,6 +20,7 @@ public class WindowsMain extends Application{
         Scene scene = new Scene(root);
         scene.getStylesheets().add("interfacelayer/gui/stylesheet.css");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.setTitle("Buttercat");
         stage.show();
     }

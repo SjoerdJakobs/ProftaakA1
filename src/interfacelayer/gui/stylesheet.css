@@ -8,15 +8,16 @@
 }
 
 .list-cell {
--fx-text-fill: #dedede;
--fx-font-size: 14px;
+-fx-text-fill: #00e031;
+-fx-font: 14px "Consolas";
 }
 
 .list-cell:odd {
--fx-background-color: linear-gradient(#116a73 0.0%, #10666e 100.0%);
+/*-fx-background-color: linear-gradient(#116a73 0.0%, #10666e 100.0%);*/
+    -fx-background-color: black;
 }
 
 .list-cell:even {
--fx-background-color: linear-gradient(#38767c 0.0%, #347075 100.0%);
-
+/*-fx-background-color: linear-gradient(#38767c 0.0%, #347075 100.0%);*/
+    -fx-background-color: black;
 }

@@ -21,7 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * The controller class for the GUI elements.
+ */
 public class Controller implements Initializable {
+
     private ArrayList<String> commands;
     private ListView<String> commandList;
     private ObservableList<Route> routes;
@@ -51,6 +55,11 @@ public class Controller implements Initializable {
     @FXML
     Button deleteButton;
 
+    /**
+     * initializes the GUI elements
+     * @param location the location of the FXML file
+     * @param resources the bundle of resources to work with
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("init");
@@ -67,6 +76,9 @@ public class Controller implements Initializable {
 
     }
 
+    /**
+     * sets up the ListView for the routes
+     */
     private void initRoutesList() {
         ListView<Route> routesList = new ListView<>(routes);
         this.routesList = routesList;
@@ -74,6 +86,9 @@ public class Controller implements Initializable {
         rootPane.getChildren().addAll(routesList);
     }
 
+    /**
+     * sets up the ListView for the commands
+     */
     private void initCommandsList() {
         ListView<String> commandList = new ListView<String>();
         this.commandList = commandList;
@@ -82,6 +97,9 @@ public class Controller implements Initializable {
         commandList.setItems(FXCollections.observableList(commands));
     }
 
+    /**
+     * sets all the event handlers for the buttons
+     */
     private void setButtons() {
         leftButton.setOnAction(e -> {
             System.out.println("adding " + "Left");
@@ -157,6 +175,9 @@ public class Controller implements Initializable {
         setSkins();
     }
 
+    /**
+     * displays the contents of the selected {@link Route route}
+     */
     public void displayContentsOfRoute() {
         Route selected = routesList.getSelectionModel().getSelectedItem();
         if (selected == null) return;
@@ -170,10 +191,16 @@ public class Controller implements Initializable {
         editing = true;
     }
 
+    /**
+     * removes the placeholder command
+     */
     private void checkForTestValue() {
         this.commands.remove(PLACEHOLDER);
     }
 
+    /**
+     * sets the layout for the command lists
+     */
     private void setCommandsListLayout() {
         this.commandList.setPrefWidth(318);
         this.commandList.setPrefHeight(507);
@@ -186,6 +213,9 @@ public class Controller implements Initializable {
 
     }
 
+    /**
+     * makes a temporary {@link Route route} to add as placeholder
+     */
     private void makeTemp() {
         ArrayList<String> tempArr = new ArrayList<>();
         tempArr.add("Forward");
@@ -193,7 +223,10 @@ public class Controller implements Initializable {
         this.routes.add(temp);
     }
 
-    public void setSkins() {
+    /**
+     * sets all the skins (animations) for the buttons
+     */
+    private void setSkins() {
         leftButton.setSkin(new GUIButtonSkin(leftButton));
         forwardButton.setSkin(new GUIButtonSkin(forwardButton));
         rightButton.setSkin(new GUIButtonSkin(rightButton));
@@ -203,8 +236,15 @@ public class Controller implements Initializable {
         deleteButton.setSkin(new GUIButtonSkin(deleteButton));
     }
 
+    /**
+     * Button skin class for adding animations
+     */
     private class GUIButtonSkin extends ButtonSkin {
 
+        /**
+         * make a new button skin and assign the animations to it
+         * @param control the button to add the animations to
+         */
         public GUIButtonSkin(Button control) {
             super(control);
 
@@ -238,8 +278,17 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Alert class for showing alerts
+     */
     private class RouteAlert extends Alert {
 
+        /**
+         * make a new alert and assign a css class to it
+         * @param alertType the type of alert
+         * @param title the alert window title
+         * @param message the alert message
+         */
         public RouteAlert(AlertType alertType, String title, String message) {
             super(alertType);
             this.setTitle(title);

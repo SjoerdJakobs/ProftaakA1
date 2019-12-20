@@ -30,6 +30,7 @@ public class Controller implements Initializable {
     private Route temp;
     private String PLACEHOLDER = "Add your commands using the buttons!";
     private boolean editing;
+    private int selectedRouteIndex;
 
     @FXML
     Button leftButton;
@@ -108,10 +109,10 @@ public class Controller implements Initializable {
             Route route = new Route(nameField.getText());
             route.setCommands(this.commands);
 
-            System.out.println("commands: " + this.commands);
-            System.out.println("routes: " + this.routes);
-            System.out.println("route commands: " + route.getCommands());
-            System.out.println("valid: " + route.isValid());
+//            System.out.println("commands: " + this.commands);
+//            System.out.println("routes: " + this.routes);
+//            System.out.println("route commands: " + route.getCommands());
+//            System.out.println("valid: " + route.isValid());
 
             if (nameField.getText().isEmpty()) {
                 RouteAlert alert = new RouteAlert(Alert.AlertType.WARNING, "No name", "Please give your route a name!");
@@ -121,13 +122,17 @@ public class Controller implements Initializable {
                         + "\nPlease add a route with instructions!");
                 alert.showAndWait();
             } else {
+                if (editing) {
+                    this.routes.remove(selectedRouteIndex);
+                }
                 this.routes.remove(this.temp);
                 this.routes.add(route);
                 this.commands.clear();
                 this.nameField.setText("");
                 this.commands.add(PLACEHOLDER);
                 this.commandList.refresh();
-                System.out.println("routes after add: " + this.routes);
+//                System.out.println("routes after add: " + this.routes);
+                editing = false;
             }
         });
         undoButton.setOnAction(e -> {
@@ -138,10 +143,14 @@ public class Controller implements Initializable {
         });
         editButton.setOnAction(e -> {
             displayContentsOfRoute();
+
         });
 
         deleteButton.setOnAction(e -> {
-            this.routes.remove(routesList.getSelectionModel().getSelectedItem());
+            Route selected = routesList.getSelectionModel().getSelectedItem();
+            if (selected != null)
+                this.routes.remove(selected);
+            if (this.routes.isEmpty()) makeTemp();
             routesList.refresh();
         });
 
@@ -149,10 +158,13 @@ public class Controller implements Initializable {
     }
 
     public void displayContentsOfRoute() {
-        System.out.println("selected route: " + routesList.getSelectionModel().getSelectedItem());
-        System.out.println("command list: " + routesList.getSelectionModel().getSelectedItem().getCommands());
-        nameField.setText(routesList.getSelectionModel().getSelectedItem().getName());
-        this.commands = new ArrayList<>(routesList.getSelectionModel().getSelectedItem().getCommands());
+        Route selected = routesList.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+//        System.out.println("selected route: " + selected);
+//        System.out.println("command list: " + selected.getCommands());
+        nameField.setText(selected.getName());
+        selectedRouteIndex = routesList.getSelectionModel().getSelectedIndex();
+        this.commands = new ArrayList<>(selected.getCommands());
         this.commandList.setItems(FXCollections.observableList(this.commands));
         this.commandList.refresh();
         editing = true;
@@ -176,6 +188,7 @@ public class Controller implements Initializable {
 
     private void makeTemp() {
         ArrayList<String> tempArr = new ArrayList<>();
+        tempArr.add("Forward");
         this.temp = new Route("Your saved routes will be shown here!");
         this.routes.add(temp);
     }

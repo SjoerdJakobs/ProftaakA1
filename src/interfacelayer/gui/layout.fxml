@@ -52,5 +52,10 @@
             <Image url="@../../resources/butterCat.png" />
          </image>
       </ImageView>
+      <Button fx:id="manualButton" layoutX="746.0" layoutY="108.0" mnemonicParsing="false" text="Manual control">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

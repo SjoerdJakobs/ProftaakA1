@@ -6,7 +6,10 @@ import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
@@ -15,8 +18,10 @@ import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +31,6 @@ import java.util.ResourceBundle;
  * The controller class for the GUI elements.
  */
 public class Controller implements Initializable {
-
     private ArrayList<String> commands;
     private ListView<String> commandList;
     private ObservableList<Route> routes;
@@ -55,6 +59,8 @@ public class Controller implements Initializable {
     Button editButton;
     @FXML
     Button deleteButton;
+    @FXML
+    Button manualButton;
 
     /**
      * initializes the GUI elements
@@ -156,7 +162,7 @@ public class Controller implements Initializable {
         });
         undoButton.setOnAction(e -> {
             if (!this.commands.isEmpty()) {
-                this.commands.remove(0);
+                this.commands.remove(this.commands.size() - 1);
                 this.commandList.refresh();
             }
         });
@@ -171,6 +177,20 @@ public class Controller implements Initializable {
                 this.routes.remove(selected);
             if (this.routes.isEmpty()) makeTemp();
             routesList.refresh();
+        });
+
+        manualButton.setOnAction( e -> {
+            Stage stage = new Stage();
+            try {
+                Parent control = FXMLLoader.load(getClass().getResource("remotecontrol.fxml"));
+                Scene scene = new Scene(control);
+                stage.setScene(scene);
+                stage.setTitle("Manual control");
+                stage.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
         });
 
         setSkins();
@@ -190,6 +210,10 @@ public class Controller implements Initializable {
         this.commandList.setItems(FXCollections.observableList(this.commands));
         this.commandList.refresh();
         editing = true;
+    }
+    private void openNewWindow() {
+        //TODO open new window
+
     }
 
     /**
@@ -233,6 +257,7 @@ public class Controller implements Initializable {
         undoButton.setSkin(new GUIButtonSkin(undoButton));
         editButton.setSkin(new GUIButtonSkin(editButton));
         deleteButton.setSkin(new GUIButtonSkin(deleteButton));
+        manualButton.setSkin(new GUIButtonSkin(manualButton));
     }
 
     /**

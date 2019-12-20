@@ -31,5 +31,15 @@
             <Font name="Consolas Bold" size="14.0" />
          </font>
       </Button>
+      <Button fx:id="undoButton" layoutX="166.0" layoutY="109.0" mnemonicParsing="false" text="Undo">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="editButton" layoutX="620.0" layoutY="709.0" mnemonicParsing="false" text="Edit">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

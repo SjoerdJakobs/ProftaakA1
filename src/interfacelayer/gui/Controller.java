@@ -6,7 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
@@ -22,8 +24,12 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     private ArrayList<String> commands;
     private ListView<String> commandList;
-    private ArrayList<String> routes;
-    private ListView<String> routesList;
+    private ObservableList<Route> routes;
+    private ListView<Route> routesList;
+
+    private Route temp;
+    private String PLACEHOLDER = "Add your commands using the buttons!";
+    private boolean editing;
 
     @FXML
     Button leftButton;
@@ -37,16 +43,20 @@ public class Controller implements Initializable {
     TextField nameField;
     @FXML
     Button saveButton;
+    @FXML
+    Button undoButton;
+    @FXML
+    Button editButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("init");
         this.commands = new ArrayList<>();
-        this.commands.add("Add your commands using the buttons!");
+        this.commands.add(PLACEHOLDER);
+        this.routes = FXCollections.observableArrayList();
+        editing = false;
 
-        this.routes = new ArrayList<>();
-        this.routes.add("Your saved routes will be shown here!");
-
+        makeTemp();
         initCommandsList();
         initRoutesList();
         setButtons();
@@ -55,15 +65,16 @@ public class Controller implements Initializable {
     }
 
     private void initRoutesList() {
-        ListView<String> routesList = new ListView<String>();
+        ListView<Route> routesList = new ListView<>(routes);
         this.routesList = routesList;
+        this.routesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         rootPane.getChildren().addAll(routesList);
-        routesList.setItems(FXCollections.observableList(routes));
     }
 
     private void initCommandsList() {
         ListView<String> commandList = new ListView<String>();
         this.commandList = commandList;
+        this.commandList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         rootPane.getChildren().add(commandList);
         commandList.setItems(FXCollections.observableList(commands));
     }
@@ -76,7 +87,7 @@ public class Controller implements Initializable {
 //            System.out.println(commands.toString());
             commandList.refresh();
         });
-        forwardButton.setOnAction( e -> {
+        forwardButton.setOnAction(e -> {
             System.out.println("adding " + "Forward");
             checkForTestValue();
             this.commands.add("Forward");
@@ -91,29 +102,82 @@ public class Controller implements Initializable {
             commandList.refresh();
         });
         saveButton.setOnAction(e -> {
+            checkForTestValue();
+            Route route = new Route(nameField.getText());
+            route.setCommands(this.commands);
 
+            System.out.println("commands: " + this.commands);
+            System.out.println("routes: " + this.routes);
+            System.out.println("route commands: " + route.getCommands());
+            System.out.println("valid: " + route.isValid());
+
+            if (nameField.getText().isEmpty()) {
+                RouteAlert alert = new RouteAlert(Alert.AlertType.WARNING, "No name", "Please give your route a name!");
+                alert.showAndWait();
+            } else if (!route.isValid()) {
+                RouteAlert alert = new RouteAlert(Alert.AlertType.WARNING, "Empty route", "You tried to add an empty route."
+                        + "\nPlease add a route with instructions!");
+                alert.showAndWait();
+            } else {
+                this.routes.remove(this.temp);
+                this.routes.add(route);
+                this.commands.clear();
+                this.nameField.setText("");
+                this.commands.add(PLACEHOLDER);
+                this.commandList.refresh();
+                System.out.println("routes after add: " + this.routes);
+            }
+        });
+        undoButton.setOnAction(e -> {
+            if (!this.commands.isEmpty()) {
+                this.commands.remove(0);
+                this.commandList.refresh();
+            }
+        });
+
+        editButton.setOnAction(e -> {
+            displayContentsOfRoute();
         });
 
         leftButton.setSkin(new GUIButtonSkin(leftButton));
         forwardButton.setSkin(new GUIButtonSkin(forwardButton));
         rightButton.setSkin(new GUIButtonSkin(rightButton));
         saveButton.setSkin(new GUIButtonSkin(saveButton));
+        undoButton.setSkin(new GUIButtonSkin(undoButton));
+        editButton.setSkin(new GUIButtonSkin(editButton));
+
+    }
+
+    public void displayContentsOfRoute() {
+        System.out.println("selected route: " + routesList.getSelectionModel().getSelectedItem());
+        System.out.println("command list: " + routesList.getSelectionModel().getSelectedItem().getCommands());
+        nameField.setText(routesList.getSelectionModel().getSelectedItem().getName());
+        this.commands = new ArrayList<>(routesList.getSelectionModel().getSelectedItem().getCommands());
+        this.commandList.setItems(FXCollections.observableList(this.commands));
+        this.commandList.refresh();
+        editing = true;
     }
 
     private void checkForTestValue() {
-        this.commands.remove("Add your commands using the buttons!");
-        this.routes.remove("Your saved routes will be shown here!");
+        this.commands.remove(PLACEHOLDER);
     }
+
     private void setCommandsListLayout() {
         this.commandList.setPrefWidth(318);
         this.commandList.setPrefHeight(507);
         this.commandList.setLayoutX(34);
         this.commandList.setLayoutY(200);
-        this.routesList.setPrefWidth(318);
+        this.routesList.setPrefWidth(350);
         this.routesList.setPrefHeight(507);
-        this.routesList.setLayoutX(34 + 318 + 300);
+        this.routesList.setLayoutX(2 + 318 + 300);
         this.routesList.setLayoutY(200);
 
+    }
+
+    private void makeTemp() {
+        ArrayList<String> tempArr = new ArrayList<>();
+        this.temp = new Route("Your saved routes will be shown here!");
+        this.routes.add(temp);
     }
 
     private class GUIButtonSkin extends ButtonSkin {
@@ -148,6 +212,20 @@ public class Controller implements Initializable {
             scaleDown.setToY(1);
 
             control.setOnMouseExited(e -> scaleDown.play());
+        }
+    }
+
+    private class RouteAlert extends Alert {
+
+        public RouteAlert(AlertType alertType, String title, String message) {
+            super(alertType);
+            this.setTitle(title);
+            this.setContentText(message);
+            this.setHeaderText("HEY! YOU!");
+
+            DialogPane dialogPane = this.getDialogPane();
+            dialogPane.getStylesheets().add(
+                    getClass().getResource("stylesheet.css").toExternalForm());
         }
     }
 }

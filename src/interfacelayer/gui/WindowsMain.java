@@ -17,6 +17,7 @@ public class WindowsMain extends Application{
 
 
         //TODO add saving a route under a name, adding window to give name, adding window to select route and see
+        //TODO add com choose box
         Scene scene = new Scene(root);
         scene.getStylesheets().add("interfacelayer/gui/stylesheet.css");
         stage.setScene(scene);

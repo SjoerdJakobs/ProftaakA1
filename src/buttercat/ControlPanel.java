@@ -78,6 +78,7 @@ public class ControlPanel extends StandardObject {
         asciiButtons.add(EButton);
         asciiButtons.add(ZButton);
         asciiButtons.add(CButton);
+        asciiButtons.add(PButton);
     }
 
     public void AsciiButton() {
@@ -86,9 +87,7 @@ public class ControlPanel extends StandardObject {
 
     private void onAnyButtonPress()
     {
-        System.out.println("In onanybuttonpress");
         aButtonHasBeenPressed.run();
-        System.out.println("na onanybuttonpress");
 
     }
 
@@ -138,8 +137,6 @@ public class ControlPanel extends StandardObject {
     }
 
     public AsciiButton getWButton() {
-        System.out.println("get w");
-        System.out.println(WButton.getAscii());
         return WButton;
     }
 

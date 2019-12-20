@@ -60,7 +60,6 @@ public class ListentoControlPanel extends State {
         remote.aButtonHasBeenPressed = () -> {
             setShouldGoToRemoteControlToTrue();
         };
-        System.out.println("leaving enter method");
     }
 
     private void setShouldGoToRemoteControlToTrue() {
@@ -80,11 +79,9 @@ public class ListentoControlPanel extends State {
     }
 
     private void setAsciiButtons() {
-        System.out.println("Setting the asciibuttons");
         controlPanel.getWButton().onButtonPress = () -> {
             driveForward();
         };
-        System.out.println("W");
 
         controlPanel.getSButton().onButtonPress = () -> {
             driveBackwards();
@@ -92,7 +89,6 @@ public class ListentoControlPanel extends State {
         controlPanel.getAButton().onButtonPress = () -> {
             driveLeft();
         };
-        System.out.println("a");
         controlPanel.getDButton().onButtonPress = () -> {
             driveRight();
         };
@@ -102,40 +98,38 @@ public class ListentoControlPanel extends State {
         controlPanel.getMButton().onButtonPress = () -> {
             muteBuzzer();
         };
-        System.out.println("m");
         controlPanel.getZButton().onButtonPress = () -> {
             turn90DegreesLeft();
         };
         controlPanel.getCButton().onButtonPress = () -> {
             turn90DegreesRight();
         };
-        System.out.println("c");
         controlPanel.getQButton().onButtonPress = () -> {
             turn180DegreesLeft();
         };
         controlPanel.getEButton().onButtonPress = () -> {
             turn180DegreesRight();
         };
-        System.out.println("e");
         controlPanel.getSpaceButton().onButtonPress = () -> {
             noSpeed();
         };
         controlPanel.getOneButton().onButtonPress = () -> {
             slowSpeed();
         };
-        System.out.println("1");
         controlPanel.getTwoButton().onButtonPress = () -> {
             mediumSpeed();
         };
         controlPanel.getThreeButton().onButtonPress = () -> {
             fastSpeed();
         };
-        System.out.println("3");
         controlPanel.getPButton().onButtonPress = () -> {
             listen();
         };
-        controlPanel.aButtonHasBeenPressed = () ->{anyButtonHasBeenPressed();};
-        System.out.println("asciibuttons set");
+        controlPanel.aButtonHasBeenPressed = () -> {
+            anyButtonHasBeenPressed();
+        };
+        System.out.println("AsciiButtons set");
+
     }
 
     private void driveForward() {
@@ -216,30 +210,39 @@ public class ListentoControlPanel extends State {
 
     private void listen() {
         System.out.println("enters listen");
-        SerialConnection conn = new SerialConnection();
 
-        int data = conn.readByte();
-        System.out.println("received: " + data);
+        SerialConnection conn = controlPanel.getBluetoothReceiver().getConn();
 
-        if (data == controlPanel.getPButton().getAscii() && !this.listen) {
-            this.listen = true;
-            this.commands.clear();
-            System.out.println("cleared commands");
-            controlPanel.getPButton().setPressed(true);
-            controlPanel.getPButton().onButtonPress.run();
-            return;
-        } else if (data == controlPanel.getPButton().getAscii() && this.listen && !this.commands.isEmpty()) {
-            this.listen = false;
-            controlPanel.getPButton().setPressed(false);
-            System.out.println("stop listening");
-            return;
-        } else if (data != controlPanel.getPButton().getAscii()) {
-            this.commands.add(data);
-            System.out.println("added command: " + data);
-            System.out.println(this.commands.toString());
-        } else {
-            System.out.println("didn't do anything");
+        if (conn.available() > 0) {
+            int data = conn.readByte();
+            System.out.println("received: " + data);
+            conn.writeByte(data);
+            if (data > 0) {
+                System.out.println("In if statement");
+                if (data == controlPanel.getPButton().getAscii() && !this.listen) {
+                    this.listen = true;
+                    this.commands.clear();
+                    System.out.println("cleared commands");
+                    controlPanel.getPButton().setPressed(true);
+                    controlPanel.getPButton().onButtonPress.run();
+                    return;
+                } else if (data == controlPanel.getPButton().getAscii() && this.listen && !this.commands.isEmpty()) {
+                    this.listen = false;
+                    controlPanel.getPButton().setPressed(false);
+                    System.out.println("stop listening");
+                    return;
+                } else if (data != controlPanel.getPButton().getAscii()) {
+                    this.commands.add(data);
+                    System.out.println("added command: " + data);
+                    System.out.println(this.commands.toString());
+                } else {
+                    System.out.println("NOPE");
+                }
+            }
         }
+//        } else {
+//            System.out.println("didn't do anything");
+//        }
     }
 
     //        if (data != controlPanel.getPButton().getAscii()) {
@@ -279,7 +282,7 @@ public class ListentoControlPanel extends State {
     @Override
     protected void logic() {
         super.logic();
-//        System.out.println("in logic");
+        System.out.println("in logic");
 
         this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
         if (this.hasAnyButtonHasBeenPressed) {

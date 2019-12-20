@@ -10,23 +10,27 @@ import java.util.ArrayList;
 public class BluetoothReceiver {
 
     public Callback somethingHasBeenPressed;
-    SerialConnection conn = new SerialConnection();
+    public SerialConnection conn;
+
+    public BluetoothReceiver() {
+        this.conn = new SerialConnection();
+    }
 
     public void checkForButtonPresses(ArrayList<AsciiButton> asciibuttons) {
 //        System.out.println("Ik ben er");
+
         if (conn.available() > 0) {
             int data = conn.readByte();
             System.out.println("Received: " + data);
             conn.writeByte(data);
-            if (data != -1) {
+
+            if (data > 0) {
                 for (AsciiButton asciiButton : asciibuttons) {
                     if (asciiButton.getAscii() == data) {
                         if (!asciiButton.isPressed()) {
                             asciiButton.setPressed(true);
                             asciiButton.onButtonPress.run();
-                            System.out.println("Voor de error");
                             somethingHasBeenPressed.run();
-                            System.out.println("na de error");
                         } else if (asciiButton.isPressed() && asciiButton.isContinuousCallback()) {
                             asciiButton.onButtonPress.run();
                         }
@@ -41,6 +45,10 @@ public class BluetoothReceiver {
                 data = -1;
             }
         }
+    }
+
+    public SerialConnection getConn() {
+        return conn;
     }
 }
 

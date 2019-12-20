@@ -1,8 +1,7 @@
 package buttercat;
 
 import TI.BoeBot;
-import TI.SerialConnection;
-import hardwarelayer.sensors.asciibutton.AsciiButton;
+import interfacelayer.Engine;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,47 +16,6 @@ public class Main {
 
     }
 }
-
-//send route test //Not ready yet
-//public class Main {
-//
-//    public static void main(String[] args) {
-//        boolean listen = false;
-//        ArrayList<Integer> commands = new ArrayList<>();
-//        AsciiButton PButton = new AsciiButton(112);
-//
-//        listen(listen, commands, PButton);
-//    }
-//
-//    private static void listen(boolean listen, ArrayList<Integer> commands, AsciiButton PButton) {
-//        SerialConnection conn = new SerialConnection();
-//        System.out.println("enters listen");
-//
-//        int data = conn.readByte();
-//        System.out.println("received: " + data);
-//
-//        if (data == PButton.getAscii() && !listen) {
-//            listen = true;
-//            commands.clear();
-//            System.out.println("cleared commands");
-//            PButton.setPressed(true);
-//            PButton.onButtonPress.run();
-//            return;
-//        } else if (data == PButton.getAscii() && listen && !commands.isEmpty()) {
-//            listen = false;
-//            PButton.setPressed(false);
-//            System.out.println("stop listening");
-//            return;
-//        } else if (data != PButton.getAscii()) {
-//            commands.add(data);
-//            System.out.println("added command: " + data);
-//            System.out.println(commands.toString());
-//        } else {
-//            System.out.println("didn't do anything");
-//        }
-//    }
-//}
-
 
 //Bluetooth test
 //public class Main {
@@ -90,6 +48,7 @@ public class Main {
 //                }
 //            }
 //        }
+//
 //    }
 //}
 

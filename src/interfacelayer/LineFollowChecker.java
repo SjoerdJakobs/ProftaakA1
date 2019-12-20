@@ -7,15 +7,16 @@ import ooframework.StandardObject;
 
 public class LineFollowChecker extends StandardObject {
     private LineFollower left;
-    private LineFollower mid;
-    //    private LineFollower midRigth;
+    private LineFollower midLeft;
+    private LineFollower midRight;
     private LineFollower right;
 
     private final static int THRESHOLD = 1200;
 
     public static final int LEFT_LINEFOLLOWER = 0;
-    public static final int MID_LINEFOLLOWER = 1;
-    public static final int RIGHT_LINEFOLLOWER = 2;
+    public static final int MID_LEFT_LINEFOLLOWER = 1;
+    public static final int MID_RIGHT_LINEFOLLOWER = 2;
+    public static final int RIGHT_LINEFOLLOWER = 3;
 
     /**
      * creates a new LineFollowChecker object
@@ -23,13 +24,13 @@ public class LineFollowChecker extends StandardObject {
      * @param frameworkProgram the program to run with
      */
     public LineFollowChecker(FrameworkProgram frameworkProgram) {
-        super(frameworkProgram);
+        super(frameworkProgram,true,false,false,true);
 
         //TODO change if pins are different after putting the linefollowers on project boebot
-        this.left = new LineFollower(0);
-        this.mid = new LineFollower(1);
-//        this.midRigth = new LineFollower(2);
-        this.right = new LineFollower(2);
+        this.left = new LineFollower(2);
+        this.midLeft = new LineFollower(3);
+        this.midRight = new LineFollower(1);
+        this.right = new LineFollower(0);
     }
 
     /**
@@ -38,12 +39,12 @@ public class LineFollowChecker extends StandardObject {
      * @param deltaTime the time difference
      */
     @Override
-    protected void mainLoop(double deltaTime) {
-        super.mainLoop(deltaTime);
+    protected void inputLoop(double deltaTime) {
+        super.inputLoop(deltaTime);
 
         left.startReading().run();
-        mid.startReading().run();
-//        midRigth.startReading().run();
+        midLeft.startReading().run();
+        midRight.startReading().run();
         right.startReading().run();
     }
 
@@ -51,13 +52,13 @@ public class LineFollowChecker extends StandardObject {
         return left.getValue() > THRESHOLD;
     }
 
-    public boolean midNoticedLine() {
-        return mid.getValue() > THRESHOLD;
+    public boolean midLeftNoticedLine() {
+        return midLeft.getValue() > THRESHOLD;
     }
 
-//    public boolean midRightNoticedLine() {
-//        return midRigth.getValue() > THRESHOLD;
-//    }
+    public boolean midRightNoticedLine() {
+        return midRight.getValue() > THRESHOLD;
+    }
 
     public boolean rightNoticedLine() {
         return right.getValue() > THRESHOLD;
@@ -69,15 +70,16 @@ public class LineFollowChecker extends StandardObject {
      * @return true if the BoeBot's line followers are on an intersection
      */
     public boolean hasNoticedIntersection() {
-        return leftNoticedLine() && midNoticedLine() && rightNoticedLine();
+        return leftNoticedLine() && midLeftNoticedLine() && midRightNoticedLine() && rightNoticedLine();
     }
 
     /**
      * gets the value of the given line follower. The line followers you van use:
      * <ul>
      * <li>{@link LineFollowChecker#LEFT_LINEFOLLOWER left (0)}</li>
-     * <li>{@link LineFollowChecker#MID_LINEFOLLOWER mid (1)}</li>
-     * <li>{@link LineFollowChecker#RIGHT_LINEFOLLOWER right (2)}</li>
+     * <li>{@link LineFollowChecker#MID_LEFT_LINEFOLLOWER midLeft (1)}</li>
+     * <li>{@link LineFollowChecker#MID_RIGHT_LINEFOLLOWER right (2)}</li>
+     * <li>{@link LineFollowChecker#RIGHT_LINEFOLLOWER right (3)}</li>
      * </ul>
      *
      * @param lineFollower the line follower to get the value from.
@@ -91,9 +93,12 @@ public class LineFollowChecker extends StandardObject {
                 res = left.getValue();
                 break;
             case 1:
-                res = mid.getValue();
+                res = midLeft.getValue();
                 break;
             case 2:
+                res = midRight.getValue();
+                break;
+            case 3:
                 res = right.getValue();
                 break;
         }
@@ -101,5 +106,21 @@ public class LineFollowChecker extends StandardObject {
 
     }
 
+    /**
+     * debug method
+     */
+    public void readAll() {
+        left.read();
+        midLeft.read();
+        midRight.read();
+        right.read();
+    }
+
+    public String toString() {
+        return "lfLeft: " + (left.getValue() > THRESHOLD ? "black (" : "white (") + this.left.getValue() +
+                ")\tlfMidLeft: " + (midLeft.getValue() > THRESHOLD ? "black (" : "white (")+ this.midLeft.getValue() +
+                ")\tlfMidRight: " + (midRight.getValue() > THRESHOLD ? "black (" : "white (") + this.midRight.getValue() +
+                ")\tlfRight: " + (right.getValue() > THRESHOLD ? "black (" : "white (") + this.right.getValue() + ")";
+    }
 
 }

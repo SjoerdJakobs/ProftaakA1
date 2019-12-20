@@ -11,20 +11,20 @@ public class Program extends FrameworkProgram {
 
     }
 
-    private Engine engine;
-    private Remote remote;
-    private StateMachine stateMachine;
-    private ObjectDetection objectDetection;
-    private DriverAI driverAI;
-    private LineFollowChecker lineFollowChecker;
-    private ControlPanel controlPanel;
+    private Engine              engine;
+    private Remote              remote;
+    private StateMachine        stateMachine;
+    private ObjectDetection     objectDetection;
+    private DriverAI            driverAI;
+    private LineFollowChecker   lineFollowChecker;
+    private ControlPanel        controlPanel;
 
     @Override
     protected void start() {
         super.start();
 
-        engine = new Engine(14, 15);
-        remote = new Remote(this, true, false, false, true);
+        engine = new Engine(15, 14);
+        remote = new Remote(this,true,false,false,true);
         stateMachine = new StateMachine(this);
         objectDetection = new ObjectDetection(this);
         lineFollowChecker = new LineFollowChecker(this);

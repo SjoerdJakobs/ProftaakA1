@@ -37,7 +37,7 @@ public class HelpFunctions {
     }
 
     public static void checkLineFollowers(String argumentName, int argumentValue) throws IllegalArgumentException {
-        if (argumentValue < 0|| argumentValue > 2)
+        if (argumentValue < 0|| argumentValue > 3)
             throw new IllegalArgumentException(argumentName + "value must be between the available line follower options in the LineFollowChecker class.\nGiven value: " + argumentValue + ".");
     }
 

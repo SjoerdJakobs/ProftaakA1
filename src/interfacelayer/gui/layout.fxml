@@ -41,5 +41,10 @@
             <Font name="Consolas Bold" size="14.0" />
          </font>
       </Button>
+      <Button fx:id="deleteButton" layoutX="679.0" layoutY="709.0" mnemonicParsing="false" text="Delete">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

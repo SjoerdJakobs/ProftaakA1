@@ -47,6 +47,8 @@ public class Controller implements Initializable {
     Button undoButton;
     @FXML
     Button editButton;
+    @FXML
+    Button deleteButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -134,18 +136,16 @@ public class Controller implements Initializable {
                 this.commandList.refresh();
             }
         });
-
         editButton.setOnAction(e -> {
             displayContentsOfRoute();
         });
 
-        leftButton.setSkin(new GUIButtonSkin(leftButton));
-        forwardButton.setSkin(new GUIButtonSkin(forwardButton));
-        rightButton.setSkin(new GUIButtonSkin(rightButton));
-        saveButton.setSkin(new GUIButtonSkin(saveButton));
-        undoButton.setSkin(new GUIButtonSkin(undoButton));
-        editButton.setSkin(new GUIButtonSkin(editButton));
+        deleteButton.setOnAction(e -> {
+            this.routes.remove(routesList.getSelectionModel().getSelectedItem());
+            routesList.refresh();
+        });
 
+        setSkins();
     }
 
     public void displayContentsOfRoute() {
@@ -178,6 +178,16 @@ public class Controller implements Initializable {
         ArrayList<String> tempArr = new ArrayList<>();
         this.temp = new Route("Your saved routes will be shown here!");
         this.routes.add(temp);
+    }
+
+    public void setSkins() {
+        leftButton.setSkin(new GUIButtonSkin(leftButton));
+        forwardButton.setSkin(new GUIButtonSkin(forwardButton));
+        rightButton.setSkin(new GUIButtonSkin(rightButton));
+        saveButton.setSkin(new GUIButtonSkin(saveButton));
+        undoButton.setSkin(new GUIButtonSkin(undoButton));
+        editButton.setSkin(new GUIButtonSkin(editButton));
+        deleteButton.setSkin(new GUIButtonSkin(deleteButton));
     }
 
     private class GUIButtonSkin extends ButtonSkin {

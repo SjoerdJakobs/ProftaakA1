@@ -7,18 +7,64 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RemoteController">
+<AnchorPane prefHeight="445.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RemoteController">
    <children>
-      <Button layoutX="456.0" layoutY="87.0" mnemonicParsing="false" text="Drive forward">
+      <Button fx:id="forwardButton" layoutX="249.0" layoutY="43.0" mnemonicParsing="false" styleClass="control">
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/butterCat.png" />
+                  <Image url="@../resources/elevator-up-button.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="449.0" layoutY="603.0" mnemonicParsing="false" text="Drive backwards" />
+      <Button fx:id="rightButton" layoutX="401.0" layoutY="182.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../resources/elevator-up-button.png" />
+                  <!--<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="backwardButton" layoutX="249.0" layoutY="320.0" mnemonicParsing="false" rotate="180.0" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/elevator-up-button.png" />
+                  <!--<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="leftButton" layoutX="99.0" layoutY="182.0" mnemonicParsing="false" rotate="270.0" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/elevator-up-button.png" />
+                  <!--<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="stopButton" layoutX="249.0" layoutY="182.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/stop.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="uTurnButton" layoutX="99.0" layoutY="43.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/curve-arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

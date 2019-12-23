@@ -61,5 +61,9 @@
     -fx-border-color: transparent;
     -fx-border-width: 0;
     -fx-background-color: transparent;
+}
 
+.combo-box-base {
+-fx-background-color: #8a3232;
+-fx-text-fill: #dedede;
 }

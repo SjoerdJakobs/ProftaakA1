@@ -10,13 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -42,6 +36,8 @@ public class Controller implements Initializable {
     private boolean editing;
     private int selectedRouteIndex;
 
+    public static String COM_PORT;
+
     //fxml gui buttons
     @FXML
     Button leftButton;
@@ -65,6 +61,8 @@ public class Controller implements Initializable {
     Button manualButton;
     @FXML
     Button executeButton;
+    @FXML
+    ComboBox<String> comBox;
 
     /**
      * initializes the GUI elements
@@ -84,7 +82,28 @@ public class Controller implements Initializable {
         initCommandsList();
         initRoutesList();
         setButtons();
+        initComs();
         setCommandsListLayout();
+
+    }
+
+    private void initComs() {
+        comBox.getItems().add("COM0");
+        comBox.getItems().add("COM1");
+        comBox.getItems().add("COM2");
+        comBox.getItems().add("COM3");
+        comBox.getItems().add("COM4");
+        comBox.getItems().add("COM5");
+        comBox.getItems().add("COM6");
+        comBox.getItems().add("COM7");
+        comBox.getItems().add("COM8");
+        comBox.getItems().add("COM9");
+
+        comBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            if (newValue != null) {
+                COM_PORT = newValue;
+            }
+        });
 
     }
 

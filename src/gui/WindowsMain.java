@@ -19,7 +19,6 @@ public class WindowsMain extends Application{
         Parent root = FXMLLoader.load(getClass().getResource("layout.fxml"));
         Parent control = FXMLLoader.load(getClass().getResource("remotecontrol.fxml"));
 
-        //TODO add saving a route under a name, adding window to give name, adding window to select route and see
         //TODO add com choose box
         Scene scene = new Scene(root);
         scene.getStylesheets().add("gui/stylesheet.css");

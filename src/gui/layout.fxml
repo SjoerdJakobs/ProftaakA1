@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="rootPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacelayer.gui.Controller">
+<AnchorPane fx:id="rootPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
    <children>
       <Button fx:id="forwardButton" layoutX="449.0" layoutY="108.0" mnemonicParsing="false" text="Forward">
          <font>
@@ -53,6 +53,11 @@
          </image>
       </ImageView>
       <Button fx:id="manualButton" layoutX="746.0" layoutY="108.0" mnemonicParsing="false" text="Manual control">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="executeButton" layoutX="754.0" layoutY="709.0" mnemonicParsing="false" text="Execute">
          <font>
             <Font name="Consolas Bold" size="14.0" />
          </font>

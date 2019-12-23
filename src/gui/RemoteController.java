@@ -1,4 +1,4 @@
-package interfacelayer.gui;
+package gui;
 
 public class RemoteController {
 

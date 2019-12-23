@@ -1,4 +1,4 @@
-package interfacelayer.gui;
+package gui;
 
 import com.sun.javafx.scene.control.skin.ButtonSkin;
 import javafx.animation.ScaleTransition;
@@ -24,6 +24,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -37,10 +38,11 @@ public class Controller implements Initializable {
     private ListView<Route> routesList;
 
     private Route temp;
-    private String PLACEHOLDER = "Add your commands using the buttons!";
+    private final String PLACEHOLDER = "Add your commands using the buttons!";
     private boolean editing;
     private int selectedRouteIndex;
 
+    //fxml gui buttons
     @FXML
     Button leftButton;
     @FXML
@@ -61,10 +63,13 @@ public class Controller implements Initializable {
     Button deleteButton;
     @FXML
     Button manualButton;
+    @FXML
+    Button executeButton;
 
     /**
      * initializes the GUI elements
-     * @param location the location of the FXML file
+     *
+     * @param location  the location of the FXML file
      * @param resources the bundle of resources to work with
      */
     @Override
@@ -179,17 +184,25 @@ public class Controller implements Initializable {
             routesList.refresh();
         });
 
-        manualButton.setOnAction( e -> {
+        manualButton.setOnAction(e -> {
             Stage stage = new Stage();
             try {
                 Parent control = FXMLLoader.load(getClass().getResource("remotecontrol.fxml"));
                 Scene scene = new Scene(control);
+                scene.getStylesheets().add("gui/stylesheet.css");
                 stage.setScene(scene);
                 stage.setTitle("Manual control");
                 stage.show();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+
+        });
+
+        executeButton.setOnAction(e -> {
+            Route selected = routesList.getSelectionModel().getSelectedItem();
+            int[] instructions = selected.routeToNumbers();
+            System.out.println(Arrays.toString(instructions));
 
         });
 
@@ -211,6 +224,7 @@ public class Controller implements Initializable {
         this.commandList.refresh();
         editing = true;
     }
+
     private void openNewWindow() {
         //TODO open new window
 
@@ -258,6 +272,7 @@ public class Controller implements Initializable {
         editButton.setSkin(new GUIButtonSkin(editButton));
         deleteButton.setSkin(new GUIButtonSkin(deleteButton));
         manualButton.setSkin(new GUIButtonSkin(manualButton));
+        executeButton.setSkin(new GUIButtonSkin(executeButton));
     }
 
     /**
@@ -267,6 +282,7 @@ public class Controller implements Initializable {
 
         /**
          * make a new button skin and assign the animations to it
+         *
          * @param control the button to add the animations to
          */
         public GUIButtonSkin(Button control) {
@@ -309,9 +325,10 @@ public class Controller implements Initializable {
 
         /**
          * make a new alert and assign a css class to it
+         *
          * @param alertType the type of alert
-         * @param title the alert window title
-         * @param message the alert message
+         * @param title     the alert window title
+         * @param message   the alert message
          */
         public RouteAlert(AlertType alertType, String title, String message) {
             super(alertType);

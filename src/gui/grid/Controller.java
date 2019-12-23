@@ -1,4 +1,4 @@
-package interfacelayer.gui.grid;
+package gui.grid;
 
 import com.sun.javafx.scene.control.skin.ButtonSkin;
 import interfacelayer.pathfinding.PathTile;

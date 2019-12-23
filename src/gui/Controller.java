@@ -201,8 +201,14 @@ public class Controller implements Initializable {
 
         executeButton.setOnAction(e -> {
             Route selected = routesList.getSelectionModel().getSelectedItem();
-            int[] instructions = selected.routeToNumbers();
-            System.out.println(Arrays.toString(instructions));
+            if (selected != null) {
+                int[] instructions = selected.routeToNumbers();
+                System.out.println(Arrays.toString(instructions));
+                //TODO send via bluetooth to boebot
+            } else {
+                RouteAlert alert = new RouteAlert(Alert.AlertType.WARNING, "No route selected","Please select the route you want to execute!");
+                alert.showAndWait();
+            }
 
         });
 

@@ -35,11 +35,11 @@ public class WindowsMain extends Application {
         SerialPort serialPort = new SerialPort("COM6");
         System.out.println("After intitializing serialPort");
         int[] commands = new int[5];
-        commands[0] = 119;
+        commands[0] = 250;
         commands[1] = 118;
         commands[2] = 117;
         commands[3] = 116;
-        commands[4] = 115;
+        commands[4] = 251;
 
         try {
             System.out.println("Before opening the port");

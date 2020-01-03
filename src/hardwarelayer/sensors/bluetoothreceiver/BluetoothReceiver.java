@@ -11,9 +11,11 @@ public class BluetoothReceiver {
 
     public Callback somethingHasBeenPressed;
     public SerialConnection conn;
+    public ArrayList<Integer> commands;
 
     public BluetoothReceiver() {
         this.conn = new SerialConnection();
+        this.commands = new ArrayList<>();
     }
 
     public void checkForButtonPresses(ArrayList<AsciiButton> asciibuttons) {
@@ -22,9 +24,10 @@ public class BluetoothReceiver {
         if (conn.available() > 0) {
             int data = conn.readByte();
             System.out.println("Received: " + data);
+            System.out.println("Next line");
             conn.writeByte(data);
 
-            if (data > 0) {
+            if (data > 0 && data != 250) {
                 for (AsciiButton asciiButton : asciibuttons) {
                     if (asciiButton.getAscii() == data) {
                         if (!asciiButton.isPressed()) {
@@ -38,7 +41,16 @@ public class BluetoothReceiver {
                         asciiButton.setPressed(false);
                     }
                 }
-            } else {
+            }
+            else if (data == 250) {
+                data = conn.readByte();
+                while (data != 251) {
+                    this.commands.add(data);
+                    System.out.println(this.commands);
+                    data = conn.readByte();
+                }
+            }
+            else {
                 for (AsciiButton asciiButton : asciibuttons) {
                     asciiButton.setPressed(false);
                 }

@@ -7,8 +7,10 @@ import ooframework.FrameworkProgram;
 import interfacelayer.ObjectDetection;
 import statemachine.StateMachine;
 
-public class Program extends FrameworkProgram {
-    Program() {
+public class Program extends FrameworkProgram
+{
+    Program()
+    {
 
     }
 
@@ -31,8 +33,8 @@ public class Program extends FrameworkProgram {
         stateMachine = new StateMachine(this);
         objectDetection = new ObjectDetection(this);
         lineFollowChecker = new LineFollowChecker(this);
-        controlPanel = new ControlPanel(this, true, false, false, false);
-        driverAI = new DriverAI(this, true, false, false, true, engine, tempEngine,  remote, stateMachine, objectDetection, lineFollowChecker, controlPanel);
+        controlPanel = new ControlPanel(this);
+        driverAI = new DriverAI(this,true,false,false,true, engine, remote,stateMachine,objectDetection, lineFollowChecker, controlPanel);
     }
 
     @Override
@@ -46,23 +48,28 @@ public class Program extends FrameworkProgram {
         super.exitProgram();
     }
 
-    public Engine getEngine() {
+    public Engine getEngine()
+    {
         return engine;
     }
 
-    public Remote getRemote() {
+    public Remote getRemote()
+    {
         return remote;
     }
 
-    public StateMachine getStateMachine() {
+    public StateMachine getStateMachine()
+    {
         return stateMachine;
     }
 
-    public ObjectDetection getObjectDetection() {
+    public ObjectDetection getObjectDetection()
+    {
         return objectDetection;
     }
 
-    public DriverAI getDriverAI() {
+    public DriverAI getDriverAI()
+    {
         return driverAI;
     }
 }

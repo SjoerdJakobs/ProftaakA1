@@ -1,15 +1,12 @@
 package statemachine.states;
 
 import TI.BoeBot;
-import buttercat.ControlPanel;
 import buttercat.DriverAI;
-import hardwarelayer.sensors.linefollower.LineFollower;
 import interfacelayer.Engine;
 import buttercat.Remote;
 import interfacelayer.LineFollowChecker;
 import interfacelayer.NotificationSystem;
 import interfacelayer.ObjectDetection;
-import ooframework.FrameworkProgram;
 import statemachine.State;
 import statemachine.StateID;
 import hardwarelayer.sensors.button.Button;
@@ -22,13 +19,12 @@ public class FollowRoute extends State {
     private Remote remote;
     private LineFollowChecker lineFollowChecker;
     private ObjectDetection objectDetection;
-    private ControlPanel controlPanel;
     private NotificationSystem notificationSystem;
     private Button button = new Button(11);
 
-    private boolean shouldGoToRemoteControl,  canDrive, shouldGoToControlPanelControl;
+    private boolean shouldGoToRemoteControl, canDrive;
 
-    private int distance, lastDistance, timer = 5;
+    private int distance, lastDistance;
 
     private int engineTargetSpeed = -125;
 
@@ -40,26 +36,13 @@ public class FollowRoute extends State {
     private boolean midRightHasLine = false;
     private boolean rightHasLine = false;
     private boolean changeNeoLeds = true;
-//
-//    private int engineTargetSpeed = -125;
-//
-//    private float rainbowValue;
-//    private Color rgb;
-//
-//    private boolean leftHasLine = false;
-//    private boolean midLeftHasLine = false;
-//    private boolean midRightHasLine = false;
-//    private boolean rightHasLine = false;
-//    private boolean changeNeoLeds = true;
 
     public FollowRoute(DriverAI driverAI) {
         super(StateID.FollowRoute);
         shouldGoToRemoteControl = false;
-        shouldGoToControlPanelControl = false;
         this.driverAI = driverAI;
         this.engine = driverAI.getEngine();
         this.remote = driverAI.getRemote();
-        this.controlPanel = driverAI.getControlPanel();
 
         this.lineFollowChecker = driverAI.getLineFollowChecker();
         this.objectDetection = driverAI.getObjectDetection();
@@ -76,7 +59,6 @@ public class FollowRoute extends State {
         super.enter();
         System.out.println("following");
         remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
-        controlPanel.aButtonHasBeenPressed = () -> {setShouldGoToControlPanelControl();};
         lastDistance = 0;
         engine.setEngineTargetSpeed(this.engineTargetSpeed);
     }
@@ -85,19 +67,11 @@ public class FollowRoute extends State {
         shouldGoToRemoteControl = true;
     }
 
-    private void setShouldGoToControlPanelControl() {
-        System.out.println("setshouldtocontrol");
-        shouldGoToControlPanelControl = true;
-    }
-
     @Override
     protected void checkForStateSwitch() {
         super.checkForStateSwitch();
         if (shouldGoToRemoteControl) {
             stateMachine.SetState(StateID.ListenToRemote);
-        }
-        else if (shouldGoToControlPanelControl) {
-            stateMachine.SetState(StateID.ListenToControlPanel);
         }
     }
 
@@ -109,18 +83,13 @@ public class FollowRoute extends State {
     @Override
     protected void logic() {
         super.logic();
-//        checkAllLinefollowers();
+        checkAllLinefollowers();
 
-//        System.out.println("L: " + lineFollowChecker.getValue(LineFollowChecker.LEFT_LINEFOLLOWER));
-//        System.out.println("M: " + lineFollowChecker.getValue(LineFollowChecker.MID_LINEFOLLOWER));
-//        System.out.println("R: " + lineFollowChecker.getValue(LineFollowChecker.RIGHT_LINEFOLLOWER));
-//        System.out.println();
-        canDrive = objectDetection.objectIsTooClose(10);
-        distance = objectDetection.getDistance();
+        colors(0.009f);
 
-//        System.out.println(engine.toString());
-//        System.out.println(lineFollowChecker.toString());
-//        System.out.println(objectDetection.toString() + "\t Can drive: " + (canDrive ? "true" : "false"));
+        System.out.println(engine.toString());
+        System.out.println(lineFollowChecker.toString());
+        System.out.println(objectDetection.toString() + "\t Can drive: " + (canDrive ? "true" : "false"));
 
         /*
         if (button.isPressed()) {
@@ -131,7 +100,6 @@ public class FollowRoute extends State {
         // TODO: use Callback button instead of digitalRead
         // TODO: fix bug: when starting in FollowRoute, ultrasonic sensor reads <80 thus must press the button to start the BoeBot
         if (!BoeBot.digitalRead(11)) canDrive = true;
-//        System.out.println("distance: " + objectDetection.getDistance());
         if (objectDetection.objectIsTooClose(80)) {
             canDrive = false;
         }
@@ -143,20 +111,7 @@ public class FollowRoute extends State {
                 notificationSystem.turnLedsOff();
             }
             //TODO test this with boebot
-//            if (lineFollowChecker.midNoticedLine()) {
-////                System.out.println("driving forward");
-//                engine.driveForward(50);
-//                engine.turnStop();
-//            }
-            if (lineFollowChecker.leftNoticedLine()) {
-//                System.out.println("adjusting left");
-                engine.turnRight(1);
-            }
-            if (lineFollowChecker.rightNoticedLine()) {
-//                System.out.println("adjusting right");
-                engine.turnLeft(1);
-            }
-
+            //TODO add 4th line follower
             if (lineFollowChecker.hasNoticedIntersection()) {
 //                System.out.println("stop");
                 //TODO implement decellerating
@@ -165,8 +120,8 @@ public class FollowRoute extends State {
             }
 
             if (!lineFollowChecker.hasNoticedIntersection()) {
-//                checkLeft();
-//                checkLeftCombi();
+                checkLeft();
+                checkLeftCombi();
                 checkMidLeft();
                 checkMidCombi();
                 checkMidRight();
@@ -183,9 +138,7 @@ public class FollowRoute extends State {
 
         lastDistance = distance;
 
-        for (int i = 0; i < timer; i++) {
-            engine.drive();
-        }
+        engine.drive(5);
     }
 
     /**
@@ -195,7 +148,7 @@ public class FollowRoute extends State {
 
         rgb = Color.getHSBColor(rainbowValue, 1, 1);
 
-        rainbowValue += value;
+        rainbowValue += 0.009;
 
         if (rainbowValue == 1.0) {
             rainbowValue = 0;
@@ -204,25 +157,24 @@ public class FollowRoute extends State {
 
     }
 
-    private void checkMid() {
-        if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.leftNoticedLine())) {
-//                System.out.println("noticed mid");
-            notificationSystem.midLineFollower(rgb);
-//            if (!goingForward) {
-                engine.turnStop();
-                engine.updateInstantPulse(this.engineTargetSpeed);
-//            }
+    private void checkLeft() {
+        if (this.leftHasLine && !this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
+            notificationSystem.leftLineFollower(rgb);
+            engine.updateInstantPulse(engineTargetSpeed, -1);
+        }
+    }
 
+    private void checkLeftCombi() {
+        if (this.leftHasLine && this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
+            notificationSystem.leftLineFollower(rgb);
+            engine.updateInstantPulse(engineTargetSpeed, -0.6);
         }
     }
 
     private void checkMidLeft() {
-        if (lineFollowChecker.midLeftNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.midRightNoticedLine())) {
-//            System.out.println("noticed mid left");
-            notificationSystem.leftLineFollower(rgb);
-//            if (!goingLeft) {
-            engine.instantLeft();
+        if (!this.leftHasLine && this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
             notificationSystem.midLeftLineFollower(rgb);
+            engine.updateInstantPulse(engineTargetSpeed, -0.2);
         }
     }
 

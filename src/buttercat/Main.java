@@ -3,19 +3,30 @@ package buttercat;
 import TI.BoeBot;
 import interfacelayer.Engine;
 
-import java.util.ArrayList;
-import java.util.Collections;
 
-//Main Programm
 public class Main {
     public static void main(String[] args) {
 
         System.out.println("hey");
-
         Program program = new Program();
         program.run();
 
-
+//        Engine engine = new Engine(SavedPins.SERVO_RIGHT_PIN, SavedPins.SERVO_LEFT_PIN);
+//        engine.setEngineTargetSpeed(100);
+//        while(true) {
+//            engine.drive();
+//            System.out.println(engine.toString());
+//            engine.stillturnStop();
+//
+//            if (engine.getMotorLeft().getServo().getPulseWidth() == 1400) {
+//                engine.setEngineTargetSpeed(0);
+//            }
+//            if (engine.getMotorLeft().getServo().getPulseWidth() == 1500) {
+//                engine.updateInstantPulse(100);
+//            }
+//
+//            BoeBot.wait(30);
+//        }
     }
 }
 
@@ -64,34 +75,30 @@ public class Main {
 
 
 //Bluetooth test
-//public class Main {
-//    public static void main(String[] args) {
-//        SerialConnection conn = new SerialConnection();
+//    SerialConnection conn = new SerialConnection();
 //
-//        while (true) {
-//            if (conn.available() > 0) {
-//                int data = conn.readByte();
-//                conn.writeByte(data);
-//                System.out.println("Received: " + data);
-//
-//
-//                switch (data) {
-//                    case 119: //w
-//                        System.out.println("Forward");
-//                        break;
-//                    case 97: //a
-//                        System.out.println("Left");
-//                        break;
-//                    case 100: //d
-//                        System.out.println("Right");
-//                        break;
-//                    case 115: //s
-//                        System.out.println("Backwards");
-//                        break;
-//                    case 32: //space
-//                        System.out.println("Stop");
-//                        break;
-//                }
+//while (true) {
+//        if (conn.available() > 0) {
+//            int data = conn.readByte();
+//            conn.writeByte(data);
+//            System.out.println("Received: " + data);
+//        }
+//            switch (data) {
+//                case 119: //w
+//                    System.out.println("Forward");
+//                    break;
+//                case 97: //a
+//                    System.out.println("Left");
+//                    break;
+//                case 100: //d
+//                    System.out.println("Right");
+//                    break;
+//                case 115: //s
+//                    System.out.println("Backwards");
+//                    break;
+//                case 32: //space
+//                    System.out.println("Stop");
+//                    break;
 //            }
 //        }
 //

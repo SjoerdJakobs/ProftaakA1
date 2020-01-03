@@ -1,5 +1,5 @@
 package hardwarelayer.sensors.button;
 
 public interface ButtonCallback {
-    void onButtonPress();
+    void onButtonPress(Button source);
 }

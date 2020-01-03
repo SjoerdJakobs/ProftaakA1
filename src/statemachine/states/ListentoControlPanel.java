@@ -122,9 +122,9 @@ public class ListentoControlPanel extends State {
         controlPanel.getThreeButton().onButtonPress = () -> {
             fastSpeed();
         };
-        controlPanel.getPButton().onButtonPress = () -> {
-            listen();
-        };
+//        controlPanel.getPButton().onButtonPress = () -> {
+//            listen();
+//        };
         controlPanel.aButtonHasBeenPressed = () -> {
             anyButtonHasBeenPressed();
         };
@@ -133,11 +133,11 @@ public class ListentoControlPanel extends State {
     }
 
     private void driveForward() {
-        if (this.canGoForward) {
-            engine.turnStop();
-            engine.driveForward(this.engineTargetSpeed);
+//        if (this.canGoForward) {
+//            engine.turnStop();
+//            engine.driveForward(this.engineTargetSpeed);
             System.out.println("forward");
-        }
+//        }
     }
 
     private void driveLeft() {
@@ -208,42 +208,42 @@ public class ListentoControlPanel extends State {
         System.out.println("fastSpeed");
     }
 
-    private void listen() {
-        System.out.println("enters listen");
-
-        SerialConnection conn = controlPanel.getBluetoothReceiver().getConn();
-
-        if (conn.available() > 0) {
-            int data = conn.readByte();
-            System.out.println("received: " + data);
-            conn.writeByte(data);
-            if (data > 0) {
-                System.out.println("In if statement");
-                if (data == controlPanel.getPButton().getAscii() && !this.listen) {
-                    this.listen = true;
-                    this.commands.clear();
-                    System.out.println("cleared commands");
-                    controlPanel.getPButton().setPressed(true);
-                    controlPanel.getPButton().onButtonPress.run();
-                    return;
-                } else if (data == controlPanel.getPButton().getAscii() && this.listen && !this.commands.isEmpty()) {
-                    this.listen = false;
-                    controlPanel.getPButton().setPressed(false);
-                    System.out.println("stop listening");
-                    return;
-                } else if (data != controlPanel.getPButton().getAscii()) {
-                    this.commands.add(data);
-                    System.out.println("added command: " + data);
-                    System.out.println(this.commands.toString());
-                } else {
-                    System.out.println("NOPE");
-                }
-            }
-        }
+//    private void listen() {
+//        System.out.println("enters listen");
+//
+//        SerialConnection conn = controlPanel.getBluetoothReceiver().getConn();
+//
+//        if (conn.available() > 0) {
+//            int data = conn.readByte();
+//            System.out.println("received: " + data);
+//            conn.writeByte(data);
+//            if (data > 0) {
+//                System.out.println("In if statement");
+//                if (data == controlPanel.getPButton().getAscii() && !this.listen) {
+//                    this.listen = true;
+//                    this.commands.clear();
+//                    System.out.println("cleared commands");
+//                    controlPanel.getPButton().setPressed(true);
+//                    controlPanel.getPButton().onButtonPress.run();
+//                    return;
+//                } else if (data == controlPanel.getPButton().getAscii() && this.listen && !this.commands.isEmpty()) {
+//                    this.listen = false;
+//                    controlPanel.getPButton().setPressed(false);
+//                    System.out.println("stop listening");
+//                    return;
+//                } else if (data != controlPanel.getPButton().getAscii()) {
+//                    this.commands.add(data);
+//                    System.out.println("added command: " + data);
+//                    System.out.println(this.commands.toString());
+//                } else {
+//                    System.out.println("NOPE");
+//                }
+//            }
+//        }
 //        } else {
 //            System.out.println("didn't do anything");
 //        }
-    }
+//    }
 
     //        if (data != controlPanel.getPButton().getAscii()) {
 //            conn.writeByte(data);
@@ -282,7 +282,7 @@ public class ListentoControlPanel extends State {
     @Override
     protected void logic() {
         super.logic();
-        System.out.println("in logic");
+//        System.out.println("in logic");
 
         this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
         if (this.hasAnyButtonHasBeenPressed) {
@@ -296,7 +296,7 @@ public class ListentoControlPanel extends State {
         if (sumDeltaTime >= 0.001) {
 
             sumDeltaTime = 0;
-            engine.drive();
+//            engine.drive();
         }
 
         // Slow down if an object is detected and stops at the distance objectDetectionDistance

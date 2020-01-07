@@ -17,9 +17,11 @@ public class WindowsMain extends Application{
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("layout.fxml"));
-        Parent control = FXMLLoader.load(getClass().getResource("remotecontrol.fxml"));
 
-        //TODO add com choose box
+        //TODO add speed to manual control
+        //TODO add power button to manual control
+        //TODO add mute button to manual control
+
         Scene scene = new Scene(root);
         scene.getStylesheets().add("gui/stylesheet.css");
         stage.setScene(scene);

@@ -83,13 +83,13 @@ public class FollowRoute extends State {
     @Override
     protected void logic() {
         super.logic();
-//        checkAllLinefollowers();
+        checkAllLinefollowers();
 
         colors(0.009f);
 
-//        System.out.println(engine.toString());
-//        System.out.println(lineFollowChecker.toString());
-//        System.out.println(objectDetection.toString() + "\t Can drive: " + (canDrive ? "true" : "false"));
+        System.out.println(engine.toString());
+        System.out.println(lineFollowChecker.toString());
+        System.out.println(objectDetection.toString() + "\t Can drive: " + (canDrive ? "true" : "false"));
 
         /*
         if (button.isPressed()) {
@@ -100,7 +100,6 @@ public class FollowRoute extends State {
         // TODO: use Callback button instead of digitalRead
         // TODO: fix bug: when starting in FollowRoute, ultrasonic sensor reads <80 thus must press the button to start the BoeBot
         if (!BoeBot.digitalRead(11)) canDrive = true;
-//        System.out.println("distance: " + objectDetection.getDistance());
         if (objectDetection.objectIsTooClose(80)) {
             canDrive = false;
         }
@@ -121,7 +120,13 @@ public class FollowRoute extends State {
             }
 
             if (!lineFollowChecker.hasNoticedIntersection()) {
-                //TODO implement
+                checkLeft();
+                checkLeftCombi();
+                checkMidLeft();
+                checkMidCombi();
+                checkMidRight();
+                checkRightCombi();
+                checkRight();
             }
 
 //            BoeBot.wait(100);
@@ -133,9 +138,7 @@ public class FollowRoute extends State {
 
         lastDistance = distance;
 
-        for (int i = 0; i < timer; i++) {
-            engine.drive();
-        }
+        engine.drive(5);
     }
 
     /**
@@ -154,25 +157,24 @@ public class FollowRoute extends State {
 
     }
 
-    private void checkMid() {
-        if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.leftNoticedLine())) {
-//                System.out.println("noticed mid");
-            notificationSystem.midLineFollower(rgb);
-//            if (!goingForward) {
-                engine.turnStop();
-                engine.updateInstantPulse(this.engineTargetSpeed);
-//            }
+    private void checkLeft() {
+        if (this.leftHasLine && !this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
+            notificationSystem.leftLineFollower(rgb);
+            engine.updateInstantPulse(engineTargetSpeed, -1);
+        }
+    }
 
+    private void checkLeftCombi() {
+        if (this.leftHasLine && this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
+            notificationSystem.leftLineFollower(rgb);
+            engine.updateInstantPulse(engineTargetSpeed, -0.6);
         }
     }
 
     private void checkMidLeft() {
-        if (lineFollowChecker.midLeftNoticedLine() && !(lineFollowChecker.rightNoticedLine() || lineFollowChecker.midRightNoticedLine())) {
-//            System.out.println("noticed mid left");
-            notificationSystem.leftLineFollower(rgb);
-//            if (!goingLeft) {
-            engine.instantLeft();
+        if (!this.leftHasLine && this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
             notificationSystem.midLeftLineFollower(rgb);
+            engine.updateInstantPulse(engineTargetSpeed, -0.2);
         }
     }
 
@@ -232,5 +234,6 @@ public class FollowRoute extends State {
     @Override
     protected void leave() {
         super.leave();
+        BoeBot.wait(1000);
     }
 }

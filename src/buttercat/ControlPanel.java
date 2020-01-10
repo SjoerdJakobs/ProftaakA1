@@ -137,6 +137,7 @@ public class ControlPanel extends StandardObject {
     }
 
     public AsciiButton getWButton() {
+        System.out.println("getting w button");
         return WButton;
     }
 

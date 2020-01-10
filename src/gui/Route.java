@@ -44,20 +44,20 @@ public class Route {
         res[0] = 250;
         res[res.length - 1] = 251;
         if (this.isValid()) {
-            for (int i = 1; i < this.commands.size() - 1; i++) {
+            for (int i = 0; i < this.commands.size(); i++) {
                 String cur = this.commands.get(i);
                 switch (cur) {
                     case "Forward":
-                        res[i] = 0;
+                        res[i+1] = 0;
                         break;
                     case "Left":
-                        res[i] = 2;
+                        res[i+1] = 2;
                         break;
                     case "Right":
-                        res[i] = 1;
+                        res[i+1] = 1;
                         break;
                     case "Stop":
-                        res[i] = 3;
+                        res[i+1] = 3;
                 }
             }
         }

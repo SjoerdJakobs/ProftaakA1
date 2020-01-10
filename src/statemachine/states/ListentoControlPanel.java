@@ -5,6 +5,7 @@ import TI.SerialConnection;
 import buttercat.ControlPanel;
 import buttercat.DriverAI;
 import buttercat.Remote;
+import interfacelayer.Callback;
 import interfacelayer.Engine;
 import interfacelayer.NotificationSystem;
 import interfacelayer.ObjectDetection;
@@ -57,9 +58,7 @@ public class ListentoControlPanel extends State {
         System.out.println("Entered Bluetooth State");
         shouldReturnControlToAi = false;
         setAsciiButtons();
-        remote.aButtonHasBeenPressed = () -> {
-            setShouldGoToRemoteControlToTrue();
-        };
+        remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
     }
 
     private void setShouldGoToRemoteControlToTrue() {
@@ -79,55 +78,25 @@ public class ListentoControlPanel extends State {
     }
 
     private void setAsciiButtons() {
-        controlPanel.getWButton().onButtonPress = () -> {
-            driveForward();
-        };
-
-        controlPanel.getSButton().onButtonPress = () -> {
-            driveBackwards();
-        };
-        controlPanel.getAButton().onButtonPress = () -> {
-            driveLeft();
-        };
-        controlPanel.getDButton().onButtonPress = () -> {
-            driveRight();
-        };
-        controlPanel.getEscButton().onButtonPress = () -> {
-            returnToAiControl();
-        };
-        controlPanel.getMButton().onButtonPress = () -> {
-            muteBuzzer();
-        };
-        controlPanel.getZButton().onButtonPress = () -> {
-            turn90DegreesLeft();
-        };
-        controlPanel.getCButton().onButtonPress = () -> {
-            turn90DegreesRight();
-        };
-        controlPanel.getQButton().onButtonPress = () -> {
-            turn180DegreesLeft();
-        };
-        controlPanel.getEButton().onButtonPress = () -> {
-            turn180DegreesRight();
-        };
-        controlPanel.getSpaceButton().onButtonPress = () -> {
-            noSpeed();
-        };
-        controlPanel.getOneButton().onButtonPress = () -> {
-            slowSpeed();
-        };
-        controlPanel.getTwoButton().onButtonPress = () -> {
-            mediumSpeed();
-        };
-        controlPanel.getThreeButton().onButtonPress = () -> {
-            fastSpeed();
-        };
+        System.out.println("setting w");
+        controlPanel.getWButton().onButtonPress = this::driveForward;
+        controlPanel.getSButton().onButtonPress = this::driveBackwards;
+        controlPanel.getAButton().onButtonPress = this::driveLeft;
+        controlPanel.getDButton().onButtonPress = this::driveRight;
+        controlPanel.getEscButton().onButtonPress = this::returnToAiControl;
+        controlPanel.getMButton().onButtonPress = this::muteBuzzer;
+        controlPanel.getZButton().onButtonPress = this::turn90DegreesLeft;
+        controlPanel.getCButton().onButtonPress = this::turn90DegreesRight;
+        controlPanel.getQButton().onButtonPress = this::turn180DegreesLeft;
+        controlPanel.getEButton().onButtonPress = this::turn180DegreesRight;
+        controlPanel.getSpaceButton().onButtonPress = this::noSpeed;
+        controlPanel.getOneButton().onButtonPress = this::slowSpeed;
+        controlPanel.getTwoButton().onButtonPress = this::mediumSpeed;
+        controlPanel.getThreeButton().onButtonPress = this::fastSpeed;
 //        controlPanel.getPButton().onButtonPress = () -> {
 //            listen();
 //        };
-        controlPanel.aButtonHasBeenPressed = () -> {
-            anyButtonHasBeenPressed();
-        };
+        controlPanel.aButtonHasBeenPressed = this::anyButtonHasBeenPressed;
         System.out.println("AsciiButtons set");
 
     }

@@ -50,6 +50,7 @@ public class DriverAI extends StandardObject
         stateMachine.AddState(new GetRoute(this));
         stateMachine.AddState(new ListenToRemote(this));
         stateMachine.AddState(new SearchForStartPoint(this));
+        stateMachine.AddState(new ListentoControlPanel(this));
     }
 
     @Override

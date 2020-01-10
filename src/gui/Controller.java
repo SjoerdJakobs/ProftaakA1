@@ -63,6 +63,8 @@ public class Controller implements Initializable {
     ComboBox<String> comBox;
     @FXML
     Button stopOverButton;
+    @FXML
+    Button resumeButton;
 
     /**
      * initializes the GUI elements
@@ -237,6 +239,7 @@ public class Controller implements Initializable {
             Route selected = routesList.getSelectionModel().getSelectedItem();
             if (selected != null) {
                 int[] instructions = selected.routeToNumbers();
+
                 System.out.println(Arrays.toString(instructions));
                 bluetoothConnection.sendRoute(instructions);
             } else {
@@ -244,6 +247,11 @@ public class Controller implements Initializable {
                 alert.showAndWait();
             }
 
+        });
+
+        resumeButton.setOnAction(e -> {
+            System.out.println("resume kanker");
+            //TODO implement resuming of route when the
         });
 
         setSkins();
@@ -314,5 +322,6 @@ public class Controller implements Initializable {
         manualButton.setSkin(new GUIButtonSkin(manualButton));
         executeButton.setSkin(new GUIButtonSkin(executeButton));
         stopOverButton.setSkin(new GUIButtonSkin(stopOverButton));
+        resumeButton.setSkin(new GUIButtonSkin(resumeButton));
     }
 }

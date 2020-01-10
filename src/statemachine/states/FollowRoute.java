@@ -148,7 +148,7 @@ public class FollowRoute extends State {
 
         rgb = Color.getHSBColor(rainbowValue, 1, 1);
 
-        rainbowValue += 0.009;
+        rainbowValue += value;
 
         if (rainbowValue == 1.0) {
             rainbowValue = 0;

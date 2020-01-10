@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="rootPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+   <children>
+      <Button fx:id="forwardButton" layoutX="449.0" layoutY="108.0" mnemonicParsing="false" text="Forward">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font></Button>
+      <Button fx:id="leftButton" layoutX="373.0" layoutY="108.0" mnemonicParsing="false" text="Left">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font></Button>
+      <Button fx:id="rightButton" layoutX="548.0" layoutY="108.0" mnemonicParsing="false" text="Right">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font></Button>
+      <TextField fx:id="nameField" layoutX="34.0" layoutY="709.0" prefHeight="27.0" prefWidth="264.0" promptText="Route name">
+         <font>
+            <Font name="Consolas" size="14.0" />
+         </font>
+      </TextField>
+      <Button fx:id="saveButton" layoutX="301.0" layoutY="709.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="51.0" text="Save">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="undoButton" layoutX="166.0" layoutY="109.0" mnemonicParsing="false" text="Undo">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="editButton" layoutX="620.0" layoutY="709.0" mnemonicParsing="false" text="Edit">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteButton" layoutX="679.0" layoutY="709.0" mnemonicParsing="false" text="Delete">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="manualButton" layoutX="746.0" layoutY="108.0" mnemonicParsing="false" text="Manual control">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="executeButton" layoutX="754.0" layoutY="709.0" mnemonicParsing="false" text="Execute">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="buttercat" layoutX="378.0" layoutY="384.0" mnemonicParsing="false">
+         <graphic>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/butterCat.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <ComboBox fx:id="comBox" layoutX="7.0" layoutY="8.0" prefWidth="150.0" promptText="COM port" />
+   </children>
+</AnchorPane>

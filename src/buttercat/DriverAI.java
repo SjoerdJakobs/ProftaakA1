@@ -34,7 +34,6 @@ public class DriverAI extends StandardObject
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
         this.stateMachine = stateMachine;
         this.engine = engine;
-        this.tempEngine = tempEngine;
         this.remote = remote;
         this.objectDetection = objectDetection;
         this.lineFollowChecker = lineFollowChecker;

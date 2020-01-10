@@ -34,7 +34,7 @@ public class Program extends FrameworkProgram
         objectDetection = new ObjectDetection(this);
         lineFollowChecker = new LineFollowChecker(this);
         controlPanel = new ControlPanel(this);
-        driverAI = new DriverAI(this,true,false,false,true,engine,tempEngine,remote,stateMachine,objectDetection, lineFollowChecker, controlPanel);
+        driverAI = new DriverAI(this,true,false,false,true,engine,remote,stateMachine,objectDetection, lineFollowChecker, controlPanel);
     }
 
     @Override

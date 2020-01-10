@@ -67,7 +67,7 @@ public class Route {
     /**
      * checks if the route is valid
      *
-     * @return <code>true</code> if this route's commands are not empty, <code>false</code> otherwise
+     * @return <code>true</code> if this route's route are not empty, <code>false</code> otherwise
      */
     public boolean isValid() {
         return !this.commands.isEmpty();

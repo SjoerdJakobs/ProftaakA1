@@ -15,11 +15,8 @@ public class BluetoothConnection {
         portIsOpen = true;
     }
 
-    public void sendRoute(int[] route) {
-        System.out.println("port is " + port);
-        System.out.println("sending route " + Arrays.toString(route));
+    private void init() {
         try {
-//            try {
             if (portIsOpen) {
                 this.serialPort = new SerialPort(port);
                 serialPort.openPort();
@@ -32,6 +29,18 @@ public class BluetoothConnection {
                     SerialPort.DATABITS_8,
                     SerialPort.STOPBITS_1,
                     SerialPort.PARITY_NONE);
+        } catch (SerialPortException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendRoute(int[] route) {
+        init();
+        System.out.println("port is " + port);
+        System.out.println("sending route " + Arrays.toString(route));
+        try {
+//            try {
+
             serialPort.writeIntArray(route);
 //            serialPort.closePort();
 //            System.out.println("port closed");
@@ -40,6 +49,15 @@ public class BluetoothConnection {
             ex.printStackTrace();
         }
 
+    }
+
+    public void sendNumber(int number) {
+        init();
+        try {
+            serialPort.writeInt(number);
+        } catch (SerialPortException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setPort(String port) {

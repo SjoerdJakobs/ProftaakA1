@@ -21,6 +21,7 @@ public class DriverAI extends StandardObject
     private ObjectDetection objectDetection;
     private LineFollowChecker lineFollowChecker;
     private buttercat.ControlPanel controlPanel;
+    private TempFollowRoute followRoute;
 
     public DriverAI(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
@@ -46,7 +47,8 @@ public class DriverAI extends StandardObject
 
     void MakeStates() {
         stateMachine.AddState(new FollowRoute(this));
-        stateMachine.AddState(new TempFollowRoute(this));
+        this.followRoute = new TempFollowRoute(this);
+        stateMachine.AddState(this.followRoute);
         stateMachine.AddState(new GetRoute(this));
         stateMachine.AddState(new ListenToRemote(this));
         stateMachine.AddState(new SearchForStartPoint(this));
@@ -120,5 +122,9 @@ public class DriverAI extends StandardObject
     public void setControlPanel(buttercat.ControlPanel controlPanel)
     {
         this.controlPanel = controlPanel;
+    }
+
+    public TempFollowRoute getFollowRoute() {
+        return this.followRoute;
     }
 }

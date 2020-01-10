@@ -2,6 +2,7 @@ package statemachine.states;
 
 import buttercat.DriverAI;
 import buttercat.Remote;
+import hardwarelayer.sensors.bluetoothreceiver.BluetoothReceiver;
 import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
 import interfacelayer.ObjectDetection;
@@ -14,6 +15,7 @@ public class TempFollowRoute extends State
     private Engine engine;
     private LineFollowChecker lineFollowChecker;
     private ObjectDetection objectDetection;
+    private BluetoothReceiver bluetoothReceiver;
 
     private boolean shouldGoToRemoteControl;
     private boolean hasSideLine;
@@ -36,6 +38,7 @@ public class TempFollowRoute extends State
         this.lineFollowChecker =  driverAI.getLineFollowChecker();
         this.remote =  driverAI.getRemote();
         this.objectDetection = driverAI.getObjectDetection();
+        this.bluetoothReceiver = driverAI.getControlPanel().getBluetoothReceiver();
     }
 
     @Override
@@ -204,6 +207,10 @@ public class TempFollowRoute extends State
                 break;
         }
 
+    }
+
+    public void setStopped(boolean stopped) {
+        //TODO set boolean
     }
 
     private void followLine()

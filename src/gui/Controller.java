@@ -28,7 +28,7 @@ public class Controller implements Initializable {
     private ListView<Route> routesList;
 
     private Route temp;
-    private final String PLACEHOLDER = "Add your commands using the buttons!";
+    private final String PLACEHOLDER = "Add your route using the buttons!";
     private boolean editing;
     private int selectedRouteIndex;
 
@@ -66,6 +66,11 @@ public class Controller implements Initializable {
     @FXML
     Button resumeButton;
 
+    RemoteController remoteController;
+    public Controller() {
+
+    }
+
     /**
      * initializes the GUI elements
      *
@@ -81,6 +86,7 @@ public class Controller implements Initializable {
         editing = false;
 
         bluetoothConnection = new BluetoothConnection(COM_PORT);
+        remoteController = new RemoteController();
 
         makeTemp();
         initCommandsList();
@@ -123,7 +129,7 @@ public class Controller implements Initializable {
     }
 
     /**
-     * sets up the ListView for the commands
+     * sets up the ListView for the route
      */
     private void initCommandsList() {
         ListView<String> commandList = new ListView<String>();
@@ -141,21 +147,21 @@ public class Controller implements Initializable {
             System.out.println("adding " + "Left");
             checkForTestValue();
             this.commands.add("Left");
-//            System.out.println(commands.toString());
+//            System.out.println(route.toString());
             commandList.refresh();
         });
         forwardButton.setOnAction(e -> {
             System.out.println("adding " + "Forward");
             checkForTestValue();
             this.commands.add("Forward");
-//            System.out.println(commands.toString());
+//            System.out.println(route.toString());
             commandList.refresh();
         });
         rightButton.setOnAction(e -> {
             System.out.println("adding " + "Right");
             checkForTestValue();
             this.commands.add("Right");
-//            System.out.println(commands.toString());
+//            System.out.println(route.toString());
             commandList.refresh();
         });
         stopOverButton.setOnAction(e -> {
@@ -169,9 +175,9 @@ public class Controller implements Initializable {
             Route route = new Route(nameField.getText());
             route.setCommands(this.commands);
 
-//            System.out.println("commands: " + this.commands);
+//            System.out.println("route: " + this.route);
 //            System.out.println("routes: " + this.routes);
-//            System.out.println("route commands: " + route.getCommands());
+//            System.out.println("route route: " + route.getCommands());
 //            System.out.println("valid: " + route.isValid());
 
             if (nameField.getText().isEmpty()) {
@@ -215,6 +221,13 @@ public class Controller implements Initializable {
         });
 
         manualButton.setOnAction(e -> {
+            remoteController.passConnection(bluetoothConnection);
+
+            if (COM_PORT == null || COM_PORT.isEmpty()) {
+                RouteAlert alert = new RouteAlert(Alert.AlertType.WARNING, "No COM port set", "Please select a COM port!");
+                alert.showAndWait();
+                return;
+            }
             Stage stage = new Stage();
             try {
                 Parent control = FXMLLoader.load(getClass().getResource("remotecontrol.fxml"));
@@ -251,7 +264,7 @@ public class Controller implements Initializable {
 
         resumeButton.setOnAction(e -> {
             System.out.println("resume kanker");
-            //TODO implement resuming of route when the
+            //TODO implement resuming of route
         });
 
         setSkins();
@@ -323,5 +336,9 @@ public class Controller implements Initializable {
         executeButton.setSkin(new GUIButtonSkin(executeButton));
         stopOverButton.setSkin(new GUIButtonSkin(stopOverButton));
         resumeButton.setSkin(new GUIButtonSkin(resumeButton));
+    }
+
+    public BluetoothConnection getBluetoothConnection() {
+        return bluetoothConnection;
     }
 }

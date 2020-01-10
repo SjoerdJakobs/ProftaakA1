@@ -20,12 +20,13 @@ public class TempFollowRoute extends State
     private NotificationSystem  notificationSystem;
 
     private boolean shouldGoToRemoteControl;
-    private boolean hasSideLine;
-    private boolean isOnOrginLines;
     private boolean currentTurning = false;
     private boolean canChangeRouteStepCounter = true;
     private boolean turnCounterHasBeenSet = false;
     private boolean repeatRoute = true;
+
+    private boolean leftOnOrginLine = true;
+    private boolean rightOnOrginLine = true;
 
     private int lastDetectedPin = 0;
     private int RouteStepCounter = 100000;
@@ -34,7 +35,7 @@ public class TempFollowRoute extends State
     //private int[] route = new int[]{1,1,1,1};
     //private int[] route = new int[]{0,0,0,0};
 
-    private int driveSpeed = 75;
+    private int driveSpeed = 100;
     private int brakeDistance = 250;
     private int stopThreshold = 70;
 
@@ -57,7 +58,6 @@ public class TempFollowRoute extends State
     {
         super.enter();
         engine.SetTargetSpeed(driveSpeed, 0);
-        hasSideLine = true;
         remote.aButtonHasBeenPressed = () ->{
             setShouldGoToRemoteControlToTrue();};
         System.out.println("entered");
@@ -89,9 +89,8 @@ public class TempFollowRoute extends State
             {
                 //System.out.println("All lines detected.");
                 //engine.SetTargetSpeed(0, 0);
-                hasSideLine = true;
                 currentTurning = true;
-                isOnOrginLines = true;
+
                 return;
             }
             followLine();
@@ -123,27 +122,41 @@ public class TempFollowRoute extends State
 
             engine.SetTargetSpeed(driveSpeed/2, 0);
 
-            if (!lineFollowChecker.leftNoticedLine() && !lineFollowChecker.rightNoticedLine() && isOnOrginLines && turnCounter != 0)
+
+            if(lineFollowChecker.leftNoticedLine())
             {
-                isOnOrginLines = false;
+                if(!leftOnOrginLine)
+                {
+                    leftOnOrginLine = true;
+                    turnCounter = 0;
+                }
             }
-            else if(!isOnOrginLines&&((lineFollowChecker.leftNoticedLine()&&turn==Direction.LEFT)|| (lineFollowChecker.rightNoticedLine())&&turn == Direction.RIGHT))
+            else
             {
-                System.out.println(turnCounter);
-                turnCounter = 0;
-                isOnOrginLines = true;
-                System.out.println("turn counter tiem");
-                //if (lineFollowChecker.leftNoticedLine() || lineFollowChecker.rightNoticedLine() && isOnOrginLines)
-                //{
-                //}
+                leftOnOrginLine = false;
+            }
+
+            if(lineFollowChecker.rightNoticedLine())
+            {
+                if(!rightOnOrginLine)
+                {
+                    rightOnOrginLine = true;
+                    turnCounter = 0;
+                }
+            }
+            else
+            {
+                rightOnOrginLine = false;
             }
 
             if(turnCounter == 0) {
-                if (lineFollowChecker.midLeftNoticedLine()|| lineFollowChecker.midRightNoticedLine()) {
+                //if (lineFollowChecker.midLeftNoticedLine()|| lineFollowChecker.midRightNoticedLine()) {
                     currentTurning = false;
                     canChangeRouteStepCounter = true;
                     turnCounterHasBeenSet = false;
-                }
+                    leftOnOrginLine = true;
+                    rightOnOrginLine = true;
+                //}
             }
         }
         if(objectDetection.objectIsTooClose(brakeDistance))

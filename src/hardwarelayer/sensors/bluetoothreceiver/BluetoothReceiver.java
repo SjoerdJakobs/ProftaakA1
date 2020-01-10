@@ -3,37 +3,64 @@ package hardwarelayer.sensors.bluetoothreceiver;
 
 import TI.SerialConnection;
 import hardwarelayer.sensors.asciibutton.AsciiButton;
+import interfacelayer.Callback;
 
 import java.util.ArrayList;
 
 public class BluetoothReceiver {
 
-    SerialConnection conn = new SerialConnection();
+    public Callback somethingHasBeenPressed;
+    public SerialConnection conn;
+    public ArrayList<Integer> commands;
+
+    public BluetoothReceiver() {
+        this.conn = new SerialConnection();
+        this.commands = new ArrayList<>();
+    }
 
     public void checkForButtonPresses(ArrayList<AsciiButton> asciibuttons) {
-        int data = conn.readByte();
-        conn.writeByte(data);
-        //System.out.println("Received: " + data);
-        if (data != -1) {
-            for (AsciiButton asciiButton : asciibuttons) {
-                if (asciiButton.getAscii() == data) {
-                    if (!asciiButton.isPressed()) {
-                        asciiButton.setPressed(true);
-                        asciiButton.onButtonPress.run();
-                    } else if (asciiButton.isPressed() && asciiButton.isContinuousCallback()) {
-                        asciiButton.onButtonPress.run();
+//        System.out.println("Ik ben er");
+
+        if (conn.available() > 0) {
+            int data = conn.readByte();
+            System.out.println("Received: " + data);
+            System.out.println("Next line");
+            conn.writeByte(data);
+
+            if (data > 0 && data != 250) {
+                for (AsciiButton asciiButton : asciibuttons) {
+                    if (asciiButton.getAscii() == data) {
+                        if (!asciiButton.isPressed()) {
+                            asciiButton.setPressed(true);
+                            asciiButton.onButtonPress.run();
+                            somethingHasBeenPressed.run();
+                        } else if (asciiButton.isPressed() && asciiButton.isContinuousCallback()) {
+                            asciiButton.onButtonPress.run();
+                        }
+                    } else if (asciiButton.isPressed()) {
+                        asciiButton.setPressed(false);
                     }
-                } else if (asciiButton.isPressed()) {
-                    asciiButton.setPressed(false);
                 }
             }
-        }
-        else{
-            for (AsciiButton asciiButton: asciibuttons) {
-                asciiButton.setPressed(false);
+            else if (data == 250) {
+                data = conn.readByte();
+                while (data != 251) {
+                    this.commands.add(data);
+                    System.out.println(this.commands);
+                    data = conn.readByte();
+                }
             }
-            data = -1;
+            else {
+                for (AsciiButton asciiButton : asciibuttons) {
+                    asciiButton.setPressed(false);
+                }
+                data = -1;
+            }
         }
+    }
+
+    public SerialConnection getConn() {
+        return conn;
     }
 }
 

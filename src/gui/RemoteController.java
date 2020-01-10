@@ -1,7 +1,13 @@
 package gui;
 
+import buttercat.ControlPanel;
+import buttercat.DriverAI;
+import buttercat.Program;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import ooframework.FrameworkProgram;
+
+import java.awt.*;
 
 public class RemoteController {
     @FXML
@@ -34,8 +40,9 @@ public class RemoteController {
     }
 
     private void initButtons() {
+
         forwardButton.setOnAction(e -> {
-            //TODO send drive forward signal
+            //TODO send forward signal
         });
 
         leftButton.setOnAction(e -> {

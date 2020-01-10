@@ -231,7 +231,7 @@ public class ListenToRemote extends State {
         //objectdetectiondistance = 80
 //        this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
 //        System.out.println("distance: " + objectDetection.getDistance());
-        System.out.println(needToCheck);
+//        System.out.println(needToCheck);
         if (needToCheck)
         if (this.objectDetection.objectIsTooClose(this.objectDetectionDistance)) {
             this.canGoForward = false;

@@ -67,5 +67,10 @@
          </graphic>
       </Button>
       <ComboBox fx:id="comBox" layoutX="7.0" layoutY="8.0" prefWidth="150.0" promptText="COM port" />
+      <Button fx:id="stopOverButton" layoutX="445.0" layoutY="64.0" mnemonicParsing="false" text="Stopover">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

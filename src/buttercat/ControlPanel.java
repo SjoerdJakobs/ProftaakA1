@@ -2,8 +2,7 @@ package buttercat;
 
 import hardwarelayer.sensors.asciibutton.AsciiButton;
 import hardwarelayer.sensors.bluetoothreceiver.BluetoothReceiver;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import interfacelayer.Callback;
 import ooframework.FrameworkProgram;
 import ooframework.StandardObject;
 
@@ -24,6 +23,10 @@ public class ControlPanel extends StandardObject {
     private AsciiButton EButton;
     private AsciiButton ZButton;
     private AsciiButton CButton;
+    private AsciiButton PButton;
+    private ArrayList list;
+
+    public Callback aButtonHasBeenPressed;
 
 //    @FXML
 //    private Button power;
@@ -38,23 +41,29 @@ public class ControlPanel extends StandardObject {
 
     protected ControlPanel(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated) {
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
-    }
-
-    public void AsciiButton() {
-        WButton = new AsciiButton(119);
-        AButton = new AsciiButton(97);
-        SButton = new AsciiButton(115);
-        DButton = new AsciiButton(100);
+        bluetoothReceiver = new BluetoothReceiver();
+        asciiButtons = new ArrayList<>();
+        bluetoothReceiver.somethingHasBeenPressed = () -> {
+            onAnyButtonPress();
+        };
+//        aButtonHasBeenPressed = () ->{
+//            haha();
+//        };
+        WButton = new AsciiButton(119, true);
+        AButton = new AsciiButton(97, true);
+        SButton = new AsciiButton(115, true);
+        DButton = new AsciiButton(100, true);
         SpaceButton = new AsciiButton(32);
         EscButton = new AsciiButton(27);
         OneButton = new AsciiButton(49);
         TwoButton = new AsciiButton(50);
         ThreeButton = new AsciiButton(51);
         MButton = new AsciiButton(109);
-        QButton = new AsciiButton(113);
-        EButton = new AsciiButton(101);
-        ZButton = new AsciiButton(122);
-        CButton = new AsciiButton(99);
+        QButton = new AsciiButton(113, true);
+        EButton = new AsciiButton(101, true);
+        ZButton = new AsciiButton(122, true);
+        CButton = new AsciiButton(99, true);
+        PButton = new AsciiButton(112, true);
         asciiButtons.add(WButton);
         asciiButtons.add(AButton);
         asciiButtons.add(SButton);
@@ -69,6 +78,54 @@ public class ControlPanel extends StandardObject {
         asciiButtons.add(EButton);
         asciiButtons.add(ZButton);
         asciiButtons.add(CButton);
+        asciiButtons.add(PButton);
+    }
+
+    public void AsciiButton() {
+
+    }
+
+    private void onAnyButtonPress()
+    {
+        aButtonHasBeenPressed.run();
+
+    }
+
+//    void haha()
+//    {
+//        System.out.println("kut");
+//    }
+
+    @Override
+    protected void start()
+    {
+        super.start();
+    }
+
+    @Override
+    protected void awake()
+    {
+        super.awake();
+    }
+
+    @Override
+    protected void sleep()
+    {
+        super.sleep();
+    }
+
+    @Override
+    protected void inputLoop(double deltaTime)
+    {
+        super.inputLoop(deltaTime);
+
+        bluetoothReceiver.checkForButtonPresses(asciiButtons);
+    }
+
+    @Override
+    protected void destroy()
+    {
+        super.destroy();
     }
 
     public BluetoothReceiver getBluetoothReceiver() {
@@ -134,4 +191,9 @@ public class ControlPanel extends StandardObject {
     public AsciiButton getCButton() {
         return CButton;
     }
+
+    public AsciiButton getPButton() {
+        return PButton;
+    }
+
 }

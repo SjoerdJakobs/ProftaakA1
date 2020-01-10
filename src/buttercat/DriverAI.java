@@ -40,7 +40,7 @@ public class DriverAI extends StandardObject
         this.controlPanel = controlPanel;
 
         MakeStates();
-        stateMachine.SetState(StateID.TempFollowRoute);
+        stateMachine.SetState(StateID.ListenToControlPanel);
         //System.out.println("the state should be started");
     }
 

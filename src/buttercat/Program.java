@@ -7,21 +7,19 @@ import ooframework.FrameworkProgram;
 import interfacelayer.ObjectDetection;
 import statemachine.StateMachine;
 
-public class Program extends FrameworkProgram
-{
-    Program()
-    {
+public class Program extends FrameworkProgram {
+    Program() {
 
     }
 
-    private Engine              engine;
-    private TempEngine          tempEngine;
-    private Remote              remote;
-    private StateMachine        stateMachine;
-    private ObjectDetection     objectDetection;
-    private DriverAI            driverAI;
-    private LineFollowChecker   lineFollowChecker;
-    private ControlPanel        controlPanel;
+    private Engine engine;
+    private TempEngine tempEngine;
+    private Remote remote;
+    private StateMachine stateMachine;
+    private ObjectDetection objectDetection;
+    private DriverAI driverAI;
+    private LineFollowChecker lineFollowChecker;
+    private ControlPanel controlPanel;
 
     @Override
     protected void start() {
@@ -29,12 +27,12 @@ public class Program extends FrameworkProgram
 
         engine = new Engine(15, 14);
         tempEngine = new TempEngine();
-        remote = new Remote(this,true,false,false,true);
+        remote = new Remote(this, true, false, false, true);
         stateMachine = new StateMachine(this);
         objectDetection = new ObjectDetection(this);
         lineFollowChecker = new LineFollowChecker(this);
         controlPanel = new ControlPanel(this);
-        driverAI = new DriverAI(this,true,false,false,true,engine,remote,stateMachine,objectDetection, lineFollowChecker, controlPanel);
+        driverAI = new DriverAI(this, true, false, false, true, engine, remote, stateMachine, objectDetection, lineFollowChecker, controlPanel);
     }
 
     @Override
@@ -48,28 +46,27 @@ public class Program extends FrameworkProgram
         super.exitProgram();
     }
 
-    public Engine getEngine()
-    {
+    public Engine getEngine() {
         return engine;
     }
 
-    public Remote getRemote()
-    {
+    public Remote getRemote() {
         return remote;
     }
 
-    public StateMachine getStateMachine()
-    {
+    public StateMachine getStateMachine() {
         return stateMachine;
     }
 
-    public ObjectDetection getObjectDetection()
-    {
+    public ObjectDetection getObjectDetection() {
         return objectDetection;
     }
 
-    public DriverAI getDriverAI()
-    {
+    public DriverAI getDriverAI() {
         return driverAI;
+    }
+
+    public ControlPanel getControlPanel() {
+        return controlPanel;
     }
 }

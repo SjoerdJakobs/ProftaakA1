@@ -1,6 +1,6 @@
 package statemachine;
 
-public class State
+public abstract class State
 {
     public StateID      stateID;
     public StateMachine stateMachine;

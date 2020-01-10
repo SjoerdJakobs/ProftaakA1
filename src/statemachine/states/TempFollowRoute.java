@@ -9,8 +9,6 @@ import interfacelayer.ObjectDetection;
 import statemachine.State;
 import statemachine.StateID;
 
-import java.awt.*;
-
 public class TempFollowRoute extends State
 {
     private Remote              remote;
@@ -27,17 +25,29 @@ public class TempFollowRoute extends State
 
     private boolean leftOnOrginLine = true;
     private boolean rightOnOrginLine = true;
+    private boolean leftLinePassed1 = false;
+    private boolean rightLinePassed1 = false;
+    private boolean leftLinePassed2 = false;
+    private boolean rightLinePassed2 = false;
 
     private int lastDetectedPin = 0;
     private int RouteStepCounter = 100000;
     private int turnCounter;
-    private int[] route = new int[]{2,2,2,2};
+    private int[] route = new int[]{2,1,0,1,0,1,1,2,2,1,1,1};
+    //private int[] route = new int[]{2,1,2,1};
+    //private int[] route = new int[]{2,2,2,2};
     //private int[] route = new int[]{1,1,1,1};
     //private int[] route = new int[]{0,0,0,0};
 
-    private int driveSpeed = 100;
+    private int driveSpeed = 80;
+    private int currentDriveSpeed;
     private int brakeDistance = 250;
     private int stopThreshold = 70;
+
+    private boolean delayHasBeenSet = false;
+    private boolean inDelay = false;
+    private double turnDelay = 1;
+    private double turnDelayCounter;
 
     boolean isStoppedAfterFullStop = false;
 
@@ -57,6 +67,7 @@ public class TempFollowRoute extends State
     protected void enter()
     {
         super.enter();
+        currentDriveSpeed = driveSpeed;
         engine.SetTargetSpeed(driveSpeed, 0);
         remote.aButtonHasBeenPressed = () ->{
             setShouldGoToRemoteControlToTrue();};
@@ -89,19 +100,32 @@ public class TempFollowRoute extends State
             {
                 //System.out.println("All lines detected.");
                 //engine.SetTargetSpeed(0, 0);
+                setDelay();
                 currentTurning = true;
-
-                return;
+                inDelay = true;
             }
             followLine();
         }
-        // When turning, continue detecting a line after which the turning will stop
-        if (currentTurning) {
+        else if(inDelay)
+        {
+            if(turnDelayCounter <= turnDelay)
+            {
+                turnDelayCounter+=stateMachine.getDeltaTime();
+                inDelay = false;
+                turnDelayCounter = 0;
+                System.out.println("resetDelay");
+            }
+            followLine();
+        }else if (currentTurning) {
             setTurnDirection();
             setTurnCounter();
 
             switch (turn)
             {
+                case FORWARD:
+                    leftLinePassed2 = true;
+                    rightLinePassed2 = true;
+                    break;
                 case LEFT:
                     engine.Steer(true, 3);
                     break;
@@ -120,19 +144,26 @@ public class TempFollowRoute extends State
                     break;
             }
 
-            engine.SetTargetSpeed(driveSpeed/2, 0);
-
+            if(turn != Direction.FORWARD)
+            {
+                currentDriveSpeed = driveSpeed / 2;
+                engine.SetTargetSpeed(driveSpeed / 2, 0);
+            }
 
             if(lineFollowChecker.leftNoticedLine())
             {
                 if(!leftOnOrginLine)
                 {
                     leftOnOrginLine = true;
-                    turnCounter = 0;
+                    leftLinePassed1 = true;
+                    //System.out.println("done turning left");
+                    //turnCounter = 0;
                 }
             }
-            else
-            {
+            else {
+                if (leftLinePassed1) {
+                    leftLinePassed2 = true;
+                }
                 leftOnOrginLine = false;
             }
 
@@ -141,21 +172,32 @@ public class TempFollowRoute extends State
                 if(!rightOnOrginLine)
                 {
                     rightOnOrginLine = true;
-                    turnCounter = 0;
+                    rightLinePassed1 = true;
+                    //System.out.println("done turning right");
+                    //turnCounter = 0;
                 }
             }
             else
             {
+                if(rightLinePassed1)
+                {
+                    rightLinePassed2 = true;
+                }
                 rightOnOrginLine = false;
             }
 
-            if(turnCounter == 0) {
+            if(turn == Direction.FORWARD || (turn == Direction.RIGHT && leftLinePassed2) || (rightLinePassed2 && turn == Direction.LEFT)) {
                 //if (lineFollowChecker.midLeftNoticedLine()|| lineFollowChecker.midRightNoticedLine()) {
-                    currentTurning = false;
-                    canChangeRouteStepCounter = true;
-                    turnCounterHasBeenSet = false;
-                    leftOnOrginLine = true;
-                    rightOnOrginLine = true;
+                currentTurning = false;
+                canChangeRouteStepCounter = true;
+                turnCounterHasBeenSet = false;
+                leftOnOrginLine = true;
+                rightOnOrginLine = true;
+                leftLinePassed1 = false;
+                rightLinePassed1 = false;
+                leftLinePassed2 = false;
+                rightLinePassed2 = false;
+                delayHasBeenSet = false;
                 //}
             }
         }
@@ -168,9 +210,14 @@ public class TempFollowRoute extends State
             }
             else {
                 double speedDuringBraking = Math.pow((double) objectDetection.getDistance() / brakeDistance,3);
+                currentDriveSpeed = (int)(driveSpeed * speedDuringBraking);
                 engine.SetTargetSpeed((int)(driveSpeed*speedDuringBraking), 0);
-                System.out.println(driveSpeed);
-                System.out.println(speedDuringBraking);
+                if(currentDriveSpeed < driveSpeed/2 && inDelay)
+                {
+                    turnDelayCounter += stateMachine.getDeltaTime()/2;
+                }
+                //System.out.println(driveSpeed);
+                //System.out.println(speedDuringBraking);
             }
         }
         if(isStoppedAfterFullStop)
@@ -178,6 +225,18 @@ public class TempFollowRoute extends State
             //engine.SetTargetSpeed(0,0);
         }
         engine.drive();
+    }
+
+    private void setDelay()
+    {
+        setDelay(0.3d);
+    }
+
+    private void setDelay(double baseDelay)
+    {
+        turnDelay = (double)driveSpeed / currentDriveSpeed + baseDelay;
+        System.out.println(turnDelay);
+        delayHasBeenSet = true;
     }
 
     private void setTurnCounter()
@@ -189,6 +248,7 @@ public class TempFollowRoute extends State
             {
                 case FORWARD:
                     turnCounter = 0;
+
                     break;
                 case LEFT:
                     turnCounter = 1;

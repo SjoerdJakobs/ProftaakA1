@@ -39,9 +39,12 @@ public class Route {
     }
 
     public int[] routeToNumbers() {
-        int[] res = new int[this.commands.size()];
+        // add 250 and 251 to first and last position so bluetooth will recognize the array
+        int[] res = new int[this.commands.size() + 2];
+        res[0] = 250;
+        res[res.length - 1] = 251;
         if (this.isValid()) {
-            for (int i = 0; i < this.commands.size(); i++) {
+            for (int i = 1; i < this.commands.size() - 1; i++) {
                 String cur = this.commands.get(i);
                 switch (cur) {
                     case "Forward":

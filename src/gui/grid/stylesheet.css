@@ -1,0 +1,35 @@
+.button {
+    -fx-font-size: 14px;
+    -fx-font-family: "Consolas";
+}
+
+#backgroundPane {
+    -fx-background-color: #545557;
+}
+
+.navigatable {
+    -fx-background-color: #8fb391;
+}
+
+.notNavigatable {
+    -fx-background-color: #dbd7de;
+}
+
+#saveButton {
+    -fx-text-fill: #f0f2f0;
+    -fx-background-color: #5dba62;
+}
+
+#helpButton {
+    -fx-text-fill: #f0f2f0;
+    -fx-background-color: #5dba62;
+}
+
+#typeBox{
+    
+    -fx-background-color: #5dba62;
+}
+
+.combo-box:text-input {
+    -fx-text-fill: #f0f2f0; 
+}

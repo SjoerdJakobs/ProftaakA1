@@ -365,7 +365,6 @@ public class Engine {
             }
             else if(turnRate > 1 && turnRate <= 2)
             {
-                //System.out.println("super turn");
                 if (!left) {
                     rightSpeed = (int) (1500 - (currentSpeed * (1.6)));
                     leftSpeed = (int) (1500 - (currentSpeed * (turnRate-1)));

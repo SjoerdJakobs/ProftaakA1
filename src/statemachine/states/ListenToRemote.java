@@ -199,11 +199,6 @@ public class ListenToRemote extends State {
     protected void logic() {
         super.logic();
 
-        System.out.println(engine.toString());
-        System.out.println(objectDetection.toString());
-        //System.out.println(remote.toString());
-
-        //
         this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
         if (this.hasAnyButtonHasBeenPressed) {
             this.notificationSystem.remoteControll();
@@ -226,9 +221,6 @@ public class ListenToRemote extends State {
 
         // Slow down if an object is detected and stops at the distance objectDetectionDistance
         //objectdetectiondistance = 80
-//        this.canGoForward = !this.objectDetection.objectIsTooClose(this.objectDetectionDistance);
-//        System.out.println("distance: " + objectDetection.getDistance());
-//        System.out.println(needToCheck);
         if (needToCheck)
         if (this.objectDetection.objectIsTooClose(this.objectDetectionDistance)) {
             this.canGoForward = false;
@@ -257,13 +249,9 @@ public class ListenToRemote extends State {
         if (!this.canGoForward && this.engine.getOriginalTargetSpeed() > 0) {
             this.notificationSystem.objectDetected();
             this.engine.emergencyBrake();
-            System.out.println("noticed object on " + this.objectDetection.getDistance());
         }
 
         this.engine.drive(3);
-
-
-//        System.out.println("Delta time: " + this.stateMachine.getDeltaTime());
     }
 
     @Override

@@ -112,14 +112,11 @@ public class FollowRoute extends State
             //check if the route is different from the route we already have
             if (!Arrays.equals(tempRoute,route)) this.route = tempRoute;
         }
-        //System.out.println("logic");
         if (!currentTurning)
         {
             if (lineFollowChecker.leftNoticedLine() && lineFollowChecker.midLeftNoticedLine()
                     &&  lineFollowChecker.midRightNoticedLine() && lineFollowChecker.rightNoticedLine())
             {
-                //System.out.println("All lines detected.");
-                //engine.SetTargetSpeed(0, 0);
                 setDelay();
                 currentTurning = true;
                 inDelay = true;
@@ -176,8 +173,6 @@ public class FollowRoute extends State
                 {
                     leftOnOrginLine = true;
                     leftLinePassed1 = true;
-                    //System.out.println("done turning left");
-                    //turnCounter = 0;
                 }
             }
             else {
@@ -193,8 +188,6 @@ public class FollowRoute extends State
                 {
                     rightOnOrginLine = true;
                     rightLinePassed1 = true;
-                    //System.out.println("done turning right");
-                    //turnCounter = 0;
                 }
             }
             else
@@ -207,7 +200,6 @@ public class FollowRoute extends State
             }
 
             if(turn == Direction.FORWARD || (turn == Direction.RIGHT && leftLinePassed2) || (rightLinePassed2 && turn == Direction.LEFT)) {
-                //if (lineFollowChecker.midLeftNoticedLine()|| lineFollowChecker.midRightNoticedLine()) {
                 currentTurning = false;
                 canChangeRouteStepCounter = true;
                 turnCounterHasBeenSet = false;
@@ -218,7 +210,7 @@ public class FollowRoute extends State
                 leftLinePassed2 = false;
                 rightLinePassed2 = false;
                 delayHasBeenSet = false;
-                //}
+
             }
         }
         if(objectDetection.objectIsTooClose(brakeDistance))
@@ -236,8 +228,6 @@ public class FollowRoute extends State
                 {
                     turnDelayCounter += stateMachine.getDeltaTime()/2;
                 }
-                //System.out.println(driveSpeed);
-                //System.out.println(speedDuringBraking);
             }
         }
         if(isStoppedAfterFullStop)
@@ -255,7 +245,6 @@ public class FollowRoute extends State
     private void setDelay(double baseDelay)
     {
         turnDelay = (double)driveSpeed / currentDriveSpeed + baseDelay;
-        System.out.println(turnDelay);
         delayHasBeenSet = true;
     }
 
@@ -294,11 +283,9 @@ public class FollowRoute extends State
         if (RouteStepCounter < route.length - 1 && canChangeRouteStepCounter) {
             RouteStepCounter++;
             canChangeRouteStepCounter = false;
-            System.out.println(RouteStepCounter);
         } else if (canChangeRouteStepCounter && repeatRoute) {
             RouteStepCounter = 0;
             canChangeRouteStepCounter = false;
-            System.out.println(RouteStepCounter);
         }
         else
         {
@@ -335,55 +322,46 @@ public class FollowRoute extends State
         notificationSystem.getNeoLed5().turnOff();
         notificationSystem.getNeoLed6().turnOff();
         if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine()) {
-            //System.out.println("pin 1 and 2");
             notificationSystem.getNeoLed1().turnOn();
             notificationSystem.getNeoLed3().turnOn();
             engine.sJSteer(true, 0);
             engine.sJSetTargetSpeed(driveSpeed, 0);
         } else if (lineFollowChecker.leftNoticedLine() && lineFollowChecker.midLeftNoticedLine()) {
-            //System.out.println("pin 0 and 1");
             notificationSystem.getNeoLed1().turnOn();
             notificationSystem.getNeoLed4().turnOn();
             engine.sJSteer(false, 0.9);
             engine.sJSetTargetSpeed((int)(driveSpeed*0.5), 0);
         } else if (lineFollowChecker.midRightNoticedLine() && lineFollowChecker.rightNoticedLine()) {
-            //System.out.println("pin 2 and 3");
             notificationSystem.getNeoLed3().turnOn();
             notificationSystem.getNeoLed6().turnOn();
             engine.sJSteer(true, 0.9);
             engine.sJSetTargetSpeed((int)(driveSpeed*0.5), 0);
         } else if (lineFollowChecker.midRightNoticedLine()) {
-            //System.out.println("pin 2");
             notificationSystem.getNeoLed1().turnOn();
             engine.sJSteer(true, 0.30);
             engine.sJSetTargetSpeed((int)(driveSpeed*0.9), 0);
             lastDetectedPin = 2;
         } else if (lineFollowChecker.midLeftNoticedLine()) {
-            //System.out.println("pin 1");
             notificationSystem.getNeoLed3().turnOn();
             engine.sJSteer(false, 0.30);
             engine.sJSetTargetSpeed((int)(driveSpeed*0.9), 0);
             lastDetectedPin = 1;
         } else if (lineFollowChecker.rightNoticedLine()) {
-            //System.out.println("pin 3");
             notificationSystem.getNeoLed6().turnOn();
             engine.sJSteer(true, 1.6);
             engine.sJSetTargetSpeed((int)(driveSpeed*0.4), 0);
             lastDetectedPin = 3;
         } else if (lineFollowChecker.leftNoticedLine()) {
-            //System.out.println("pin 0");
             notificationSystem.getNeoLed4().turnOn();
             engine.sJSteer(false, 1.6);
             engine.sJSetTargetSpeed((int)(driveSpeed*0.4), 0);
             lastDetectedPin = 0;
         } else if (lastDetectedPin == 2 || lastDetectedPin == 3) {
-            //System.out.println("last pin 2 or 3");
             notificationSystem.getNeoLed1().turnOn();
             notificationSystem.getNeoLed6().turnOn();
             engine.sJSteer(true, 0.80);
             engine.sJSetTargetSpeed((int)(driveSpeed*0.75), 0);
         } else if (lastDetectedPin == 1 || lastDetectedPin == 0) {
-            //System.out.println("last pin 1 or 0");
             notificationSystem.getNeoLed3().turnOn();
             notificationSystem.getNeoLed4().turnOn();
             engine.sJSteer(false, 0.80);

@@ -26,12 +26,10 @@ public class InfraRedReceiver
             for (Button button : buttons) {
                 if (button.getAddress() == number) {
                     if (!button.isPressed()) {
-                        //System.out.println("hey");
                         button.setPressed(true);
                         button.onButtonPress.run();
                         somethingHasBeenPressed.run();
                     } else if (button.isPressed() && button.isContinuousCallback()) {
-                        //System.out.println("hey2");
                         button.onButtonPress.run();
                     }
                     button.setSincePressedCounter(0);

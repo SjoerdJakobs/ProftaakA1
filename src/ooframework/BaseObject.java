@@ -24,7 +24,6 @@ public abstract class BaseObject
 
     protected BaseObject(FrameworkProgram frameworkProgram, boolean startsActivated)
     {
-        //System.out.println("base");
         this.frameworkProgram = frameworkProgram;
         this.setShouldDestruct(false);
         this.start();

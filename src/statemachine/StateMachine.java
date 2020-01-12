@@ -24,7 +24,6 @@ public class StateMachine extends StandardObject
     public StateMachine(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated) {
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
 
-        System.out.println("lowest");
     }
 
     @Override
@@ -32,7 +31,6 @@ public class StateMachine extends StandardObject
         super.mainLoop(deltaTime);
         this.deltaTime = deltaTime;
         if(currentState != null){
-            //System.out.println("executeState" + currentState.stateID);
             currentState.checkForStateSwitch();
             currentState.logic();
         }

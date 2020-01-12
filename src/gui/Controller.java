@@ -277,8 +277,6 @@ public class Controller implements Initializable {
     public void displayContentsOfRoute() {
         Route selected = routesList.getSelectionModel().getSelectedItem();
         if (selected == null || !selected.isValid()) return;
-//        System.out.println("selected route: " + selected);
-//        System.out.println("command list: " + selected.getCommands());
         nameField.setText(selected.getName());
         selectedRouteIndex = routesList.getSelectionModel().getSelectedIndex();
         this.commands = new ArrayList<>(selected.getCommands());

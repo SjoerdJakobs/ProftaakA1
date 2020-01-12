@@ -96,11 +96,6 @@ public class ControlPanel extends StandardObject {
 
     }
 
-//    void haha()
-//    {
-//        System.out.println("kut");
-//    }
-
     @Override
     protected void start()
     {
@@ -142,7 +137,6 @@ public class ControlPanel extends StandardObject {
     }
 
     public AsciiButton getWButton() {
-        System.out.println("getting w button");
         return WButton;
     }
 

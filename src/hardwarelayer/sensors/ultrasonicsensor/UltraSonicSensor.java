@@ -55,12 +55,10 @@ public class UltraSonicSensor {
         if (sensorTimeout.timeout()) {
             initSensor();
             int pulse = BoeBot.pulseIn(echoPin, true, 10000);
-            //System.out.println("ultrasonic pulse: " + pulse);
 
             if (pulse > 100) {
                 this.distanceToObject = (int) (pulse / 5.82);
             }
-//            System.out.println(getDistanceToObject());
         }
     }
 

@@ -24,6 +24,8 @@ public class ControlPanel extends StandardObject {
     private AsciiButton ZButton;
     private AsciiButton CButton;
     private AsciiButton PButton;
+    private AsciiButton ENTERButton;
+
     private ArrayList list;
 
     public Callback aButtonHasBeenPressed;
@@ -64,6 +66,8 @@ public class ControlPanel extends StandardObject {
         ZButton = new AsciiButton(122, true);
         CButton = new AsciiButton(99, true);
         PButton = new AsciiButton(112, true);
+        ENTERButton = new AsciiButton(13);
+
         asciiButtons.add(WButton);
         asciiButtons.add(AButton);
         asciiButtons.add(SButton);
@@ -79,12 +83,13 @@ public class ControlPanel extends StandardObject {
         asciiButtons.add(ZButton);
         asciiButtons.add(CButton);
         asciiButtons.add(PButton);
+        asciiButtons.add(ENTERButton);
+
     }
 
     public void AsciiButton() {
 
     }
-
     private void onAnyButtonPress()
     {
         aButtonHasBeenPressed.run();
@@ -137,6 +142,7 @@ public class ControlPanel extends StandardObject {
     }
 
     public AsciiButton getWButton() {
+        System.out.println("getting w button");
         return WButton;
     }
 
@@ -196,4 +202,7 @@ public class ControlPanel extends StandardObject {
         return PButton;
     }
 
+    public AsciiButton getENTERButton() {
+        return ENTERButton;
+    }
 }

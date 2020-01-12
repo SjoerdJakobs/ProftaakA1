@@ -39,20 +39,25 @@ public class Route {
     }
 
     public int[] routeToNumbers() {
-        int[] res = new int[this.commands.size()];
+        // add 250 and 251 to first and last position so bluetooth will recognize the array
+        int[] res = new int[this.commands.size() + 2];
+        res[0] = 250;
+        res[res.length - 1] = 251;
         if (this.isValid()) {
             for (int i = 0; i < this.commands.size(); i++) {
                 String cur = this.commands.get(i);
                 switch (cur) {
                     case "Forward":
-                        res[i] = 0;
+                        res[i+1] = 0;
                         break;
                     case "Left":
-                        res[i] = 2;
+                        res[i+1] = 2;
                         break;
                     case "Right":
-                        res[i] = 1;
+                        res[i+1] = 1;
                         break;
+                    case "Stop":
+                        res[i+1] = 3;
                 }
             }
         }
@@ -62,7 +67,7 @@ public class Route {
     /**
      * checks if the route is valid
      *
-     * @return <code>true</code> if this route's commands are not empty, <code>false</code> otherwise
+     * @return <code>true</code> if this route's route are not empty, <code>false</code> otherwise
      */
     public boolean isValid() {
         return !this.commands.isEmpty();

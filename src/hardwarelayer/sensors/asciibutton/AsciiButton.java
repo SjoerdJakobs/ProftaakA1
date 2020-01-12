@@ -1,5 +1,7 @@
 package hardwarelayer.sensors.asciibutton;
 
+import interfacelayer.Callback;
+
 public class AsciiButton {
 
     private int ascii;
@@ -15,10 +17,7 @@ public class AsciiButton {
         this.ascii = ascii;
         this.continuousCallback = continuousCallback;
         this.isPressed = false;
-        onButtonPress = () ->
-        {
-            emptyCallback();
-        };
+        onButtonPress = this::emptyCallback;
     }
 
     private void emptyCallback() {
@@ -52,5 +51,9 @@ public class AsciiButton {
 
     public void setAscii(int ascii) {
         this.ascii = ascii;
+    }
+
+    public Callback getOnButtonPress() {
+        return this.onButtonPress;
     }
 }

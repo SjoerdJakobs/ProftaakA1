@@ -5,6 +5,7 @@ import TI.SerialConnection;
 import buttercat.ControlPanel;
 import buttercat.DriverAI;
 import buttercat.Remote;
+import interfacelayer.Callback;
 import interfacelayer.Engine;
 import interfacelayer.NotificationSystem;
 import interfacelayer.ObjectDetection;
@@ -20,6 +21,7 @@ public class ListentoControlPanel extends State {
     Remote remote;
     ControlPanel controlPanel;
     ObjectDetection objectDetection;
+    TempFollowRoute followRoute;
 
     private boolean shouldReturnControlToAi;
     private boolean hasAnyButtonHasBeenPressed;
@@ -46,6 +48,7 @@ public class ListentoControlPanel extends State {
         this.remote = driverAI.getRemote();
         this.controlPanel = driverAI.getControlPanel();
         this.objectDetection = driverAI.getObjectDetection();
+        this.followRoute = driverAI.getFollowRoute();
         this.notificationSystem = NotificationSystem.INSTANCE;
         this.commands = new ArrayList<>();
         this.listen = false;
@@ -57,9 +60,7 @@ public class ListentoControlPanel extends State {
         System.out.println("Entered Bluetooth State");
         shouldReturnControlToAi = false;
         setAsciiButtons();
-        remote.aButtonHasBeenPressed = () -> {
-            setShouldGoToRemoteControlToTrue();
-        };
+        remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
     }
 
     private void setShouldGoToRemoteControlToTrue() {
@@ -79,65 +80,37 @@ public class ListentoControlPanel extends State {
     }
 
     private void setAsciiButtons() {
-        controlPanel.getWButton().onButtonPress = () -> {
-            driveForward();
-        };
 
-        controlPanel.getSButton().onButtonPress = () -> {
-            driveBackwards();
-        };
-        controlPanel.getAButton().onButtonPress = () -> {
-            driveLeft();
-        };
-        controlPanel.getDButton().onButtonPress = () -> {
-            driveRight();
-        };
-        controlPanel.getEscButton().onButtonPress = () -> {
-            returnToAiControl();
-        };
-        controlPanel.getMButton().onButtonPress = () -> {
-            muteBuzzer();
-        };
-        controlPanel.getZButton().onButtonPress = () -> {
-            turn90DegreesLeft();
-        };
-        controlPanel.getCButton().onButtonPress = () -> {
-            turn90DegreesRight();
-        };
-        controlPanel.getQButton().onButtonPress = () -> {
-            turn180DegreesLeft();
-        };
-        controlPanel.getEButton().onButtonPress = () -> {
-            turn180DegreesRight();
-        };
-        controlPanel.getSpaceButton().onButtonPress = () -> {
-            noSpeed();
-        };
-        controlPanel.getOneButton().onButtonPress = () -> {
-            slowSpeed();
-        };
-        controlPanel.getTwoButton().onButtonPress = () -> {
-            mediumSpeed();
-        };
-        controlPanel.getThreeButton().onButtonPress = () -> {
-            fastSpeed();
-        };
+        System.out.println("setting w");
+        controlPanel.getWButton().onButtonPress = this::driveForward;
+        controlPanel.getSButton().onButtonPress = this::driveBackwards;
+        controlPanel.getAButton().onButtonPress = this::driveLeft;
+        controlPanel.getDButton().onButtonPress = this::driveRight;
+        controlPanel.getEscButton().onButtonPress = this::returnToAiControl;
+        controlPanel.getMButton().onButtonPress = this::muteBuzzer;
+        controlPanel.getZButton().onButtonPress = this::turn90DegreesLeft;
+        controlPanel.getCButton().onButtonPress = this::turn90DegreesRight;
+        controlPanel.getQButton().onButtonPress = this::turn180DegreesLeft;
+        controlPanel.getEButton().onButtonPress = this::turn180DegreesRight;
+        controlPanel.getSpaceButton().onButtonPress = this::noSpeed;
+        controlPanel.getOneButton().onButtonPress = this::slowSpeed;
+        controlPanel.getTwoButton().onButtonPress = this::mediumSpeed;
+        controlPanel.getThreeButton().onButtonPress = this::fastSpeed;
+        controlPanel.getENTERButton().onButtonPress = this::resume;
 //        controlPanel.getPButton().onButtonPress = () -> {
 //            listen();
 //        };
-        controlPanel.aButtonHasBeenPressed = () -> {
-            anyButtonHasBeenPressed();
-        };
+        controlPanel.aButtonHasBeenPressed = this::anyButtonHasBeenPressed;
         System.out.println("AsciiButtons set");
 
     }
 
     private void driveForward() {
-//        if (this.canGoForward) {
-//            engine.turnStop();
-//            engine.driveForward(this.engineTargetSpeed);
+        if (this.canGoForward) {
+            engine.turnStop();
+            engine.driveForward(this.engineTargetSpeed);
             System.out.println("forward");
-//        }
+        }
     }
 
     private void driveLeft() {
@@ -208,6 +181,11 @@ public class ListentoControlPanel extends State {
         System.out.println("fastSpeed");
     }
 
+
+    public void resume() {
+        followRoute.setStopped(false);
+
+    }
 //    private void listen() {
 //        System.out.println("enters listen");
 //
@@ -221,20 +199,21 @@ public class ListentoControlPanel extends State {
 //                System.out.println("In if statement");
 //                if (data == controlPanel.getPButton().getAscii() && !this.listen) {
 //                    this.listen = true;
-//                    this.commands.clear();
-//                    System.out.println("cleared commands");
+//                    this.route.clear();
+//                    System.out.println("cleared route");
 //                    controlPanel.getPButton().setPressed(true);
 //                    controlPanel.getPButton().onButtonPress.run();
 //                    return;
-//                } else if (data == controlPanel.getPButton().getAscii() && this.listen && !this.commands.isEmpty()) {
+//                } else if (data == controlPanel.getPButton().getAscii() && this.listen && !this.route.isEmpty()) {
 //                    this.listen = false;
 //                    controlPanel.getPButton().setPressed(false);
 //                    System.out.println("stop listening");
 //                    return;
 //                } else if (data != controlPanel.getPButton().getAscii()) {
-//                    this.commands.add(data);
+
+//                    this.route.add(data);
 //                    System.out.println("added command: " + data);
-//                    System.out.println(this.commands.toString());
+//                    System.out.println(this.route.toString());
 //                } else {
 //                    System.out.println("NOPE");
 //                }
@@ -252,13 +231,15 @@ public class ListentoControlPanel extends State {
 ////        }
 //            if (!controlPanel.getPButton().isPressed()) {
 //                controlPanel.getPButton().setPressed(true);
-//                commands.add(data);
+
+//                route.add(data);
 //                controlPanel.getPButton().onButtonPress.run();
 //            } else if (controlPanel.getOButton().getAscii() == data) {
 //                controlPanel.getPButton().setPressed(false);
 //                controlPanel.getOButton().setPressed(false);
 //            } else if (controlPanel.getPButton().isPressed()) {
-//                commands.add(data);
+
+//                route.add(data);
 //                controlPanel.getPButton().onButtonPress.run();
 //            }
 //        }

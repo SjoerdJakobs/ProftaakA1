@@ -50,13 +50,13 @@ public class Route {
                         res[i+1] = 0;
                         break;
                     case "Left":
-                        res[i+1] = 2;
-                        break;
-                    case "Right":
                         res[i+1] = 1;
                         break;
+                    case "Right":
+                        res[i+1] = 2;
+                        break;
                     case "Stop":
-                        res[i+1] = 3;
+                        res[i+1] = 5;
                 }
             }
         }

@@ -55,6 +55,7 @@ public class ListentoControlPanel extends State {
     @Override
     protected void enter() {
         super.enter();
+
         System.out.println("Entered Bluetooth State");
         shouldReturnControlToAi = false;
         setAsciiButtons();

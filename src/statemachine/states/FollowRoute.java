@@ -10,6 +10,7 @@ import interfacelayer.ObjectDetection;
 import statemachine.State;
 import statemachine.StateID;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class FollowRoute extends State
@@ -79,10 +80,10 @@ public class FollowRoute extends State
     protected void enter()
     {
         super.enter();
+        notificationSystem.setColor(Color.green);
         currentDriveSpeed = driveSpeed;
         engine.sJSetTargetSpeed(driveSpeed, 0);
-        remote.aButtonHasBeenPressed = () ->{
-            setShouldGoToRemoteControlToTrue();};
+        remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
         System.out.println("entered");
     }
 

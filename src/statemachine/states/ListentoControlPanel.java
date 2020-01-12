@@ -181,8 +181,7 @@ public class ListentoControlPanel extends State {
     }
 
     public void resume() {
-        //TODO make setter to change boolean in followroute
-        followRoute.setStopped(false); //TODO change
+        followRoute.setStopped(false);
 
     }
 

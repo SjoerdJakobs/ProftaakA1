@@ -23,6 +23,7 @@ public class TempFollowRoute extends State
     private boolean currentTurning = false;
     private boolean canChangeRouteStepCounter = true;
     private boolean turnCounterHasBeenSet = false;
+    private boolean isStopDriving;
 
     private int lastDetectedPin = 0;
     private int RouteStepCounter = 100000;
@@ -209,7 +210,7 @@ public class TempFollowRoute extends State
     }
 
     public void setStopped(boolean stopped) {
-        //TODO set boolean
+        this.isStopDriving = stopped;
     }
 
     private void followLine()

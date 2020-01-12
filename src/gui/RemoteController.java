@@ -31,7 +31,6 @@ public class RemoteController {
     Button muteButton;
     @FXML
     Button powerButton;
-
     BluetoothConnection connection;
 
 

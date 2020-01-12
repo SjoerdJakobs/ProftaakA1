@@ -1,6 +1,6 @@
 package ooframework;
 
-public class StandardObject extends BaseObject
+public abstract class StandardObject extends BaseObject
 {
     private boolean usesInput;
     private boolean usesMain;

@@ -5,7 +5,7 @@ import TI.BoeBot;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class FrameworkProgram
+public abstract class FrameworkProgram
 {
     private boolean run = false;
 

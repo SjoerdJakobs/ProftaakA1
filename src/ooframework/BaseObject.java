@@ -1,6 +1,6 @@
 package ooframework;
 
-public class BaseObject
+public abstract class BaseObject
 {
     /**
      * should this object be active

@@ -1,9 +1,9 @@
 package interfacelayer;
 
-import buttercat.HelpFunctions;
-import hardwarelayer.actuators.Motor.Motor;
 import TI.BoeBot;
 import TI.Timer;
+import buttercat.HelpFunctions;
+import hardwarelayer.actuators.Motor.Motor;
 
 public class Engine {
     private Motor servoLeft;

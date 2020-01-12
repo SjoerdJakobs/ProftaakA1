@@ -3,6 +3,7 @@ package statemachine.states;
 import TEMP.TempEngine;
 import buttercat.DriverAI;
 import buttercat.Remote;
+import hardwarelayer.sensors.bluetoothreceiver.BluetoothReceiver;
 import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
 import interfacelayer.NotificationSystem;
@@ -67,7 +68,7 @@ public class TempFollowRoute extends State
         this.remote =               driverAI.getRemote();
         this.objectDetection =      driverAI.getObjectDetection();
         this.notificationSystem =   NotificationSystem.INSTANCE;
-        this.bluetoothReceiver = driverAI.getControlPanel().getBluetoothReceiver();
+        this.bluetoothReceiver =    driverAI.getControlPanel().getBluetoothReceiver();
     }
 
     @Override

@@ -11,6 +11,7 @@ import interfacelayer.ObjectDetection;
 import statemachine.State;
 import statemachine.StateID;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class TempFollowRoute extends State
@@ -77,6 +78,7 @@ public class TempFollowRoute extends State
     protected void enter()
     {
         super.enter();
+        notificationSystem.setColor(Color.green);
         currentDriveSpeed = driveSpeed;
         engine.sJSetTargetSpeed(driveSpeed, 0);
         remote.aButtonHasBeenPressed = () ->{
@@ -310,7 +312,7 @@ public class TempFollowRoute extends State
 
         switch (route[RouteStepCounter])
         {
-            //TODO add stopover
+
             case 0 :
                 turn = Direction.FORWARD;
                 break;

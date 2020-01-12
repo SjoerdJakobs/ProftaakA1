@@ -119,6 +119,15 @@ public enum  NotificationSystem {
         neoLed6.setColor(Color.blue);
     }
 
+    public void setColor(Color color) {
+        neoLed1.setColor(color);
+        neoLed2.setColor(color);
+        neoLed3.setColor(color);
+        neoLed4.setColor(color);
+        neoLed5.setColor(color);
+        neoLed6.setColor(color);
+    }
+
     public void turnLedsOn(){
         neoLed1.turnOn();
         neoLed2.turnOn();

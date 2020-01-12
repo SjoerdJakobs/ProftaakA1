@@ -57,7 +57,7 @@ public class Route {
                         res[i+1] = 1;
                         break;
                     case "Stop":
-                        res[i+1] = 3;
+                        res[i+1] = 5;
                 }
             }
         }

@@ -3,6 +3,7 @@ package statemachine.states;
 import TEMP.TempEngine;
 import buttercat.DriverAI;
 import buttercat.Remote;
+import hardwarelayer.sensors.bluetoothreceiver.BluetoothReceiver;
 import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
 import interfacelayer.NotificationSystem;
@@ -55,6 +56,8 @@ public class TempFollowRoute extends State
     private double turnDelay = 1;
     private double turnDelayCounter;
 
+    private boolean isStopDriving;
+
     boolean isStoppedAfterFullStop = false;
 
     private Direction turn = Direction.DEFAULT ;
@@ -105,6 +108,12 @@ public class TempFollowRoute extends State
             tempRoute = bluetoothReceiver.getRouteAsArray();
             //check if the route is different from the route we already have
             if (!Arrays.equals(tempRoute,route)) this.route = tempRoute;
+        }
+
+        //TODO make sure this is correct
+        if (isStopDriving) {
+            engine.driveStop();
+            return;
         }
         //System.out.println("logic");
         if (!currentTurning)
@@ -301,6 +310,7 @@ public class TempFollowRoute extends State
 
         switch (route[RouteStepCounter])
         {
+            //TODO add stopover
             case 0 :
                 turn = Direction.FORWARD;
                 break;
@@ -316,8 +326,15 @@ public class TempFollowRoute extends State
             case 4 :
                 turn = Direction.TURN_AROUND_RIGHT;
                 break;
+            case 5 :
+                setStopped(true);
+                break;
         }
 
+    }
+
+    public void setStopped(boolean stopped) {
+        this.isStopDriving = stopped;
     }
 
     private void followLine()

@@ -3,7 +3,6 @@ package statemachine.states;
 import TEMP.TempEngine;
 import buttercat.DriverAI;
 import buttercat.Remote;
-import hardwarelayer.sensors.bluetoothreceiver.BluetoothReceiver;
 import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
 import interfacelayer.NotificationSystem;
@@ -77,7 +76,8 @@ public class TempFollowRoute extends State
         super.enter();
         currentDriveSpeed = driveSpeed;
         engine.sJSetTargetSpeed(driveSpeed, 0);
-        remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
+        remote.aButtonHasBeenPressed = () ->{
+            setShouldGoToRemoteControlToTrue();};
         System.out.println("entered");
     }
 

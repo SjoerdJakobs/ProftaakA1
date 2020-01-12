@@ -1,0 +1,69 @@
+.root {
+-fx-background-color: #51535c;
+}
+
+.button {
+-fx-background-color: #8a3232;
+-fx-text-fill: #dedede;
+    /*-fx-font-weight: bold;*/
+}
+
+.list-cell {
+-fx-text-fill: #00e031;
+-fx-font: 14px "Consolas";
+}
+
+.list-cell:odd {
+/*-fx-background-color: linear-gradient(#116a73 0.0%, #10666e 100.0%);*/
+    -fx-background-color: black;
+}
+
+.list-cell:even {
+/*-fx-background-color: linear-gradient(#38767c 0.0%, #347075 100.0%);*/
+    -fx-background-color: black;
+}
+
+.list-cell:selected {
+    -fx-text-fill: black;
+    -fx-background-color: white;
+}
+
+.dialog-pane > .button-bar > .container {
+
+    -fx-padding: 0.833em; /* 10px */
+}
+
+
+.dialog-pane > .content {
+    -fx-background-color: #51535c;
+    -fx-text-fill: #cc9f9f;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 0.833em; /* 10 */
+}
+
+
+.dialog-pane > .header-panel {
+    -fx-background-color: #51535c;
+    -fx-text-fill: #cc9f9f;
+    -fx-font-size: 14px;
+    -fx-padding: 0.833em 0 0 0.833em; /* 10px 0px 0px 10px */
+}
+
+.dialog-pane > .header-panel > .label{
+    -fx-background-color: #51535c;
+    -fx-text-fill: #cc9f9f;
+    -fx-font-size: 14px;
+    -fx-padding: 0.833em 0 0 0.833em; /* 10px 0px 0px 10px */
+}
+
+#buttercat {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+}
+
+.combo-box-base {
+-fx-background-color: #8a3232;
+-fx-text-fill: #dedede;
+}

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="445.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RemoteController">
+   <children>
+      <Button fx:id="forwardButton" layoutX="249.0" layoutY="43.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/elevator-up-button.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="rightButton" layoutX="401.0" layoutY="182.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../resources/elevator-up-button.png" />
+                  <!--<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="backwardButton" layoutX="249.0" layoutY="320.0" mnemonicParsing="false" rotate="180.0" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/elevator-up-button.png" />
+                  <!--<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="leftButton" layoutX="99.0" layoutY="182.0" mnemonicParsing="false" rotate="270.0" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/elevator-up-button.png" />
+                  <!--<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="stopButton" layoutX="249.0" layoutY="182.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/stop.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="uTurnButton" layoutX="99.0" layoutY="43.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/curve-arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="speed1Button" layoutX="367.0" layoutY="43.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/speed1.png" />
+                   <!--<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="speed3Button" layoutX="509.0" layoutY="43.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/speed3.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="speed2Button" layoutX="438.0" layoutY="43.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/speed2.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="muteButton" layoutX="418.0" layoutY="337.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/mute.png" />
+                   <!--<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="powerButton" layoutX="116.0" layoutY="337.0" mnemonicParsing="false" styleClass="control">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/power.png" />
+                   <!--<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>

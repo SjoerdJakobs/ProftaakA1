@@ -6,10 +6,10 @@ import TI.Servo;
 public class Motor {
 
     private Servo servo;
-    private int motionlessBaseValue; // 1500 is standard
+    private int motionlessBaseValue = 1500; // 1500 is standard
     private boolean turningClockwise;
-    private int targetSpeed; // 1500 is standard
-    private double turnRate; // 0..1
+    private int targetSpeed = 1500; // 1500 is standard
+    private double turnRate = 0; // 0..1
 
     /**
      * Initialise the Motor variables with standard motionlessBaseValue of 1500.
@@ -21,9 +21,6 @@ public class Motor {
 
         //this.servo = new Servo(pin);
         this.turningClockwise = turningClockwise;
-        this.motionlessBaseValue = 1500;
-        this.targetSpeed = 1500;
-        this.turnRate = 0;
     }
 
     /**
@@ -39,7 +36,6 @@ public class Motor {
         this.turningClockwise = turningClockwise;
         this.motionlessBaseValue = motionlessBaseValue;
         this.targetSpeed = motionlessBaseValue;
-        this.turnRate = 0;
     }
 
     public void start() { servo.start(); }

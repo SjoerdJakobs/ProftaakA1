@@ -13,7 +13,7 @@ public enum  NotificationSystem {
     // TODO: add select led, RgbLed and buzzer functions here.
     Led greenLed = new Led(5, true);
     //    RgbLed rgbLed = new RgbLed(2, 1, 0, 0, 0, 0, true);
-    Buzzer buzzer = new Buzzer(9, 2000);
+    Buzzer buzzer = new Buzzer(2, 2000);
     NeoLed neoLed1 = new NeoLed(0, Color.white);
 
     public NeoLed getNeoLed1()

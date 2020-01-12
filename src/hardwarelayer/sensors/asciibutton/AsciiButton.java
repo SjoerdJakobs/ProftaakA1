@@ -26,7 +26,10 @@ public class AsciiButton {
     }
 
     public Callback onButtonPress;
-
+//
+//    public Callback callback() {
+//        return onButtonPress;
+//    }
     public boolean isContinuousCallback() {
         return continuousCallback;
     }

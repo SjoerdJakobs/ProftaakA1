@@ -1,7 +1,6 @@
 package buttercat;
 
 import TI.BoeBot;
-import interfacelayer.Engine;
 
 
 public class Main {
@@ -31,9 +30,20 @@ public class Main {
     }
 }
 
-//    }
-//}
-
+//
+//
+// engine test
+//        Servo rightWheel    = new Servo(14);
+//        Servo leftWheel     = new Servo(15);
+//
+//        rightWheel.update(1485);
+//        leftWheel.update(1515);
+//        while (true)
+//        {
+//
+//        }
+//
+//
 //Bluetooth test
 //    SerialConnection conn = new SerialConnection();
 //

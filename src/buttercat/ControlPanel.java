@@ -44,7 +44,9 @@ public class ControlPanel extends StandardObject {
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
         bluetoothReceiver = new BluetoothReceiver();
         asciiButtons = new ArrayList<>();
-        bluetoothReceiver.somethingHasBeenPressed = this::onAnyButtonPress;
+        bluetoothReceiver.somethingHasBeenPressed = () -> {
+            onAnyButtonPress();
+        };
 //        aButtonHasBeenPressed = () ->{
 //            haha();
 //        };

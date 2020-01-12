@@ -28,7 +28,7 @@ public class TempFollowRoute extends State
     private int lastDetectedPin = 0;
     private int RouteStepCounter = 100000;
     private int turnCounter;
-    private int[] route = new int[]{1,1,1,1};
+    private int[] route;
 
     private Direction turn = Direction.DEFAULT ;
 
@@ -40,6 +40,8 @@ public class TempFollowRoute extends State
         this.remote =  driverAI.getRemote();
         this.objectDetection = driverAI.getObjectDetection();
         this.bluetoothReceiver = driverAI.getControlPanel().getBluetoothReceiver();
+
+
     }
 
     @Override
@@ -69,6 +71,7 @@ public class TempFollowRoute extends State
     @Override
     protected void logic()
     {
+        if (bluetoothReceiver.isRouteEntered()) this.route = bluetoothReceiver.getRouteAsArray();
         super.logic();
         //System.out.println("logic");
         if (!currentTurning)

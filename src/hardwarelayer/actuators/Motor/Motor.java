@@ -19,7 +19,7 @@ public class Motor {
     public Motor(int pin, boolean turningClockwise) {
         HelpFunctions.checkDigitalPin("Servo pin", pin);
 
-        //this.servo = new Servo(pin);
+        this.servo = new Servo(pin);
         this.turningClockwise = turningClockwise;
     }
 

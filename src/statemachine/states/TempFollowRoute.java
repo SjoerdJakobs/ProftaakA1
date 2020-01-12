@@ -47,8 +47,7 @@ public class TempFollowRoute extends State
         super.enter();
         engine.sJSetTargetSpeed(50, 0);
         hasSideLine = true;
-        remote.aButtonHasBeenPressed = () ->{
-            setShouldGoToRemoteControlToTrue();};
+        remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
         System.out.println("entered");
     }
 

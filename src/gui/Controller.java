@@ -221,6 +221,7 @@ public class Controller implements Initializable {
         });
 
         manualButton.setOnAction(e -> {
+            //pass the bluetooth connection instance to the remoteController
             remoteController.passConnection(bluetoothConnection);
 
             if (COM_PORT == null || COM_PORT.isEmpty()) {
@@ -263,7 +264,7 @@ public class Controller implements Initializable {
         });
 
         resumeButton.setOnAction(e -> {
-            System.out.println("resume kanker");
+            System.out.println("resume");
             //TODO implement resuming of route
         });
 

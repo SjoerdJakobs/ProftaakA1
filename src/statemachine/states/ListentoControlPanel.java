@@ -95,7 +95,7 @@ public class ListentoControlPanel extends State {
         controlPanel.getOneButton().onButtonPress = this::slowSpeed;
         controlPanel.getTwoButton().onButtonPress = this::mediumSpeed;
         controlPanel.getThreeButton().onButtonPress = this::fastSpeed;
-        //TODO add button for resume
+        controlPanel.getENTERButton().onButtonPress = this::resume;
 //        controlPanel.getPButton().onButtonPress = () -> {
 //            listen();
 //        };

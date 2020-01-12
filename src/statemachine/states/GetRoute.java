@@ -29,12 +29,8 @@ public class GetRoute extends State {
     @Override
     protected void enter() {
         super.enter();
-        remote.aButtonHasBeenPressed = () -> {
-            setShouldGoToRemoteControlToTrue();
-        };
-        controlPanel.aButtonHasBeenPressed = () -> {
-            setShouldGoToControlPanelControlTrue();
-        };
+        remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
+        controlPanel.aButtonHasBeenPressed = this::setShouldGoToControlPanelControlTrue;
     }
 
     private void setShouldGoToRemoteControlToTrue() {

@@ -1,239 +1,411 @@
 package statemachine.states;
 
-import TI.BoeBot;
 import buttercat.DriverAI;
-import interfacelayer.Engine;
 import buttercat.Remote;
+import hardwarelayer.sensors.bluetoothreceiver.BluetoothReceiver;
+import interfacelayer.Engine;
 import interfacelayer.LineFollowChecker;
 import interfacelayer.NotificationSystem;
 import interfacelayer.ObjectDetection;
 import statemachine.State;
 import statemachine.StateID;
-import hardwarelayer.sensors.button.Button;
 
 import java.awt.*;
+import java.util.Arrays;
 
-public class FollowRoute extends State {
-    private DriverAI driverAI;
-    private Engine engine;
-    private Remote remote;
-    private LineFollowChecker lineFollowChecker;
-    private ObjectDetection objectDetection;
-    private NotificationSystem notificationSystem;
-    private Button button = new Button(11);
+public class FollowRoute extends State
+{
+    private Remote              remote;
+    private Engine              engine;
+    private LineFollowChecker   lineFollowChecker;
+    private ObjectDetection     objectDetection;
+    private NotificationSystem  notificationSystem;
+    private BluetoothReceiver bluetoothReceiver;
 
-    private boolean shouldGoToRemoteControl, canDrive;
+    private boolean shouldGoToRemoteControl;
+    private boolean currentTurning = false;
+    private boolean canChangeRouteStepCounter = true;
+    private boolean turnCounterHasBeenSet = false;
+    private boolean repeatRoute = true;
 
-    private int distance, lastDistance, timer = 5;
+    private boolean leftOnOrginLine = true;
+    private boolean rightOnOrginLine = true;
+    private boolean leftLinePassed1 = false;
+    private boolean rightLinePassed1 = false;
+    private boolean leftLinePassed2 = false;
+    private boolean rightLinePassed2 = false;
 
-    private int engineTargetSpeed = -125;
+    private int lastDetectedPin = 0;
+    private int RouteStepCounter = 100000;
+    private int turnCounter;
+    //initialize with empty array
+    private int[] route = new int[]{};
+    private int[] tempRoute;
+    //private int[] route = new int[]{2,1,2,1};
+    //private int[] route = new int[]{2,2,2,2};
+    //private int[] route = new int[]{1,1,1,1};
+    //private int[] route = new int[]{0,0,0,0};
 
-    private float rainbowValue;
-    private Color rgb;
+    private int driveSpeed = 80;
+    private int currentDriveSpeed;
+    private int brakeDistance = 250;
+    private int stopThreshold = 70;
 
-    private boolean leftHasLine = false;
-    private boolean midLeftHasLine = false;
-    private boolean midRightHasLine = false;
-    private boolean rightHasLine = false;
-    private boolean changeNeoLeds = true;
+    private boolean delayHasBeenSet = false;
+    private boolean inDelay = false;
+    private double turnDelay = 1;
+    private double turnDelayCounter;
 
-    public FollowRoute(DriverAI driverAI) {
+    boolean isStoppedAfterFullStop = false;
+
+    private Direction turn = Direction.DEFAULT ;
+
+    public FollowRoute(DriverAI driverAI)
+    {
         super(StateID.FollowRoute);
-        shouldGoToRemoteControl = false;
-        this.driverAI = driverAI;
-        this.engine = driverAI.getEngine();
-        this.remote = driverAI.getRemote();
+        this.engine =               driverAI.getEngine();
+        this.lineFollowChecker =    driverAI.getLineFollowChecker();
+        this.remote =               driverAI.getRemote();
+        this.objectDetection =      driverAI.getObjectDetection();
+        this.notificationSystem =   NotificationSystem.INSTANCE;
+        this.bluetoothReceiver =    driverAI.getControlPanel().getBluetoothReceiver();
+    }
 
-        this.lineFollowChecker = driverAI.getLineFollowChecker();
-        this.objectDetection = driverAI.getObjectDetection();
-        this.notificationSystem = NotificationSystem.INSTANCE;
-
-        this.rainbowValue = 0;
-
-
-
+    public void setStopped(boolean shouldBeStopped)
+    {
+        this.isStoppedAfterFullStop = shouldBeStopped;
     }
 
     @Override
-    protected void enter() {
+    protected void enter()
+    {
         super.enter();
-        System.out.println("following");
+        notificationSystem.setColor(Color.green);
+        currentDriveSpeed = driveSpeed;
+        engine.sJSetTargetSpeed(driveSpeed, 0);
         remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
-        lastDistance = 0;
-        engine.setEngineTargetSpeed(this.engineTargetSpeed);
+        System.out.println("entered");
     }
 
-    private void setShouldGoToRemoteControlToTrue() {
+    private void setShouldGoToRemoteControlToTrue()
+    {
         shouldGoToRemoteControl = true;
     }
-
     @Override
-    protected void checkForStateSwitch() {
+    protected void checkForStateSwitch()
+    {
         super.checkForStateSwitch();
-        if (shouldGoToRemoteControl) {
+        if (shouldGoToRemoteControl)
+        {
             stateMachine.SetState(StateID.ListenToRemote);
         }
     }
 
-    // make variables so they don't have to be initialized every time the loop is entered
-    private boolean leftNoticed;
-    private boolean rightNoticed;
-    private boolean midNoticed;
-
     @Override
-    protected void logic() {
+    protected void logic()
+    {
         super.logic();
-        checkAllLinefollowers();
-
-        colors(0.009f);
-
-        System.out.println(engine.toString());
-        System.out.println(lineFollowChecker.toString());
-        System.out.println(objectDetection.toString() + "\t Can drive: " + (canDrive ? "true" : "false"));
-
-        /*
-        if (button.isPressed()) {
-            System.out.println("Pressed");
-            canDrive = true;
+        //check if a route has been entered
+        if (bluetoothReceiver.isRouteEntered()) {
+            //if so, get the route
+            tempRoute = bluetoothReceiver.getRouteAsArray();
+            //check if the route is different from the route we already have
+            if (!Arrays.equals(tempRoute,route)) this.route = tempRoute;
         }
-        */
-        // TODO: use Callback button instead of digitalRead
-        // TODO: fix bug: when starting in FollowRoute, ultrasonic sensor reads <80 thus must press the button to start the BoeBot
-        if (!BoeBot.digitalRead(11)) canDrive = true;
-        if (objectDetection.objectIsTooClose(80)) {
-            canDrive = false;
-        }
-
-//        canDrive = !objectDetection.objectIsTooClose(80);
-
-        if (canDrive) {
-            if (changeNeoLeds) {
-                notificationSystem.turnLedsOff();
+        //System.out.println("logic");
+        if (!currentTurning)
+        {
+            if (lineFollowChecker.leftNoticedLine() && lineFollowChecker.midLeftNoticedLine()
+                    &&  lineFollowChecker.midRightNoticedLine() && lineFollowChecker.rightNoticedLine())
+            {
+                //System.out.println("All lines detected.");
+                //engine.SetTargetSpeed(0, 0);
+                setDelay();
+                currentTurning = true;
+                inDelay = true;
             }
-            //TODO test this with boebot
-            //TODO add 4th line follower
-            if (lineFollowChecker.hasNoticedIntersection()) {
-//                System.out.println("stop");
-                //TODO implement decellerating
-                notificationSystem.allLineFollowers(rgb);
-                engine.emergencyBrake();
+            followLine();
+        }
+        else if(inDelay)
+        {
+            if(turnDelayCounter <= turnDelay)
+            {
+                turnDelayCounter+=stateMachine.getDeltaTime();
+                inDelay = false;
+                turnDelayCounter = 0;
+                System.out.println("resetDelay");
+            }
+            followLine();
+        }else if (currentTurning) {
+            setTurnDirection();
+            setTurnCounter();
+
+            switch (turn)
+            {
+                case FORWARD:
+                    leftLinePassed2 = true;
+                    rightLinePassed2 = true;
+                    break;
+                case LEFT:
+                    engine.sJSteer(true, 3);
+                    break;
+                case RIGHT:
+                    engine.sJSteer(false, 3);
+                    break;
+                case TURN_AROUND_lEFT:
+                    engine.sJSteer(true, 3);
+                    break;
+                case TURN_AROUND_RIGHT:
+                    engine.sJSteer(false, 3);
+                    break;
+                case DEFAULT:
+                    engine.sJSetTargetSpeed(0,0);
+                    System.out.println("wrong turn value");
+                    break;
             }
 
-            if (!lineFollowChecker.hasNoticedIntersection()) {
-                checkLeft();
-                checkLeftCombi();
-                checkMidLeft();
-                checkMidCombi();
-                checkMidRight();
-                checkRightCombi();
-                checkRight();
+            if(turn != Direction.FORWARD)
+            {
+                currentDriveSpeed = driveSpeed / 2;
+                engine.sJSetTargetSpeed(driveSpeed / 2, 0);
             }
 
-//            BoeBot.wait(100);
-        } else {
-            notificationSystem.objectDetected();
-            engine.emergencyBrake();
+            if(lineFollowChecker.leftNoticedLine())
+            {
+                if(!leftOnOrginLine)
+                {
+                    leftOnOrginLine = true;
+                    leftLinePassed1 = true;
+                    //System.out.println("done turning left");
+                    //turnCounter = 0;
+                }
+            }
+            else {
+                if (leftLinePassed1) {
+                    leftLinePassed2 = true;
+                }
+                leftOnOrginLine = false;
+            }
+
+            if(lineFollowChecker.rightNoticedLine())
+            {
+                if(!rightOnOrginLine)
+                {
+                    rightOnOrginLine = true;
+                    rightLinePassed1 = true;
+                    //System.out.println("done turning right");
+                    //turnCounter = 0;
+                }
+            }
+            else
+            {
+                if(rightLinePassed1)
+                {
+                    rightLinePassed2 = true;
+                }
+                rightOnOrginLine = false;
+            }
+
+            if(turn == Direction.FORWARD || (turn == Direction.RIGHT && leftLinePassed2) || (rightLinePassed2 && turn == Direction.LEFT)) {
+                //if (lineFollowChecker.midLeftNoticedLine()|| lineFollowChecker.midRightNoticedLine()) {
+                currentTurning = false;
+                canChangeRouteStepCounter = true;
+                turnCounterHasBeenSet = false;
+                leftOnOrginLine = true;
+                rightOnOrginLine = true;
+                leftLinePassed1 = false;
+                rightLinePassed1 = false;
+                leftLinePassed2 = false;
+                rightLinePassed2 = false;
+                delayHasBeenSet = false;
+                //}
+            }
         }
-
-
-        lastDistance = distance;
-
-        engine.drive(5);
+        if(objectDetection.objectIsTooClose(brakeDistance))
+        {
+            if(objectDetection.objectIsTooClose(stopThreshold))
+            {
+                engine.sJSetTargetSpeed(0,0);
+                isStoppedAfterFullStop = true;
+            }
+            else {
+                double speedDuringBraking = Math.pow((double) objectDetection.getDistance() / brakeDistance,3);
+                currentDriveSpeed = (int)(driveSpeed * speedDuringBraking);
+                engine.sJSetTargetSpeed((int)(driveSpeed*speedDuringBraking), 0);
+                if(currentDriveSpeed < driveSpeed/2 && inDelay)
+                {
+                    turnDelayCounter += stateMachine.getDeltaTime()/2;
+                }
+                //System.out.println(driveSpeed);
+                //System.out.println(speedDuringBraking);
+            }
+        }
+        if(isStoppedAfterFullStop)
+        {
+            engine.sJSetTargetSpeed(0,0);
+        }
+        engine.drive();
     }
 
-    /**
-     * method to calculate the color for displaying the line follower
-     */
-    private void colors(float value) {
-
-        rgb = Color.getHSBColor(rainbowValue, 1, 1);
-
-        rainbowValue += value;
-
-        if (rainbowValue == 1.0) {
-            rainbowValue = 0;
-        }
-
-
+    private void setDelay()
+    {
+        setDelay(0.3d);
     }
 
-    private void checkLeft() {
-        if (this.leftHasLine && !this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
-            notificationSystem.leftLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, -1);
-        }
+    private void setDelay(double baseDelay)
+    {
+        turnDelay = (double)driveSpeed / currentDriveSpeed + baseDelay;
+        System.out.println(turnDelay);
+        delayHasBeenSet = true;
     }
 
-    private void checkLeftCombi() {
-        if (this.leftHasLine && this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
-            notificationSystem.leftLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, -0.6);
-        }
-    }
+    private void setTurnCounter()
+    {
+        if(!turnCounterHasBeenSet)
+        {
+            turnCounterHasBeenSet = true;
+            switch (turn)
+            {
+                case FORWARD:
+                    turnCounter = 0;
 
-    private void checkMidLeft() {
-        if (!this.leftHasLine && this.midLeftHasLine && !this.midRightHasLine && !this.rightHasLine) {
-            notificationSystem.midLeftLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, -0.2);
-        }
-    }
-
-    private void checkMidCombi() {
-        if (!this.leftHasLine && this.midLeftHasLine && this.midRightHasLine && !this.rightHasLine) {
-            notificationSystem.midLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, 0);
+                    break;
+                case LEFT:
+                    turnCounter = 1;
+                    break;
+                case RIGHT:
+                    turnCounter = 1;
+                    break;
+                case TURN_AROUND_lEFT:
+                    turnCounter = 2;
+                    break;
+                case TURN_AROUND_RIGHT:
+                    turnCounter = 2;
+                    break;
+                case DEFAULT:
+                    System.out.println("wrong turn value");
+                    break;
+            }
         }
     }
 
-    private void checkMidRight() {
-        if (!this.leftHasLine && !this.midLeftHasLine && this.midRightHasLine && !this.rightHasLine) {
-            notificationSystem.midRightLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, 0.2);
+    private void setTurnDirection()
+    {
+        if (RouteStepCounter < route.length - 1 && canChangeRouteStepCounter) {
+            RouteStepCounter++;
+            canChangeRouteStepCounter = false;
+            System.out.println(RouteStepCounter);
+        } else if (canChangeRouteStepCounter && repeatRoute) {
+            RouteStepCounter = 0;
+            canChangeRouteStepCounter = false;
+            System.out.println(RouteStepCounter);
         }
+        else
+        {
+            return;
+        }
+
+        switch (route[RouteStepCounter])
+        {
+            case 0 :
+                turn = Direction.FORWARD;
+                break;
+            case 1 :
+                turn = Direction.LEFT;
+                break;
+            case 2 :
+                turn = Direction.RIGHT;
+                break;
+            case 3 :
+                turn = Direction.TURN_AROUND_lEFT;
+                break;
+            case 4 :
+                turn = Direction.TURN_AROUND_RIGHT;
+                break;
+        }
+
     }
 
-    private void checkRightCombi() {
-        if (!this.leftHasLine && !this.midLeftHasLine && this.midRightHasLine && this.rightHasLine) {
-            notificationSystem.rightLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, 0.6);
+    private void followLine()
+    {
+        notificationSystem.getNeoLed1().turnOff();
+        notificationSystem.getNeoLed2().turnOff();
+        notificationSystem.getNeoLed3().turnOff();
+        notificationSystem.getNeoLed4().turnOff();
+        notificationSystem.getNeoLed5().turnOff();
+        notificationSystem.getNeoLed6().turnOff();
+        if (lineFollowChecker.midLeftNoticedLine() && lineFollowChecker.midRightNoticedLine()) {
+            //System.out.println("pin 1 and 2");
+            notificationSystem.getNeoLed1().turnOn();
+            notificationSystem.getNeoLed3().turnOn();
+            engine.sJSteer(true, 0);
+            engine.sJSetTargetSpeed(driveSpeed, 0);
+        } else if (lineFollowChecker.leftNoticedLine() && lineFollowChecker.midLeftNoticedLine()) {
+            //System.out.println("pin 0 and 1");
+            notificationSystem.getNeoLed1().turnOn();
+            notificationSystem.getNeoLed4().turnOn();
+            engine.sJSteer(false, 0.9);
+            engine.sJSetTargetSpeed((int)(driveSpeed*0.5), 0);
+        } else if (lineFollowChecker.midRightNoticedLine() && lineFollowChecker.rightNoticedLine()) {
+            //System.out.println("pin 2 and 3");
+            notificationSystem.getNeoLed3().turnOn();
+            notificationSystem.getNeoLed6().turnOn();
+            engine.sJSteer(true, 0.9);
+            engine.sJSetTargetSpeed((int)(driveSpeed*0.5), 0);
+        } else if (lineFollowChecker.midRightNoticedLine()) {
+            //System.out.println("pin 2");
+            notificationSystem.getNeoLed1().turnOn();
+            engine.sJSteer(true, 0.30);
+            engine.sJSetTargetSpeed((int)(driveSpeed*0.9), 0);
+            lastDetectedPin = 2;
+        } else if (lineFollowChecker.midLeftNoticedLine()) {
+            //System.out.println("pin 1");
+            notificationSystem.getNeoLed3().turnOn();
+            engine.sJSteer(false, 0.30);
+            engine.sJSetTargetSpeed((int)(driveSpeed*0.9), 0);
+            lastDetectedPin = 1;
+        } else if (lineFollowChecker.rightNoticedLine()) {
+            //System.out.println("pin 3");
+            notificationSystem.getNeoLed6().turnOn();
+            engine.sJSteer(true, 1.6);
+            engine.sJSetTargetSpeed((int)(driveSpeed*0.4), 0);
+            lastDetectedPin = 3;
+        } else if (lineFollowChecker.leftNoticedLine()) {
+            //System.out.println("pin 0");
+            notificationSystem.getNeoLed4().turnOn();
+            engine.sJSteer(false, 1.6);
+            engine.sJSetTargetSpeed((int)(driveSpeed*0.4), 0);
+            lastDetectedPin = 0;
+        } else if (lastDetectedPin == 2 || lastDetectedPin == 3) {
+            //System.out.println("last pin 2 or 3");
+            notificationSystem.getNeoLed1().turnOn();
+            notificationSystem.getNeoLed6().turnOn();
+            engine.sJSteer(true, 0.80);
+            engine.sJSetTargetSpeed((int)(driveSpeed*0.75), 0);
+        } else if (lastDetectedPin == 1 || lastDetectedPin == 0) {
+            //System.out.println("last pin 1 or 0");
+            notificationSystem.getNeoLed3().turnOn();
+            notificationSystem.getNeoLed4().turnOn();
+            engine.sJSteer(false, 0.80);
+            engine.sJSetTargetSpeed((int)(driveSpeed*0.75), 0);
         }
-    }
-
-    private void checkRight() {
-        if (!this.leftHasLine && !this.midLeftHasLine && !this.midRightHasLine && this.rightHasLine) {
-            notificationSystem.rightLineFollower(rgb);
-            engine.updateInstantPulse(engineTargetSpeed, 1);
-        }
-    }
-
-    /**
-     * Put all noticeLine functions in a variable for better readability.
-     * Also checks if detected lines have changes since the previous detection using hasLineBits.
-     */
-    private void checkAllLinefollowers() {
-        int hasLineBits = (this.leftHasLine ? 8 : 0) + (this.midLeftHasLine ? 4 : 0) +
-                (this.midRightHasLine ? 2 : 0) + (this.rightHasLine ? 1 : 0);
-
-        this.leftHasLine = lineFollowChecker.leftNoticedLine(); // 0b1000
-        this.midLeftHasLine = lineFollowChecker.midLeftNoticedLine(); // 0b0100
-        this.midRightHasLine = lineFollowChecker.midRightNoticedLine(); // 0b0010
-        this.rightHasLine = lineFollowChecker.rightNoticedLine(); // 0b0001
-
-        if (hasLineBits == (this.leftHasLine ? 8 : 0) + (this.midLeftHasLine ? 4 : 0) +
-                (this.midRightHasLine ? 2 : 0) + (this.rightHasLine ? 1 : 0)) {
-            changeNeoLeds = false;
-        } else {
-            changeNeoLeds = true;
-        }
-    }
-
-    public void followHardCodedRoute(int counter) {
 
     }
 
     @Override
-    protected void leave() {
+    protected void leave()
+    {
         super.leave();
-        BoeBot.wait(1000);
     }
+
+}
+
+enum Direction
+{
+    RIGHT,
+    LEFT,
+    FORWARD,
+    TURN_AROUND_lEFT,
+    TURN_AROUND_RIGHT,
+    DEFAULT;
 }

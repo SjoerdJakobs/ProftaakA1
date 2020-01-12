@@ -1,8 +1,9 @@
 package hardwarelayer.sensors.infraredreceiver;
 
+import TI.BoeBot;
 import hardwarelayer.sensors.button.Button;
 import interfacelayer.Callback;
-import TI.BoeBot;
+
 import java.util.ArrayList;
 
 public class InfraRedReceiver

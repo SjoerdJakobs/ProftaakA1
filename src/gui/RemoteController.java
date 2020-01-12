@@ -1,14 +1,8 @@
 package gui;
 
-import buttercat.ControlPanel;
-import buttercat.DriverAI;
-import buttercat.Program;
 import interfacelayer.BluetoothConnection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import ooframework.FrameworkProgram;
-
-import java.awt.*;
 
 public class RemoteController {
     @FXML

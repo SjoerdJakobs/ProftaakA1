@@ -1,15 +1,16 @@
 package buttercat;
 
-import TEMP.TempEngine;
 import interfacelayer.Engine;
-
 import interfacelayer.LineFollowChecker;
 import interfacelayer.ObjectDetection;
 import ooframework.FrameworkProgram;
 import ooframework.StandardObject;
-
-import statemachine.*;
-import statemachine.states.*;
+import statemachine.StateID;
+import statemachine.StateMachine;
+import statemachine.states.FollowRoute;
+import statemachine.states.GetRoute;
+import statemachine.states.ListenToRemote;
+import statemachine.states.ListentoControlPanel;
 
 public class DriverAI extends StandardObject
 {
@@ -21,7 +22,7 @@ public class DriverAI extends StandardObject
     private ObjectDetection objectDetection;
     private LineFollowChecker lineFollowChecker;
     private buttercat.ControlPanel controlPanel;
-    private TempFollowRoute followRoute;
+    private FollowRoute followRoute;
 
     public DriverAI(FrameworkProgram frameworkProgram) {
         super(frameworkProgram);
@@ -46,12 +47,10 @@ public class DriverAI extends StandardObject
     }
 
     void MakeStates() {
-        stateMachine.AddState(new FollowRoute(this));
-        this.followRoute = new TempFollowRoute(this);
+        this.followRoute = new FollowRoute(this);
         stateMachine.AddState(this.followRoute);
         stateMachine.AddState(new GetRoute(this));
         stateMachine.AddState(new ListenToRemote(this));
-        stateMachine.AddState(new SearchForStartPoint(this));
         stateMachine.AddState(new ListentoControlPanel(this));
     }
 
@@ -124,7 +123,7 @@ public class DriverAI extends StandardObject
         this.controlPanel = controlPanel;
     }
 
-    public TempFollowRoute getFollowRoute() {
+    public FollowRoute getFollowRoute() {
         return this.followRoute;
     }
 }

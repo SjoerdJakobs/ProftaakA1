@@ -1,7 +1,6 @@
 package hardwarelayer.actuators.buzzer;
 
 import TI.BoeBot;
-import TI.PWM;
 
 public class Buzzer {
 

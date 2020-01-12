@@ -1,7 +1,7 @@
 package hardwarelayer.actuators.Motor;
 
-import buttercat.HelpFunctions;
 import TI.Servo;
+import buttercat.HelpFunctions;
 
 public class Motor {
 

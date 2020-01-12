@@ -1,7 +1,6 @@
 package gui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * route class that stores the instructions to be done by the BoeBot

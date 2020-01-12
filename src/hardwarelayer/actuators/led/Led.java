@@ -1,8 +1,8 @@
 package hardwarelayer.actuators.led;
 
-import buttercat.HelpFunctions;
 import TI.BoeBot;
 import TI.Timer;
+import buttercat.HelpFunctions;
 
 public class Led /* implements LedInterface */ {
 

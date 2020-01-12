@@ -1,9 +1,9 @@
 package hardwarelayer.sensors.ultrasonicsensor;
 
-import buttercat.HelpFunctions;
-import interfacelayer.Callback;
 import TI.BoeBot;
 import TI.Timer;
+import buttercat.HelpFunctions;
+import interfacelayer.Callback;
 //trig pin 7
 //echo pin 8
 

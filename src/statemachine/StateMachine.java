@@ -45,10 +45,10 @@ public class StateMachine extends StandardObject
     /**
      * set the currentState of the state machine and exit the former currentState
      * @param stateID the id of the state that will become the current state
-     */public void SetState(StateID stateID,
-     long delay)
+     */
+    public void SetState(StateID stateID, double delay)
     {
-        if(System.nanoTime() - timeSinceSwitch < delay*1000_000_000L)
+        if(System.nanoTime() - timeSinceSwitch < (long)delay*1000_000_000L)
         {
             return;
         }

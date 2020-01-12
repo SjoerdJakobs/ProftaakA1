@@ -10,6 +10,8 @@ import interfacelayer.ObjectDetection;
 import statemachine.State;
 import statemachine.StateID;
 
+import java.util.Arrays;
+
 public class TempFollowRoute extends State
 {
     private Remote              remote;
@@ -17,6 +19,7 @@ public class TempFollowRoute extends State
     private LineFollowChecker   lineFollowChecker;
     private ObjectDetection     objectDetection;
     private NotificationSystem  notificationSystem;
+    private BluetoothReceiver bluetoothReceiver;
 
     private boolean shouldGoToRemoteControl;
     private boolean currentTurning = false;
@@ -34,7 +37,9 @@ public class TempFollowRoute extends State
     private int lastDetectedPin = 0;
     private int RouteStepCounter = 100000;
     private int turnCounter;
-    private int[] route = new int[]{2,1,0,1,0,1,1,2,2,1,1,1};
+    //initialize with empty array
+    private int[] route = new int[]{};
+    private int[] tempRoute;
     //private int[] route = new int[]{2,1,2,1};
     //private int[] route = new int[]{2,2,2,2};
     //private int[] route = new int[]{1,1,1,1};
@@ -62,6 +67,7 @@ public class TempFollowRoute extends State
         this.remote =               driverAI.getRemote();
         this.objectDetection =      driverAI.getObjectDetection();
         this.notificationSystem =   NotificationSystem.INSTANCE;
+        this.bluetoothReceiver = driverAI.getControlPanel().getBluetoothReceiver();
     }
 
     @Override
@@ -93,6 +99,13 @@ public class TempFollowRoute extends State
     protected void logic()
     {
         super.logic();
+        //check if a route has been entered
+        if (bluetoothReceiver.isRouteEntered()) {
+            //if so, get the route
+            tempRoute = bluetoothReceiver.getRouteAsArray();
+            //check if the route is different from the route we already have
+            if (!Arrays.equals(tempRoute,route)) this.route = tempRoute;
+        }
         //System.out.println("logic");
         if (!currentTurning)
         {

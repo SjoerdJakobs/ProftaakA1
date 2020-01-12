@@ -6,6 +6,8 @@ import hardwarelayer.sensors.asciibutton.AsciiButton;
 import interfacelayer.Callback;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class BluetoothReceiver {
 
@@ -13,6 +15,8 @@ public class BluetoothReceiver {
     public SerialConnection conn;
 
     public ArrayList<Integer> route;
+    private int[] routeAsArray;
+    private boolean routeIsEntered = false;
 
     public BluetoothReceiver() {
         this.conn = new SerialConnection();
@@ -35,7 +39,7 @@ public class BluetoothReceiver {
                             asciiButton.setPressed(true);
                             asciiButton.onButtonPress.run();
                             somethingHasBeenPressed.run();
-                        } else if (asciiButton.isPressed() && asciiButton.isContinuousCallback()) {
+                        } else if (asciiButton.isContinuousCallback()) {
                             asciiButton.onButtonPress.run();
                         }
                     } else if (asciiButton.isPressed()) {
@@ -56,6 +60,27 @@ public class BluetoothReceiver {
                 data = -1;
             }
         }
+        if (!route.isEmpty()) {
+            this.routeAsArray = convertToArray(route);
+        }
+        routeIsEntered = true;
+    }
+
+    private int[] convertToArray(List<Integer> integers) {
+        int[] ret = new int[integers.size()];
+        Iterator<Integer> iterator = integers.iterator();
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = iterator.next();
+        }
+        return ret;
+    }
+
+    public boolean isRouteEntered() {
+        return this.routeIsEntered;
+    }
+
+    public int[] getRouteAsArray() {
+        return this.routeAsArray;
     }
 
     public SerialConnection getConn() {

@@ -71,8 +71,8 @@ public class TempFollowRoute extends State
     @Override
     protected void logic()
     {
-        if (bluetoothReceiver.isRouteEntered()) this.route = bluetoothReceiver.getRouteAsArray();
         super.logic();
+        if (bluetoothReceiver.isRouteEntered()) this.route = bluetoothReceiver.getRouteAsArray();
         //System.out.println("logic");
         if (!currentTurning)
         {

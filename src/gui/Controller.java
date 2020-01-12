@@ -1,8 +1,6 @@
 package gui;
 
-import com.sun.javafx.scene.control.skin.ButtonSkin;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
+import interfacelayer.BluetoothConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,13 +11,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -32,11 +28,13 @@ public class Controller implements Initializable {
     private ListView<Route> routesList;
 
     private Route temp;
-    private final String PLACEHOLDER = "Add your commands using the buttons!";
+    private final String PLACEHOLDER = "Add your route using the buttons!";
     private boolean editing;
     private int selectedRouteIndex;
 
     public static String COM_PORT;
+
+    private BluetoothConnection bluetoothConnection;
 
     //fxml gui buttons
     @FXML
@@ -63,6 +61,15 @@ public class Controller implements Initializable {
     Button executeButton;
     @FXML
     ComboBox<String> comBox;
+    @FXML
+    Button stopOverButton;
+    @FXML
+    Button resumeButton;
+
+    RemoteController remoteController;
+    public Controller() {
+
+    }
 
     /**
      * initializes the GUI elements
@@ -77,6 +84,9 @@ public class Controller implements Initializable {
         this.commands.add(PLACEHOLDER);
         this.routes = FXCollections.observableArrayList();
         editing = false;
+
+        bluetoothConnection = new BluetoothConnection(COM_PORT);
+        remoteController = new RemoteController();
 
         makeTemp();
         initCommandsList();
@@ -102,6 +112,7 @@ public class Controller implements Initializable {
         comBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             if (newValue != null) {
                 COM_PORT = newValue;
+                bluetoothConnection.setPort(COM_PORT);
             }
         });
 
@@ -118,7 +129,7 @@ public class Controller implements Initializable {
     }
 
     /**
-     * sets up the ListView for the commands
+     * sets up the ListView for the route
      */
     private void initCommandsList() {
         ListView<String> commandList = new ListView<String>();
@@ -136,21 +147,27 @@ public class Controller implements Initializable {
             System.out.println("adding " + "Left");
             checkForTestValue();
             this.commands.add("Left");
-//            System.out.println(commands.toString());
+//            System.out.println(route.toString());
             commandList.refresh();
         });
         forwardButton.setOnAction(e -> {
             System.out.println("adding " + "Forward");
             checkForTestValue();
             this.commands.add("Forward");
-//            System.out.println(commands.toString());
+//            System.out.println(route.toString());
             commandList.refresh();
         });
         rightButton.setOnAction(e -> {
             System.out.println("adding " + "Right");
             checkForTestValue();
             this.commands.add("Right");
-//            System.out.println(commands.toString());
+//            System.out.println(route.toString());
+            commandList.refresh();
+        });
+        stopOverButton.setOnAction(e -> {
+            System.out.println("adding stop");
+            checkForTestValue();
+            this.commands.add("Stop");
             commandList.refresh();
         });
         saveButton.setOnAction(e -> {
@@ -158,9 +175,9 @@ public class Controller implements Initializable {
             Route route = new Route(nameField.getText());
             route.setCommands(this.commands);
 
-//            System.out.println("commands: " + this.commands);
+//            System.out.println("route: " + this.route);
 //            System.out.println("routes: " + this.routes);
-//            System.out.println("route commands: " + route.getCommands());
+//            System.out.println("route route: " + route.getCommands());
 //            System.out.println("valid: " + route.isValid());
 
             if (nameField.getText().isEmpty()) {
@@ -204,6 +221,14 @@ public class Controller implements Initializable {
         });
 
         manualButton.setOnAction(e -> {
+            //pass the bluetooth connection instance to the remoteController
+            remoteController.passConnection(bluetoothConnection);
+
+            if (COM_PORT == null || COM_PORT.isEmpty()) {
+                RouteAlert alert = new RouteAlert(Alert.AlertType.WARNING, "No COM port set", "Please select a COM port!");
+                alert.showAndWait();
+                return;
+            }
             Stage stage = new Stage();
             try {
                 Parent control = FXMLLoader.load(getClass().getResource("remotecontrol.fxml"));
@@ -220,16 +245,27 @@ public class Controller implements Initializable {
         });
 
         executeButton.setOnAction(e -> {
+            if (COM_PORT == null || COM_PORT.isEmpty()) {
+                RouteAlert alert = new RouteAlert(Alert.AlertType.WARNING, "No COM port set", "Please select a COM port!");
+                alert.showAndWait();
+                return;
+            }
             Route selected = routesList.getSelectionModel().getSelectedItem();
             if (selected != null) {
                 int[] instructions = selected.routeToNumbers();
+
                 System.out.println(Arrays.toString(instructions));
-                //TODO send via bluetooth to boebot
+                bluetoothConnection.sendRoute(instructions);
             } else {
                 RouteAlert alert = new RouteAlert(Alert.AlertType.WARNING, "No route selected","Please select the route you want to execute!");
                 alert.showAndWait();
             }
 
+        });
+
+        resumeButton.setOnAction(e -> {
+            System.out.println("resume");
+            //TODO implement resuming of route
         });
 
         setSkins();
@@ -299,5 +335,11 @@ public class Controller implements Initializable {
         deleteButton.setSkin(new GUIButtonSkin(deleteButton));
         manualButton.setSkin(new GUIButtonSkin(manualButton));
         executeButton.setSkin(new GUIButtonSkin(executeButton));
+        stopOverButton.setSkin(new GUIButtonSkin(stopOverButton));
+        resumeButton.setSkin(new GUIButtonSkin(resumeButton));
+    }
+
+    public BluetoothConnection getBluetoothConnection() {
+        return bluetoothConnection;
     }
 }

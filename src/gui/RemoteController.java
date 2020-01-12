@@ -1,7 +1,14 @@
 package gui;
 
+import buttercat.ControlPanel;
+import buttercat.DriverAI;
+import buttercat.Program;
+import interfacelayer.BluetoothConnection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import ooframework.FrameworkProgram;
+
+import java.awt.*;
 
 public class RemoteController {
     @FXML
@@ -15,8 +22,6 @@ public class RemoteController {
     @FXML
     Button stopButton;
     @FXML
-    Button uTurnButton;
-    @FXML
     Button speed1Button;
     @FXML
     Button speed2Button;
@@ -26,6 +31,7 @@ public class RemoteController {
     Button muteButton;
     @FXML
     Button powerButton;
+    BluetoothConnection connection;
 
 
     public void initialize() {
@@ -34,48 +40,65 @@ public class RemoteController {
     }
 
     private void initButtons() {
+        int[] number = new int[2];
         forwardButton.setOnAction(e -> {
-            //TODO send drive forward signal
+            number[0] = 119;
+            number[1] = 119;
+            connection.sendRoute(number);
         });
 
         leftButton.setOnAction(e -> {
-            //TODO send turn left signal
+            number[0] = 97;
+            number[1] = 97;
+            connection.sendRoute(number);
         });
 
         rightButton.setOnAction(e -> {
-            //TODO send turn right signal
+            number[0] = 100;
+            number[1] = 100;
+            connection.sendRoute(number);
         });
 
         backwardButton.setOnAction(e -> {
-            //TODO send drive backwards signal
+            number[0] = 115;
+            number[1] = 115;
+            connection.sendRoute(number);
         });
 
         stopButton.setOnAction(e -> {
-            //TODO send stop signal
-        });
-
-        uTurnButton.setOnAction(e -> {
-            //TODO send u turn signal
+            number[0] = 32;
+            number[1] = 32;
+            connection.sendRoute(number);
         });
 
         speed1Button.setOnAction(e -> {
-            //TODO send speed 1 signal
+            number[0] = 49;
+            number[1] = 49;
+            connection.sendRoute(number);
         });
 
         speed2Button.setOnAction(e -> {
-            //TODO send speed 2 signal
+            number[0] = 50;
+            number[1] = 50;
+            connection.sendRoute(number);
         });
 
         speed3Button.setOnAction(e -> {
-            //TODO send speed 3 signal
+            number[0] = 51;
+            number[1] = 51;
+            connection.sendRoute(number);
         });
 
         muteButton.setOnAction(e -> {
-            //TODO send mute singal
+            number[0] = 109;
+            number[1] = 109;
+            connection.sendRoute(number);
         });
 
         powerButton.setOnAction(e -> {
-            //TODO send power on/off signal
+            number[0] = 29;
+            number[1] = 29;
+            connection.sendRoute(number);
         });
     }
 
@@ -85,12 +108,15 @@ public class RemoteController {
         leftButton.setSkin(new GUIButtonSkin(leftButton));
         rightButton.setSkin(new GUIButtonSkin(rightButton));
         stopButton.setSkin(new GUIButtonSkin(stopButton));
-        uTurnButton.setSkin(new GUIButtonSkin(uTurnButton));
         speed1Button.setSkin(new GUIButtonSkin(speed1Button));
         speed2Button.setSkin(new GUIButtonSkin(speed2Button));
         speed3Button.setSkin(new GUIButtonSkin(speed3Button));
         muteButton.setSkin(new GUIButtonSkin(muteButton));
         powerButton.setSkin(new GUIButtonSkin(powerButton));
+    }
+
+    public void passConnection(BluetoothConnection connection) {
+        this.connection = connection;
     }
 
 }

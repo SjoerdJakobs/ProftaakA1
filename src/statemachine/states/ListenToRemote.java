@@ -2,15 +2,12 @@ package statemachine.states;
 
 import TI.BoeBot;
 import buttercat.DriverAI;
-import interfacelayer.Engine;
 import buttercat.Remote;
-import interfacelayer.ObjectDetection;
-
+import interfacelayer.Engine;
 import interfacelayer.NotificationSystem;
-
+import interfacelayer.ObjectDetection;
 import statemachine.State;
 import statemachine.StateID;
-import statemachine.StateMachine;
 
 public class ListenToRemote extends State {
     DriverAI driverAI;
@@ -64,7 +61,7 @@ public class ListenToRemote extends State {
 
         if (shouldReturnControlToAi)
         {
-            stateMachine.SetState(StateID.FollowRoute);
+            stateMachine.SetState(StateID.FollowRoute,1);
         }
     }
 

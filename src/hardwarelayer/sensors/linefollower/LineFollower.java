@@ -1,9 +1,9 @@
 package hardwarelayer.sensors.linefollower;
 
+import TI.BoeBot;
 import TI.Timer;
 import buttercat.HelpFunctions;
 import interfacelayer.Callback;
-import TI.BoeBot;
 
 /**
  * LineFollower class for the following of a black line

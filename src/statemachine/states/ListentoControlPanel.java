@@ -80,6 +80,7 @@ public class ListentoControlPanel extends State {
     }
 
     private void setAsciiButtons() {
+
         System.out.println("setting w");
         controlPanel.getWButton().onButtonPress = this::driveForward;
         controlPanel.getSButton().onButtonPress = this::driveBackwards;
@@ -180,11 +181,11 @@ public class ListentoControlPanel extends State {
         System.out.println("fastSpeed");
     }
 
+
     public void resume() {
         followRoute.setStopped(false);
 
     }
-
 //    private void listen() {
 //        System.out.println("enters listen");
 //
@@ -209,6 +210,7 @@ public class ListentoControlPanel extends State {
 //                    System.out.println("stop listening");
 //                    return;
 //                } else if (data != controlPanel.getPButton().getAscii()) {
+
 //                    this.route.add(data);
 //                    System.out.println("added command: " + data);
 //                    System.out.println(this.route.toString());
@@ -229,12 +231,14 @@ public class ListentoControlPanel extends State {
 ////        }
 //            if (!controlPanel.getPButton().isPressed()) {
 //                controlPanel.getPButton().setPressed(true);
+
 //                route.add(data);
 //                controlPanel.getPButton().onButtonPress.run();
 //            } else if (controlPanel.getOButton().getAscii() == data) {
 //                controlPanel.getPButton().setPressed(false);
 //                controlPanel.getOButton().setPressed(false);
 //            } else if (controlPanel.getPButton().isPressed()) {
+
 //                route.add(data);
 //                controlPanel.getPButton().onButtonPress.run();
 //            }

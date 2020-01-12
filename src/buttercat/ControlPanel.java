@@ -25,6 +25,7 @@ public class ControlPanel extends StandardObject {
     private AsciiButton CButton;
     private AsciiButton PButton;
     private AsciiButton ENTERButton;
+
     private ArrayList list;
 
     public Callback aButtonHasBeenPressed;
@@ -66,6 +67,7 @@ public class ControlPanel extends StandardObject {
         CButton = new AsciiButton(99, true);
         PButton = new AsciiButton(112, true);
         ENTERButton = new AsciiButton(13);
+
         asciiButtons.add(WButton);
         asciiButtons.add(AButton);
         asciiButtons.add(SButton);
@@ -82,13 +84,14 @@ public class ControlPanel extends StandardObject {
         asciiButtons.add(CButton);
         asciiButtons.add(PButton);
         asciiButtons.add(ENTERButton);
+
     }
 
     public void AsciiButton() {
 
     }
-
-    private void onAnyButtonPress() {
+    private void onAnyButtonPress()
+    {
         aButtonHasBeenPressed.run();
 
     }
@@ -99,29 +102,34 @@ public class ControlPanel extends StandardObject {
 //    }
 
     @Override
-    protected void start() {
+    protected void start()
+    {
         super.start();
     }
 
     @Override
-    protected void awake() {
+    protected void awake()
+    {
         super.awake();
     }
 
     @Override
-    protected void sleep() {
+    protected void sleep()
+    {
         super.sleep();
     }
 
     @Override
-    protected void inputLoop(double deltaTime) {
+    protected void inputLoop(double deltaTime)
+    {
         super.inputLoop(deltaTime);
 
         bluetoothReceiver.checkForButtonPresses(asciiButtons);
     }
 
     @Override
-    protected void destroy() {
+    protected void destroy()
+    {
         super.destroy();
     }
 
@@ -197,5 +205,4 @@ public class ControlPanel extends StandardObject {
     public AsciiButton getENTERButton() {
         return ENTERButton;
     }
-
 }

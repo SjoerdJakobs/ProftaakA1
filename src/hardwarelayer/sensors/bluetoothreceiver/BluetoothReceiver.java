@@ -11,6 +11,7 @@ public class BluetoothReceiver {
 
     public Callback somethingHasBeenPressed;
     public SerialConnection conn;
+
     public ArrayList<Integer> route;
 
     public BluetoothReceiver() {
@@ -64,7 +65,6 @@ public class BluetoothReceiver {
     public ArrayList<Integer> getRoute() {
         return this.route;
     }
-
 }
 
 

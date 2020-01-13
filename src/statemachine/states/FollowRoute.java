@@ -27,6 +27,7 @@ public class FollowRoute extends State
     private boolean canChangeRouteStepCounter = true;
     private boolean turnCounterHasBeenSet = false;
     private boolean repeatRoute = true;
+    private boolean gotRoute = false;
 
     private boolean leftOnOrginLine = true;
     private boolean rightOnOrginLine = true;
@@ -83,6 +84,7 @@ public class FollowRoute extends State
         notificationSystem.setColor(Color.green);
         currentDriveSpeed = driveSpeed;
         engine.sJSetTargetSpeed(driveSpeed, 0);
+        shouldGoToRemoteControl = false;
         remote.aButtonHasBeenPressed = this::setShouldGoToRemoteControlToTrue;
         System.out.println("entered");
     }
@@ -106,11 +108,15 @@ public class FollowRoute extends State
     {
         super.logic();
         //check if a route has been entered
+        if (gotRoute)
         if (bluetoothReceiver.isRouteEntered()) {
             //if so, get the route
             tempRoute = bluetoothReceiver.getRouteAsArray();
             //check if the route is different from the route we already have
-            if (!Arrays.equals(tempRoute,route)) this.route = tempRoute;
+            if (!Arrays.equals(tempRoute,route)){
+                this.route = tempRoute;
+                gotRoute = true;
+            }
         }
         if (!currentTurning)
         {

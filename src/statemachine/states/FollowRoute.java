@@ -108,14 +108,15 @@ public class FollowRoute extends State
     {
         super.logic();
         //check if a route has been entered
-        if (!gotRoute)
-        if (bluetoothReceiver.isRouteEntered()) {
-            //if so, get the route
-            tempRoute = bluetoothReceiver.getRouteAsArray();
-            //check if the route is different from the route we already have
-            if (!Arrays.equals(tempRoute,route)){
-                this.route = tempRoute;
-                gotRoute = true;
+        if (!gotRoute) {
+            if (bluetoothReceiver.isRouteEntered()) {
+                //if so, get the route
+                tempRoute = bluetoothReceiver.getRouteAsArray();
+                //check if the route is different from the route we already have
+                if (!Arrays.equals(tempRoute, route)) {
+                    this.route = tempRoute;
+                    gotRoute = true;
+                }
             }
         }
         if (!currentTurning)
@@ -145,6 +146,9 @@ public class FollowRoute extends State
 
             switch (turn)
             {
+                case STOP:
+
+                    break;
                 case FORWARD:
                     leftLinePassed2 = true;
                     rightLinePassed2 = true;
@@ -261,9 +265,11 @@ public class FollowRoute extends State
             turnCounterHasBeenSet = true;
             switch (turn)
             {
+                case STOP:
+
+                    break;
                 case FORWARD:
                     turnCounter = 0;
-
                     break;
                 case LEFT:
                     turnCounter = 1;
@@ -293,10 +299,13 @@ public class FollowRoute extends State
             RouteStepCounter = 0;
             canChangeRouteStepCounter = false;
         }
-        else
+        else if(canChangeRouteStepCounter)
         {
             isStoppedAfterFullStop = true;
             RouteStepCounter = 0;
+        }
+        else
+        {
             return;
         }
 

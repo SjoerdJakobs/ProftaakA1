@@ -28,7 +28,7 @@ public class Program extends FrameworkProgram {
         stateMachine = new StateMachine(this);
         objectDetection = new ObjectDetection(this);
         lineFollowChecker = new LineFollowChecker(this);
-        controlPanel = new ControlPanel(this,true,false,false,false);
+        controlPanel = new ControlPanel(this,true,false,false,false, stateMachine);
         driverAI = new DriverAI(this, true, false, false, true, engine, remote, stateMachine, objectDetection, lineFollowChecker, controlPanel);
     }
 

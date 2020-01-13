@@ -5,6 +5,7 @@ import hardwarelayer.sensors.bluetoothreceiver.BluetoothReceiver;
 import interfacelayer.Callback;
 import ooframework.FrameworkProgram;
 import ooframework.StandardObject;
+import statemachine.StateMachine;
 
 import java.util.ArrayList;
 
@@ -41,9 +42,9 @@ public class ControlPanel extends StandardObject {
         super(frameworkProgram);
     }
 
-    protected ControlPanel(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated) {
+    protected ControlPanel(FrameworkProgram frameworkProgram, boolean usesInput, boolean usesMain, boolean usesRenderer, boolean startsActivated, StateMachine stateMachine) {
         super(frameworkProgram, usesInput, usesMain, usesRenderer, startsActivated);
-        bluetoothReceiver = new BluetoothReceiver();
+        bluetoothReceiver = new BluetoothReceiver(stateMachine);
         asciiButtons = new ArrayList<>();
         bluetoothReceiver.somethingHasBeenPressed = () -> {
             onAnyButtonPress();

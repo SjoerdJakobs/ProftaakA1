@@ -4,6 +4,8 @@ package hardwarelayer.sensors.bluetoothreceiver;
 import TI.SerialConnection;
 import hardwarelayer.sensors.asciibutton.AsciiButton;
 import interfacelayer.Callback;
+import statemachine.StateID;
+import statemachine.StateMachine;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,10 +19,12 @@ public class BluetoothReceiver {
     public ArrayList<Integer> route;
     private int[] routeAsArray;
     private boolean routeIsEntered = false;
+    private StateMachine stateMachine;
 
-    public BluetoothReceiver() {
+    public BluetoothReceiver(StateMachine stateMachine) {
         this.conn = new SerialConnection();
         this.route = new ArrayList<>();
+        this.stateMachine =stateMachine;
     }
 
     public void checkForButtonPresses(ArrayList<AsciiButton> asciibuttons) {
@@ -52,15 +56,18 @@ public class BluetoothReceiver {
                     System.out.println(this.route);
                     data = conn.readByte();
                 }
+                if (!route.isEmpty()) {
+                    this.routeAsArray = convertToArray(route);
+                }
+                stateMachine.SetState(StateID.FollowRoute);
+
+
             } else {
                 for (AsciiButton asciiButton : asciibuttons) {
                     asciiButton.setPressed(false);
                 }
                 data = -1;
             }
-        }
-        if (!route.isEmpty()) {
-            this.routeAsArray = convertToArray(route);
         }
         routeIsEntered = true;
     }

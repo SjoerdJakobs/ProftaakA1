@@ -338,8 +338,8 @@ public class Engine {
     {
         sJChangeSpeed();
         sJTakeCorner();
-//        servoRight.getServo().update(rightSpeed);
-//        servoLeft.getServo().update(leftSpeed);
+        servoRight.getServo().update(rightSpeed);
+        servoLeft.getServo().update(leftSpeed);
     }
 
     private void sJTakeCorner()

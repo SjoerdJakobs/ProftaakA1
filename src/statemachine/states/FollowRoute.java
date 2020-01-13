@@ -108,7 +108,7 @@ public class FollowRoute extends State
     {
         super.logic();
         //check if a route has been entered
-        if (gotRoute)
+        if (!gotRoute)
         if (bluetoothReceiver.isRouteEntered()) {
             //if so, get the route
             tempRoute = bluetoothReceiver.getRouteAsArray();
@@ -240,7 +240,7 @@ public class FollowRoute extends State
         {
             engine.sJSetTargetSpeed(0,0);
         }
-        engine.drive();
+        engine.sJDrive();
     }
 
     private void setDelay()

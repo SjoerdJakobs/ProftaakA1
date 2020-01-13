@@ -37,7 +37,7 @@ public class FollowRoute extends State
     private boolean rightLinePassed2 = false;
 
     private int lastDetectedPin = 0;
-    private int RouteStepCounter = 100000;
+    private int RouteStepCounter = 0;
     private int turnCounter;
     //initialize with empty array
     private int[] route = new int[]{};
@@ -309,31 +309,29 @@ public class FollowRoute extends State
             return;
         }
 
-        switch (route[RouteStepCounter])
-        {
-            case 0 :
+        switch (route[RouteStepCounter]) {
+            case 0:
                 turn = Direction.FORWARD;
                 break;
-            case 1 :
+            case 1:
                 turn = Direction.LEFT;
                 break;
-            case 2 :
+            case 2:
                 turn = Direction.RIGHT;
                 break;
-            case 3 :
+            case 3:
                 turn = Direction.TURN_AROUND_lEFT;
                 break;
-            case 4 :
+            case 4:
                 turn = Direction.TURN_AROUND_RIGHT;
                 break;
-            case 5 :
+            case 5:
                 turn = Direction.STOP;
                 isStoppedAfterFullStop = true;
                 canChangeRouteStepCounter = true;
                 setTurnDirection();
                 break;
         }
-
     }
 
     private void followLine()

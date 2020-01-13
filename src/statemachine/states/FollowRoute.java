@@ -26,7 +26,7 @@ public class FollowRoute extends State
     private boolean currentTurning = false;
     private boolean canChangeRouteStepCounter = true;
     private boolean turnCounterHasBeenSet = false;
-    private boolean repeatRoute = true;
+    private boolean repeatRoute = false;
     private boolean gotRoute = false;
 
     private boolean leftOnOrginLine = true;
@@ -295,6 +295,8 @@ public class FollowRoute extends State
         }
         else
         {
+            isStoppedAfterFullStop = true;
+            RouteStepCounter = 0;
             return;
         }
 
@@ -314,6 +316,12 @@ public class FollowRoute extends State
                 break;
             case 4 :
                 turn = Direction.TURN_AROUND_RIGHT;
+                break;
+            case 5 :
+                turn = Direction.STOP;
+                isStoppedAfterFullStop = true;
+                canChangeRouteStepCounter = true;
+                setTurnDirection();
                 break;
         }
 
@@ -389,6 +397,7 @@ enum Direction
     RIGHT,
     LEFT,
     FORWARD,
+    STOP,
     TURN_AROUND_lEFT,
     TURN_AROUND_RIGHT,
     DEFAULT;
